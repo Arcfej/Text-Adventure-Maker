@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TextAdventureMaker.iml" filepath="$PROJECT_DIR$/TextAdventureMaker.iml" />
       <module fileurl="file://$PROJECT_DIR$/TextAdventurePlayer.iml" filepath="$PROJECT_DIR$/TextAdventurePlayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/text-adventure-creator.iml" filepath="$PROJECT_DIR$/text-adventure-creator.iml" />
     </modules>
   </component>
 </project>
