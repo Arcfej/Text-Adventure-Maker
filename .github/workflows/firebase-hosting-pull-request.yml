@@ -1,7 +1,8 @@
 name: Deploy to Firebase Hosting on PR
-'on': pull_request
-#    paths:
-#    - 'text-adventure-creator/**'
+'on':
+  pull_request:
+    paths:
+    - 'text-adventure-creator/**'
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
