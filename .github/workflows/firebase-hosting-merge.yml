@@ -6,6 +6,8 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - main
+    paths:
+      - 'text-adventure-creator/**'
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -21,3 +23,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TEXTUAL_ADVENTURE_CREATOR }}'
           channelId: live
           projectId: textual-adventure-creator
+          entryPoint: text-adventure-creator
