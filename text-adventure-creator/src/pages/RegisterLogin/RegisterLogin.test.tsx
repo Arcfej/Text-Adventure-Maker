@@ -7,7 +7,11 @@ import {firebaseAuth} from "../../firebase/firebase-config";
 import {Auth, User} from "firebase/auth";
 import resetModules = jest.resetModules;
 
-jest.mock('firebase/auth');
+jest.mock('firebase/auth', () => ({
+    getAuth: jest.fn(),
+    createUserWithEmailAndPassword: jest.fn(),
+    signInWithEmailAndPassword: jest.fn(),
+}));
 
 let currentUser: User | null = null;
 const mockOnAuthStateChanged = jest.fn().mockImplementation((auth, callback) => {
@@ -85,7 +89,6 @@ describe('RegisterLogin', () => {
         const currentUser = { uid: 'test-uid' } as User;
 
         jest.mock('firebase/auth', () => ({
-            ...jest.mock('firebase/auth') as any,
             getAuth: jest.fn().mockReturnValue({
                     currentUser: currentUser,
                 } as Auth
