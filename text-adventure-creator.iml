@@ -3,6 +3,8 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/text-adventure-creator">
+      <sourceFolder url="file://$MODULE_DIR$/text-adventure-creator/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/text-adventure-creator/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/text-adventure-creator/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />

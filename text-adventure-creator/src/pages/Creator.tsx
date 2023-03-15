@@ -13,7 +13,10 @@ function Creator(): JSX.Element {
     }, [navigate]);
 
     return (
-        <div>Logged in</div>
+        <>
+            <div>Logged in</div>
+            <button onClick={() => firebaseAuth.signOut()}>Log out</button>
+        </>
     );
 }
 
