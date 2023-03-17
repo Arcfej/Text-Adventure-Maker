@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { onAuthStateChanged } from "firebase/auth";
-import {firebaseAuth} from "../firebase/firebase-config";
+import {firebaseAuth} from "../../firebase/firebase-config";
 import {useNavigate} from "react-router-dom";
 
 function Creator(): JSX.Element {
@@ -13,10 +13,10 @@ function Creator(): JSX.Element {
     }, [navigate]);
 
     return (
-        <>
+        <div>
             <div>Logged in</div>
             <button onClick={() => firebaseAuth.signOut()}>Log out</button>
-        </>
+        </div>
     );
 }
 
