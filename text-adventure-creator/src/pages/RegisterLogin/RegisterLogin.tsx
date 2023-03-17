@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import firebase from "firebase/compat";
-import FirebaseError = firebase.FirebaseError;
 
 // @ts-ignore
 const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
@@ -14,7 +12,7 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
 
     const navigate = useNavigate();
 
-    function handleError(err: FirebaseError) {
+    function handleError(err: any) {
         if (err.code === 'auth/email-already-in-use') {
             setError("Email already in use. Please log in.");
         } else if (err.code === 'auth/invalid-email') {
@@ -25,6 +23,8 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
             setError("Incorrect password.");
         } else if (err.code === "auth/user-disabled") {
             setError("User disabled. Please contact Miklos Mayer on mmayer@dundee.ac.uk");
+        } else if (err.code === "auth/weak-password") {
+            setError("Password must be at least 6 characters.");
         } else {
             setError("Unknown error. Please contact Miklos Mayer if the error persists on mmayer@dundee.ac.uk");
         }
