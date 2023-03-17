@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import { FirebaseError } from 'firebase/app';
 
 // @ts-ignore
 const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
@@ -13,7 +12,8 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
 
     const navigate = useNavigate();
 
-    function handleError(err: FirebaseError) {
+    // @ts-ignore
+    function handleError(err) {
         if (err.code === 'auth/email-already-in-use') {
             setError("Email already in use. Please log in.");
         } else if (err.code === 'auth/invalid-email') {
@@ -32,17 +32,19 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
     }
 
     const handleLogIn = async () => {
-        signInWithEmailAndPassword(firebaseAuth, email, password)
-            .catch((err) => {
-                handleError(err);
-            });
+        try {
+            await signInWithEmailAndPassword(firebaseAuth, email, password)
+        } catch (err) {
+            handleError(err);
+        }
     };
 
     const handleRegister = async () => {
-        createUserWithEmailAndPassword(firebaseAuth, email, password)
-            .catch((err) => {
-                handleError(err);
-            });
+        try {
+            await createUserWithEmailAndPassword(firebaseAuth, email, password)
+        } catch (err) {
+            handleError(err);
+        }
     };
 
     useEffect(() => {
