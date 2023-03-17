@@ -5,7 +5,7 @@ import RegisterLogin from './RegisterLogin';
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {Auth, User} from "firebase/auth";
-import resetModules = jest.resetModules;
+// import * as auth from "firebase/auth";
 
 jest.mock('firebase/auth', () => ({
     getAuth: jest.fn(),
@@ -84,8 +84,8 @@ describe('RegisterLogin', () => {
         );
     });
 
-    it('when logged in it redirects to the creator page', async () => {
-        resetModules();
+    it('should redirect to the creator page when a user is logged in', async () => {
+        jest.restoreAllMocks();
         const currentUser = { uid: 'test-uid' } as User;
 
         jest.mock('firebase/auth', () => ({
@@ -108,6 +108,27 @@ describe('RegisterLogin', () => {
         await waitFor(() => expect(onAuthStateChanged).toHaveBeenCalled());
         await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/'));
     });
+
+    // it('should display an error message when login fails', async () => {
+    //     const error = { code: 'unknown code', message: 'Test error' };
+    //     jest.spyOn(auth, 'signInWithEmailAndPassword').mockRejectedValue(error);
+    //
+    //     render(
+    //         <BrowserRouter>
+    //             <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
+    //         </BrowserRouter>
+    //     );
+    //
+    //     const emailInput = screen.getByPlaceholderText('Email');
+    //     const passwordInput = screen.getByPlaceholderText('Password');
+    //     const loginButton = screen.getByTestId('login');
+    //
+    //     fireEvent.change(emailInput, { target: { value: 'wrong@email.address' } });
+    //     fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
+    //     fireEvent.click(loginButton);
+    //
+    //     await screen.findByText('Unknown error. Please contact Miklos Mayer if the error persists on mmayer@dundee.ac.uk');
+    // });
 
     it('calls createUserWithEmailAndPassword when Register is clicked', async () => {
         render(
@@ -132,4 +153,28 @@ describe('RegisterLogin', () => {
             'testpassword'
         );
     });
+
+    // it('should display an error message when email is invalid for registration', async () => {
+    //     jest.restoreAllMocks();
+    //     const error = { code: 'unknown code', message: 'Test error' };
+    //     jest.spyOn(auth, 'createUserWithEmailAndPassword').mockRejectedValue(error);
+    //
+    //     render(
+    //         <BrowserRouter>
+    //             <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
+    //         </BrowserRouter>
+    //     );
+    //
+    //     fireEvent.click(screen.getByTestId('toggle-login'));
+    //
+    //     const emailInput = screen.getByPlaceholderText('Email');
+    //     const passwordInput = screen.getByPlaceholderText('Password');
+    //     const registerButton = screen.getByTestId('register');
+    //
+    //     fireEvent.change(emailInput, { target: { value: 'wrong@email.address' } });
+    //     fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
+    //     fireEvent.click(registerButton);
+    //
+    //     await screen.findByText('Unknown error. Please contact Miklos Mayer if the error persists on mmayer@dundee.ac.uk');
+    // });
 });
