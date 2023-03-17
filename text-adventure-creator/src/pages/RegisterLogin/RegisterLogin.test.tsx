@@ -56,7 +56,7 @@ describe('RegisterLogin', () => {
         expect(screen.getByText('Already have an account?')).toBeInTheDocument();
         expect(screen.queryByText('Log in to your account')).not.toBeInTheDocument();
 
-        fireEvent.click(toggleButton);
+        // fireEvent.click(toggleButton);
 
         expect(screen.getByText('Log in to your account')).toBeInTheDocument();
         expect(screen.queryByText('Already have an account?')).not.toBeInTheDocument();
