@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
-import {firebaseAuth} from "../firebase/firebase-config";
-import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword} from "firebase/auth";
+import {useNavigate} from "react-router";
+import {firebaseAuth} from "../../firebase/firebase-config";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 
-const RegisterLogin = (): JSX.Element => {
+// @ts-ignore
+const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ register, setRegister ] = useState(false);
@@ -27,10 +28,11 @@ const RegisterLogin = (): JSX.Element => {
     };
 
     useEffect(() => {
+        // @ts-ignore
         onAuthStateChanged(firebaseAuth, (currentUser) => {
             if (currentUser) navigate("/");
         });
-    }, [navigate]);
+    }, [navigate, onAuthStateChanged]);
 
     const title: string = register ? "Register" : "Log in to your account";
     const buttonLabel: string = register ? "Register" : "Log in";
@@ -39,11 +41,16 @@ const RegisterLogin = (): JSX.Element => {
     return (
     <div>
         <h1>{title}</h1>
-        {!register && <p>Don't have an account? <button onClick={() => setRegister(true)}>Register</button></p>}
-        {register && <p>Already have an account? <button onClick={() => setRegister(false)}>Log in</button></p>}
+        <p>{register
+            ? "Already have an account?"
+            : "Don't have an account?"}
+            <button data-testid="toggle-login" onClick={() => setRegister(!register)}>
+                {register ? "Register" : "Log in"}
+            </button>
+        </p>
         <input type={'text'} placeholder={'Email'} value={email} onChange={e => setEmail(e.currentTarget.value)} />
         <input type={'password'} placeholder={'Password'} value={password} onChange={e => setPassword(e.currentTarget.value)} />
-        <button onClick={submit}>{buttonLabel}</button>
+        <button data-testid={register ? 'register' : 'login'} onClick={submit}>{buttonLabel}</button>
     </div>
     );
 
