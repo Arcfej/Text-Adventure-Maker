@@ -153,4 +153,27 @@ describe('RegisterLogin', () => {
             'testpassword'
         );
     });
+
+    it('should display an error message when email is invalid for registration', async () => {
+        const error = { code: 'unknown code', message: 'Test error' };
+        jest.spyOn(require('firebase/auth'), 'createUserWithEmailAndPassword').mockRejectedValue(error);
+
+        render(
+            <BrowserRouter>
+                <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
+            </BrowserRouter>
+        );
+
+        fireEvent.click(screen.getByTestId('toggle-login'));
+
+        const emailInput = screen.getByPlaceholderText('Email');
+        const passwordInput = screen.getByPlaceholderText('Password');
+        const registerButton = screen.getByTestId('register');
+
+        fireEvent.change(emailInput, { target: { value: 'wrong@email.address' } });
+        fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
+        fireEvent.click(registerButton);
+
+        await screen.findByText('Unknown error. Please contact Miklos Mayer if the error persists on mmayer@dundee.ac.uk');
+    });
 });
