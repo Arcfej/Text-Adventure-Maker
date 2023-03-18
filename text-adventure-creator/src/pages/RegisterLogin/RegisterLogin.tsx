@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import {Button, FormControl, FormLabel, Input, Link, Sheet, Typography} from "@mui/joy";
+import LightDarkToggle from "../../components/LightDarkToggle/LightDarkToggle";
 
 // @ts-ignore
 const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
@@ -11,6 +13,13 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
     const [ error, setError ] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // @ts-ignore
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            if (currentUser) navigate("/");
+        });
+    }, [navigate, onAuthStateChanged]);
 
     // @ts-ignore
     function handleError(err) {
@@ -38,43 +47,89 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
             handleError(err);
         }
     };
-
     const handleRegister = async () => {
         try {
-            await createUserWithEmailAndPassword(firebaseAuth, email, password)
+           await createUserWithEmailAndPassword(firebaseAuth, email, password)
         } catch (err) {
             handleError(err);
         }
     };
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (register) await handleRegister();
+        else await handleLogIn();
+    };
 
-    useEffect(() => {
-        // @ts-ignore
-        onAuthStateChanged(firebaseAuth, (currentUser) => {
-            if (currentUser) navigate("/");
-        });
-    }, [navigate, onAuthStateChanged]);
-
-    const title: string = register ? "Register" : "Log in to your account";
-    const toggleLabel: string = register ? "Already have an account? " : "Don't have an account? ";
-    const errorMessage = error ? <p data-testid="error-message">{error}</p> : '';
-    const toggleButtonLabel: string = register ? "Log in" : "Register";
+    const title: string = register ? "Register a new account" : "Log in to your account";
+    const errorMessage = error && <Typography data-testid="error-message" level="body2" color="danger">{error}</Typography>;
     const submitButtonLabel: string = register ? "Register" : "Log in";
-    const submit: () => void = register ? handleRegister : handleLogIn;
+    const toggleLabel: string = register ? "Already have an account? " : "Don't have an account? ";
+    const toggleLinkLabel: string = register ? "Log in" : "Register";
 
     return (
-    <div>
-        <h1>{title}</h1>
-        <p>
-            {toggleLabel}
-            <button data-testid="toggle-login" onClick={() => setRegister(!register)}>
-                {toggleButtonLabel}
-            </button>
-        </p>
-        {errorMessage}
-        <input type={'text'} placeholder={'Email'} value={email} onChange={e => setEmail(e.currentTarget.value)} />
-        <input type={'password'} placeholder={'Password'} value={password} onChange={e => setPassword(e.currentTarget.value)} />
-        <button data-testid={register ? 'register' : 'login'} onClick={submit}>{submitButtonLabel}</button>
-    </div>
+        <Sheet
+            variant="outlined"
+            sx={{
+                width: 300,
+                mx: 'auto', // margin left & right
+                my: 4, // margin top & botom
+                py: 3, // padding top & bottom
+                px: 2, // padding left & right
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+                borderRadius: 'sm',
+                boxShadow: 'md',
+            }}
+        >
+            <LightDarkToggle />
+            <Typography level="h3" component="h1">
+                Welcome!
+            </Typography>
+            <Typography level="h5">
+                {title}
+            </Typography>
+            {errorMessage}
+            <form onSubmit={handleSubmit} id={register ? 'register' : 'login'}>
+                <FormControl>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                        name="email"
+                        type="email"
+                        placeholder={'Email'}
+                        value={email}
+                        onChange={e => setEmail(e.currentTarget.value)}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                        name="password"
+                        type="password"
+                        placeholder={'Password'}
+                        value={password}
+                        onChange={e => setPassword(e.currentTarget.value)}
+                    />
+                    <Button
+                        data-testid={register ? 'register' : 'login'}
+                        type="submit"
+                        sx={{mt: 1}}
+                    >
+                        {submitButtonLabel}
+                    </Button>
+                </FormControl>
+            </form>
+            <Typography
+                level="body1"
+                endDecorator={
+                    <Link data-testid="toggle-login" onClick={() => setRegister(!register)}>
+                        {toggleLinkLabel}
+                    </Link>
+                }
+            >
+                {toggleLabel}
+            </Typography>
+        </Sheet>
     );
 
 };

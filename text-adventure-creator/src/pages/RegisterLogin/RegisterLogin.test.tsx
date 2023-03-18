@@ -1,6 +1,5 @@
 import React from 'react';
 import {render, screen, fireEvent, cleanup, waitFor} from '@testing-library/react';
-import {BrowserRouter} from 'react-router-dom';
 import RegisterLogin from './RegisterLogin';
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {firebaseAuth} from "../../firebase/firebase-config";
@@ -20,7 +19,6 @@ const mockOnAuthStateChanged = jest.fn().mockImplementation((auth, callback) => 
 
 const mockedNavigate = jest.fn();
 jest.mock('react-router', () => ({
-    ...jest.requireActual('react-router'),
     useNavigate: () => mockedNavigate,
 }));
 
@@ -33,9 +31,7 @@ describe('RegisterLogin', () => {
 
     it('renders Log in by default', () => {
         render(
-            <BrowserRouter>
-                <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
-            </BrowserRouter>
+            <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
         );
 
         expect(screen.getByText('Log in to your account')).toBeInTheDocument();
@@ -44,9 +40,7 @@ describe('RegisterLogin', () => {
 
     it('toggles between Log in and Register', () => {
         render(
-            <BrowserRouter>
-                <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
-            </BrowserRouter>
+            <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
         );
 
         const toggleButton = screen.getByTestId('toggle-login');
@@ -64,9 +58,7 @@ describe('RegisterLogin', () => {
 
     it('login calls signInWithEmailAndPassword', async () => {
         render(
-            <BrowserRouter>
-                <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged}/>
-            </BrowserRouter>
+            <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged}/>
         );
 
         const emailInput = screen.getByPlaceholderText('Email');
@@ -100,9 +92,7 @@ describe('RegisterLogin', () => {
         });
 
         render(
-            <BrowserRouter>
-                <RegisterLogin onAuthStateChanged={onAuthStateChanged}/>
-            </BrowserRouter>
+            <RegisterLogin onAuthStateChanged={onAuthStateChanged}/>
         );
 
         await waitFor(() => expect(onAuthStateChanged).toHaveBeenCalled());
@@ -114,9 +104,7 @@ describe('RegisterLogin', () => {
     //     jest.spyOn(auth, 'signInWithEmailAndPassword').mockRejectedValue(error);
     //
     //     render(
-    //         <BrowserRouter>
-    //             <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
-    //         </BrowserRouter>
+    //         <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
     //     );
     //
     //     const emailInput = screen.getByPlaceholderText('Email');
@@ -132,9 +120,7 @@ describe('RegisterLogin', () => {
 
     it('calls createUserWithEmailAndPassword when Register is clicked', async () => {
         render(
-            <BrowserRouter>
-                <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
-            </BrowserRouter>
+            <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
         );
 
         fireEvent.click(screen.getByTestId('toggle-login'));
@@ -160,9 +146,7 @@ describe('RegisterLogin', () => {
     //     jest.spyOn(auth, 'createUserWithEmailAndPassword').mockRejectedValue(error);
     //
     //     render(
-    //         <BrowserRouter>
-    //             <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
-    //         </BrowserRouter>
+    //         <RegisterLogin onAuthStateChanged={mockOnAuthStateChanged} />
     //     );
     //
     //     fireEvent.click(screen.getByTestId('toggle-login'));
