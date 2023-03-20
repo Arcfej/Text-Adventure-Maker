@@ -1,7 +1,8 @@
 {
   "firestore": {
-    "rules": "src/firebase/firestore.rules",
-    "indexes": "src/firebase/firestore.indexes.json"
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json",
+    "port": 8080
   },
   "functions": [
     {

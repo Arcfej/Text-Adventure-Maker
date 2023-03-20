@@ -1,0 +1,2459 @@
+﻿Miklos Mayer
+Hey. Uh, no thanks for buying. No applying applying for anything that you and I would introduce my oral project again just to remind you, so I will create a.
+
+Miklos Mayer
+Application that.
+
+Miklos Mayer
+Though I think although I targeting NONPROGRAMMERS but.
+
+Miklos Mayer
+The idea is that uh making textual adventure games creation easier, but for.
+
+Miklos Mayer
+People who would like to tell a story.
+
+Miklos Mayer
+And either or textual adventure game or or internal branching stories or interruptive stories.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+For that I'm collecting the requirements now and, uh, trying to.
+
+Miklos Mayer
+Interview anyone?
+
+Miklos Mayer
+Likes to write or create stories. For example, I have DND Masters to interview. I also have a hopefully some writers or drama.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+Graduates and someone who just like you, would have to tell stories or want to create a game so.
+
+Miklos Mayer
+Uh.
+
+Ren
+A fun fact I also used to be a dungeon DND dungeon master.
+
+Miklos Mayer
+OK, then you can talk about that too.
+
+Miklos Mayer
+Alright.
+
+Miklos Mayer
+UM.
+
+Miklos Mayer
+OK. Because uh first. So there are two parts for this interview, one for.
+
+Miklos Mayer
+Exploring.
+
+Miklos Mayer
+Umm how you create all your creative process or how you?
+
+Miklos Mayer
+Uh bright stories. And then we I will show you some examples for programs that.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+Kind of builds 4 deaths or tools for making.
+
+Miklos Mayer
+Programming more accessible for people.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+Yeah, that. That's too bad. So let's start with.
+
+Miklos Mayer
+How do you create an?
+
+Miklos Mayer
+Umm, it doesn't have to be but.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+And let.
+
+Miklos Mayer
+So we we can focus on stories or story creation, but it doesn't have to necessarily.
+
+Ren
+Ohh.
+
+Miklos Mayer
+Uh, be that.
+
+Miklos Mayer
+So.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+Any kind of?
+
+Miklos Mayer
+So so the question is, how do you create and what you create and?
+
+Ren
+Well.
+
+Miklos Mayer
+How?
+
+Ren
+When I when I start thinking about.
+
+Ren
+Stories I tend to 1st think of characters that I want to implement in the stories. I like to think of personalities that I think would be fun to.
+
+Ren
+Make interact together so.
+
+Ren
+It'll usually start with like a main side character that I would like that I kind of want a main character to interact with and then build a main character off of that and then.
+
+Ren
+I'll start thinking of.
+
+Ren
+Events that I would like to happen in this story.
+
+Ren
+And then think around smaller events that would lead to those events. So in reality, I start with the characters first.
+
+Ren
+Create events around interactions between those characters and then somehow fill the gaps between big events happening.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+So you're saying that you start with planning and then stuck, right? Or is this? Is there a location when it's the opposite when you just had an idea and write it down and?
+
+Ren
+Uh, I'm.
+
+Miklos Mayer
+The whole story, get out of it or.
+
+Ren
+I I might write small details about if, for instance, if I think about event that I enjoy it like then I will write down some details about it. But I will usually think of an event 1st and then write it out after.
+
+Miklos Mayer
+I see.
+
+Ren
+Uh, yeah, I usually plot I I even use flow charts in some occasions to uh.
+
+Ren
+Before I even begin properly writing anything out.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+And uh, so you're using this for?
+
+Miklos Mayer
+DND or stories or?
+
+Ren
+This is this is.
+
+Miklos Mayer
+You write small numbers.
+
+Ren
+This is for the visual novel. I'm like to make for for DND. I tend to follow like I've not really written too much of my own, but.
+
+Ren
+Uh, because for D&D, I'm more of a.
+
+Ren
+Dungeon Master that just goes with the flow I tend to.
+
+Ren
+Plan events.
+
+Ren
+Such as fights and stuff like that and then.
+
+Ren
+Structured them and then somehow and because the problem with DND is that you want to leave a lot to the players rather than.
+
+Ren
+Plan everything out. I don't find it writing down for the India. Is that helpful for me?
+
+Miklos Mayer
+I see.
+
+Miklos Mayer
+OK, so have you written any Michelle Novas yet?
+
+Ren
+Uh.
+
+Ren
+I've not written anything fully, I've only written very small segments.
+
+Miklos Mayer
+Alright. And and that's a.
+
+Ren
+Yeah, yeah.
+
+Miklos Mayer
+That you mentioned that how you like to create that that this is what you put it into?
+
+Ren
+Yeah, like I said, I'll create a flow chart first. So I have an idea of what events could happen before what events would.
+
+Ren
+Happen after and then I write start writing about what's going on in those events.
+
+Miklos Mayer
+OK.
+
+Ren
+Usually in Google Docs.
+
+Miklos Mayer
+Ah, yeah, yeah. That's why one of my next question, that's what's also have to use and.
+
+Ren
+Yeah. So.
+
+Miklos Mayer
+And and actually, do you use a computer or phone or both or notebook?
+
+Ren
+I I prefer a computer because I like the size of it, especially because I don't just use word, I also like I say use flow charts.
+
+Miklos Mayer
+Yeah.
+
+Ren
+And for that I use something like uh draw IO I believe.
+
+Ren
+And the but The thing is, because I'm making a video game visual novel for me, having that flow chart is very important so that.
+
+Ren
+It's.
+
+Ren
+When I actually.
+
+Ren
+Get to building it and for someone to enjoy. I I I know which like.
+
+Ren
+Which event has to come first? Which has to come second? Stuff like that, especially with branching choices.
+
+Miklos Mayer
+Yeah.
+
+Ren
+Ohh.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Uncle.
+
+Ren
+Yeah, I'm just. It's fine.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+OK. Thanks.
+
+Miklos Mayer
+Umm have you ever?
+
+Miklos Mayer
+I assume you paid this vision of us or before.
+
+Ren
+Yes, yes.
+
+Miklos Mayer
+Yes, and uh. Do you have a?
+
+Miklos Mayer
+That's great. You like? And what do you like in them or?
+
+Ren
+Ohh.
+
+Ren
+I'm gonna say one of the more popular ones that I enjoyed was, uh, hatoful boyfriend, which is a pigeon dating simulator.
+
+Miklos Mayer
+I've heard of it.
+
+Ren
+With psychological horror elements, once you actually get through all of that.
+
+Ren
+It was quite it it as the game, it's quite something.
+
+Miklos Mayer
+OK.
+
+Ren
+It had branching choices and multiple endings, and like I said, one, once you unlocked all the endings, you can.
+
+Ren
+You unlock, you unlock like the special secret ending which starts going into this horrible psychological Horror Story, which was very intriguing. I have to say it.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Interesting.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+OK. And have you played textual adventure games, which I think differ in a way that?
+
+Ren
+They don't tend to have images I believe.
+
+Miklos Mayer
+I mean, in general textual, I mean, in general adventure games are.
+
+Miklos Mayer
+More.
+
+Miklos Mayer
+So there's a word you can walk around or move around and you know my inventory, you have to solve puzzles. So the simplest version of a.
+
+Ren
+Yeah, yeah, yeah.
+
+Miklos Mayer
+Adventure game could be a escape room, for example, but if you have.
+
+Miklos Mayer
+It's not that important.
+
+Miklos Mayer
+Be more complicated, but.
+
+Miklos Mayer
+So that's a different storytelling approach I think. But is that something you are?
+
+Miklos Mayer
+Interested in or?
+
+Ren
+Uh, I mean to the.
+
+Miklos Mayer
+Played any?
+
+Ren
+To the green because of visual novels are kind of.
+
+Ren
+Us very similar genre to that, especially because some of them come with mini games that have elements of adventure based texture games.
+
+Miklos Mayer
+I see.
+
+Miklos Mayer
+Textual.
+
+Ren
+Text texture games. That's not that's not right. Textures and text is not is. Yeah, textural that there there we go.
+
+Miklos Mayer
+Yeah.
+
+Miklos Mayer
+And.
+
+Ren
+I hope I have played a few games.
+
+Ren
+Where it was just basically text to navigate.
+
+Miklos Mayer
+Yeah.
+
+Ren
+The world around you as well, like uh, and so you like. It will describe a world to you. And the only way to move through that world would be you physically typing out. Move north or something like that as.
+
+Miklos Mayer
+Ohh I see yeah.
+
+Miklos Mayer
+And the you enjoy that or you found that.
+
+Ren
+Uh, it was quite nice.
+
+Ren
+Especially when games like that actually develop like some shortcuts into how to move for instance, instead of moving north if you pressed. I don't know, control N, it'll just automatically do that anyway, because it's a thing you can repeat all the time.
+
+Miklos Mayer
+I see.
+
+Miklos Mayer
+OK, that's interesting.
+
+Miklos Mayer
+UM.
+
+Miklos Mayer
+I'm just checking my questions.
+
+Ren
+I remember how that was.
+
+Miklos Mayer
+Yeah, but the and do you have any other?
+
+Miklos Mayer
+You want to add to.
+
+Miklos Mayer
+Special adventure game so physical.
+
+Ren
+When it comes.
+
+Miklos Mayer
+Which one of us or?
+
+Miklos Mayer
+These countries.
+
+Ren
+Sorry, can you repeat that?
+
+Miklos Mayer
+Or to these genres.
+
+Ren
+Uh.
+
+Ren
+I don't know.
+
+Miklos Mayer
+Yeah.
+
+Ren
+I mean, in general prefer any games and stuff like that. That's rely on story. So you know, all of that is just text in a matter.
+
+Miklos Mayer
+Yeah.
+
+Ren
+What? What's what? What I think is nice that sometimes that occurs in and always occurs in visual novels, but sometimes occurs in other media as well as when you can go over previous logs.
+
+Miklos Mayer
+Alright.
+
+Ren
+Of what you've done in a text based game.
+
+Ren
+Like you can.
+
+Ren
+You can be in at the end of Chapter 2 and you can read all the way to the beginning of what everything that you've done and see the choices that you've made. I've always found that to be quite useful.
+
+Miklos Mayer
+OK, so you like the this notebook or diary?
+
+Miklos Mayer
+Teacher.
+
+Ren
+Yeah, yeah, yeah. Like a. Yeah. Like a log, really.
+
+Miklos Mayer
+App.
+
+Miklos Mayer
+Yeah, it probably can be implanted in multiple ways.
+
+Miklos Mayer
+Yeah, that's that's good. Thanks.
+
+Miklos Mayer
+UM.
+
+Ren
+Oh, and of course, something that's.
+
+Ren
+For when it comes to text based games, music can be quite important as well.
+
+Miklos Mayer
+I see.
+
+Ren
+Like depending on what your visuals are.
+
+Ren
+You like you.
+
+Ren
+When people play games, you're engaging 3 senses visual.
+
+Ren
+Auditory and well.
+
+Ren
+In a way, even tactile, if you're moving around the screen.
+
+Ren
+So I I do think it's kind of important to make to make the sounds quite nice. I don't know if you.
+
+Ren
+For instance Undertale you is a like RPG that you can technically fight in it, but you don't actually have to fight in that game at all. But what they did with their sound design is that every character just had a different like text noise.
+
+Ren
+That was quite.
+
+Miklos Mayer
+Ah.
+
+Miklos Mayer
+I see.
+
+Miklos Mayer
+OK, let's end interesting, Elia.
+
+Miklos Mayer
+Umm yeah, thanks for mentioning that.
+
+Ren
+I'm I'm I'm giving you some stretch goals here.
+
+Miklos Mayer
+Yeah, probably.
+
+Ren
+I mean, look, it's good that that's something to write about when you'll need to.
+
+Miklos Mayer
+Yeah, that's true.
+
+Miklos Mayer
+Yeah, that's true.
+
+Miklos Mayer
+I don't know. It's uh.
+
+Miklos Mayer
+Make me thinking.
+
+Miklos Mayer
+So.
+
+Miklos Mayer
+Yes, you mentioned that you were like to write on the OR on the.
+
+Miklos Mayer
+Umm.
+
+Miklos Mayer
+Computer because the bigger screen. But is it important to you to have the app available on Mobile 2?
+
+Miklos Mayer
+And and they.
+
+Ren
+Umm for me, I I I think occasionally it would be good for me because I sometimes when I'm out and about I'll see something, I'll hear something I'll get about of inspiration and it's just good to have.
+
+Ren
+And I always have my phone with me, so it's good to have some place where I can write it down. So when I or note it down and then when I get back to my PC, I can fully explore it.
+
+Miklos Mayer
+Yeah.
+
+Miklos Mayer
+And is it would you like?
+
+Miklos Mayer
+So for example, if you were.
+
+Miklos Mayer
+If then you will create your visual novel. Would you like to use the same program for that or.
+
+Miklos Mayer
+Or taking a different note.
+
+Miklos Mayer
+Taking.
+
+Miklos Mayer
+Salter.
+
+Ren
+For my visual novel, I actually wouldn't mind using it to generate all the text that I need for it, but because my visual novel is something I want to code from scratch.
+
+Ren
+It's going to be its own software.
+
+Miklos Mayer
+Ohh OK.
+
+Ren
+But if it could, if it could be used to just generate all the necessary texts, that would go into the game, that would actually be a huge help for that kind of thing.
+
+Miklos Mayer
+So you mean building up the?
+
+Ren
+Yes, yes.
+
+Miklos Mayer
+Uh branching story, but the conversations and have that.
+
+Ren
+Yes.
+
+Miklos Mayer
+OK, I I have a few ideas. One that's for you. I will tell you after doing tell you.
+
+Ren
+Fair enough.
+
+Miklos Mayer
+But what I found during my research.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+OK. Thanks.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+Sorry, checking my questions again.
+
+Miklos Mayer
+And.
+
+Ren
+No problem. Take your time.
+
+Miklos Mayer
+So I think that's all I have in regarding.
+
+Miklos Mayer
+Creative.
+
+Miklos Mayer
+Uh processes or work, or how you would approach it.
+
+Miklos Mayer
+Do you have anything to?
+
+Ren
+So.
+
+Miklos Mayer
+Can't remember to one 200.
+
+Ren
+No, no, I can't think of anything at the moment.
+
+Miklos Mayer
+OK, in that case I will jump to the next section where I will show you a few things I discovered and.
+
+Miklos Mayer
+I am.
+
+Miklos Mayer
+I would like to have your opinion on it or what do you like in the program, but you doesn't like? What do you miss?
+
+Ren
+What I don't like OK UX.
+
+Miklos Mayer
+But do you miss?
+
+Miklos Mayer
+Yes, mostly.
+
+Miklos Mayer
+And.
+
+Ren
+I love me some UX.
+
+Miklos Mayer
+Not this, actually. This is a game that's.
+
+Miklos Mayer
+If you're interested, I can show it. I just set it here as an example. That's what kind of though this has a.
+
+Miklos Mayer
+Sound.
+
+Ren
+To.
+
+Miklos Mayer
+I don't. I'll tell you now, but.
+
+Ren
+I I mean see sound is very important. I'm just saying.
+
+Miklos Mayer
+Yeah, it just I was surprised and it's louder than you, so.
+
+Miklos Mayer
+So basically this is a textual adventure game where you have inventory you can.
+
+Miklos Mayer
+Give commands by clicking buttons and tears. Someone you talk to class about different things you can.
+
+Miklos Mayer
+Open filing cabinets.
+
+Ren
+What was your actions? Are. Yeah, that that looks quite nice.
+
+Miklos Mayer
+And there's the.
+
+Miklos Mayer
+What's happening?
+
+Ren
+The log.
+
+Miklos Mayer
+Nothing follows out. You can. Yeah, you can take the revolver and you can fire the revolver.
+
+Miklos Mayer
+Uh, which is?
+
+Miklos Mayer
+Yeah.
+
+Ren
+No. OK.
+
+Miklos Mayer
+As everyone want to fire us, think in their office. Yeah. So this is a detective story and has a.
+
+Miklos Mayer
+Interface like that. So here is a.
+
+Miklos Mayer
+Yeah.
+
+Ren
+I quite like that. That's quite nice.
+
+Miklos Mayer
+Doctor.
+
+Miklos Mayer
+Now what?
+
+Miklos Mayer
+Right, right, right. And put the trigger, I found a bug.
+
+Ren
+Yeah. So, so, so, so no. So you, you, you, you fired the revolver and then when you pulled the trigger, you realized it was a gun shaped lighter rather than a revolver. So now it's.
+
+Miklos Mayer
+Ohh.
+
+Ren
+So now when you repeat the action with the lighter, you just get the same text.
+
+Miklos Mayer
+Oh, my God. OK.
+
+Ren
+Fun.
+
+Miklos Mayer
+Yeah.
+
+Miklos Mayer
+Uh, yeah, so this is one kind of adventure game and which is more interactive or I mean.
+
+Miklos Mayer
+Umm.
+
+Miklos Mayer
+It's not just choices in the story, but uh yeah, we probably played one of these. This is tractor actually interactive story so.
+
+Miklos Mayer
+That you.
+
+Miklos Mayer
+I don't know those.
+
+Ren
+This kind of reminds me of the fallen London Games and stuff like that, except that's like a lot, those are like.
+
+Ren
+Oh, let me see if I can find that and send you the link for those.
+
+Miklos Mayer
+OK. Yes.
+
+Ren
+Those used to be quite popular games, but they weren't quite.
+
+Miklos Mayer
+Ah.
+
+Ren
+Their text based browser games and there's like a bunch of things like that.
+
+Ren
+I'll send you the link so you have that.
+
+Miklos Mayer
+OK. Yeah. So this is a story and you have different.
+
+Miklos Mayer
+Choices here and there.
+
+Miklos Mayer
+And you can probably die sometimes. I don't have the pension not to read it.
+
+Ren
+Yeah, fair enough.
+
+Miklos Mayer
+But yeah, so this is an ohh instead.
+
+Ren
+That.
+
+Ren
+Your dad.
+
+Miklos Mayer
+Am I dead? No. It's someone else's. OK. Yeah. So this is a another kind of game. But let's move on to the.
+
+Ren
+A bit simpler, yeah.
+
+Miklos Mayer
+Yeah.
+
+Ren
+Yeah, yeah.
+
+Miklos Mayer
+But let's move. So this is just branching story, basically.
+
+Miklos Mayer
+So let's move on to the programs that you can use to write these. This is the first one I prepared with and is trying, but I did in I will show you free programs and but I.
+
+Miklos Mayer
+Uh did is create a simple scenario in every program, the same scenario.
+
+Ren
+Mm-hmm.
+
+Miklos Mayer
+So that it could be compared. So here I have a no. This is something that.
+
+Miklos Mayer
+I just thought it during the last interview.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+OK, so uh.
+
+Miklos Mayer
+So first I saw the scenario is that you wake up in a room with them.
+
+Miklos Mayer
+Empty inventory so.
+
+Miklos Mayer
+This is just the start to get the inventory and then go to room. So this has a scripting language kind of.
+
+Ren
+Mm-hmm.
+
+Miklos Mayer
+And if.
+
+Miklos Mayer
+So if I go to the room.
+
+Miklos Mayer
+He woke up with keys in your inventory. Then we see. Yeah.
+
+Ren
+See your table with a key.
+
+Ren
+Mm-hmm.
+
+Miklos Mayer
+He is not in the inventory. You see a table with the key on it. As you will see an empty table and there's a door on the right. And if there is nothing they inventory can be done, have the option to become the key or open the door. And if I run this.
+
+Miklos Mayer
+It's actually something like this. Then you also have a debugger.
+
+Ren
+OK.
+
+Miklos Mayer
+But if I try to open the door now, it's has the option that the door is locked.
+
+Miklos Mayer
+And I can just take me back here.
+
+Miklos Mayer
+And if I pick up the key?
+
+Miklos Mayer
+Uh, the option is not there. You see another table.
+
+Miklos Mayer
+And now if I open the door, I escaped.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+So implementing the inventory is wasn't straightforward.
+
+Ren
+Umm.
+
+Miklos Mayer
+Writing the script is easier, but you can do here is.
+
+Miklos Mayer
+I think there are highlights here.
+
+Miklos Mayer
+Yeah, so there are.
+
+Ren
+Mm-hmm.
+
+Miklos Mayer
+But what types that, uh explains the things, and I found that useful. Or this is not explained.
+
+Miklos Mayer
+Yeah. UM, and what I other thing you can do is.
+
+Ren
+OK. Yeah, I can see that being quite useful. Yeah.
+
+Miklos Mayer
+Is for example, I don't to insert and if here and you have some options that you can use. For example the player visitor to message.
+
+Miklos Mayer
+Exactly. I don't know two times.
+
+Ren
+Mm-hmm.
+
+Miklos Mayer
+Five times. So then see secret room can be open, for example. So if I this then.
+
+Miklos Mayer
+He stacked it appear, or if I put it into double.
+
+Ren
+An action.
+
+Miklos Mayer
+Ah, square brackets that needs to be an options link. You can click, yeah.
+
+Miklos Mayer
+So.
+
+Miklos Mayer
+This is, yeah, and this is the vendor script which just checks if he is in the inventory or not and then it's creates something that you go back to the room.
+
+Ren
+OK, that seems simple enough, yeah.
+
+Miklos Mayer
+Yeah.
+
+Ren
+It's using fairly simple language.
+
+Miklos Mayer
+And so this is on.
+
+Miklos Mayer
+Yes, and I'm sorry this will take that. If Kay is in inventory, so you can, it's almost like reading English.
+
+Ren
+Yeah, exactly. Yeah, the that's what I'm saying, using very simple language, which.
+
+Ren
+Sounds like it would be quite understandable.
+
+Ren
+And if even if it's not like you said, you can highlight things and it explains it to you, which is quite nice, yeah.
+
+Miklos Mayer
+Yeah. So any other opinion on it or?
+
+Miklos Mayer
+Uh, there's something you missed or don't like, like.
+
+Ren
+Does it have like a tutorial when it starts to teach you these things?
+
+Ren
+Or does it just throw you in there? No.
+
+Miklos Mayer
+Not in the program.
+
+Ren
+Well, in the program, so it only has like a tutorial on a video or something like that.
+
+Miklos Mayer
+UM.
+
+Miklos Mayer
+That is a cook book.
+
+Miklos Mayer
+I think where there are examples and everything.
+
+Miklos Mayer
+So.
+
+Miklos Mayer
+Common questions comment.
+
+Ren
+OK.
+
+Ren
+OK. Yeah.
+
+Miklos Mayer
+Things started our story. Yeah. So there's a tutorial here how to write this.
+
+Miklos Mayer
+Yeah. So the idea is that you can see the flow of the story by the by this graph.
+
+Ren
+Yeah, yeah.
+
+Miklos Mayer
+So.
+
+Ren
+It's basically a flow chart of some sort.
+
+Miklos Mayer
+Yeah, it is.
+
+Miklos Mayer
+Umm.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Any other?
+
+Miklos Mayer
+I'm Russians or?
+
+Ren
+Ohh.
+
+Miklos Mayer
+I think you'll notice.
+
+Ren
+Maybe because I'm already a programmer, it's not too complicated for me, but like like I said, the only thing I was worried about is does it actually have a place where it does explain what's happening?
+
+Miklos Mayer
+I see.
+
+Ren
+But it does. So yeah, that's the only thing I could think of that I'm noticing, but otherwise, no. I like the use of. I like the visual use it has.
+
+Ren
+Of the of the flow charts structure, because I feel like that's always useful to.
+
+Ren
+Kinda keep scope of where your story is going and what needs to happen or doesn't need to happen.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Thanks.
+
+Miklos Mayer
+And in that case I move forward to the next program.
+
+Miklos Mayer
+Which is quest, which is a different approach because it's a form base.
+
+Ren
+OK.
+
+Miklos Mayer
+UM.
+
+Miklos Mayer
+Interface. So here you have.
+
+Miklos Mayer
+Basically an object tree.
+
+Miklos Mayer
+Umm, you can have different kind of objects, so for example.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+You have fun room.
+
+Miklos Mayer
+UM, you can set up a different things.
+
+Miklos Mayer
+So a description for the room.
+
+Miklos Mayer
+You can set up. It exits between different look rooms or locations. So for here I I have another room called escaped and I opened the.
+
+Miklos Mayer
+Uh, so for example, if I.
+
+Miklos Mayer
+We have a new one.
+
+Miklos Mayer
+Oh yeah, it would be one or two directional looks like.
+
+Miklos Mayer
+Yeah. So it creates an exit, which is also what object type.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+Yep. So the room has objects in it, so the player is in it.
+
+Miklos Mayer
+Uh, I'm gonna make things visible.
+
+Miklos Mayer
+Inanimate object pairs and inanimate object. Interesting and.
+
+Miklos Mayer
+You can add, uh, verbs that can use so because this game can be used. Actually this one is.
+
+Miklos Mayer
+Ah.
+
+Miklos Mayer
+Return visits this program too.
+
+Ren
+OK.
+
+Miklos Mayer
+But.
+
+Miklos Mayer
+Here in the basic version you can type. So for example pick pick up the yeah.
+
+Ren
+Yeah, you just, you just have a basic setup of it, yeah.
+
+Miklos Mayer
+Yeah, the but also have a use. You can drop the key.
+
+Ren
+OK.
+
+Miklos Mayer
+Or you can look at the table or.
+
+Ren
+Yeah. So so it it gives you more options than the previous ones on first glance.
+
+Ren
+But.
+
+Ren
+I I had the UI for it is I I'm not the biggest fan of it.
+
+Miklos Mayer
+Uh, this, I mean the pain or the the creator.
+
+Miklos Mayer
+Oh, I see.
+
+Ren
+I mean the the, the, the creation, the Creator cause I'm. I'm imagine that the the screen that you had there where you dropped the key and stuff. I pretty sure you can change that probably.
+
+Miklos Mayer
+Yes, I'm. I go there. So for example, I set this up to be a container and if I click on it, it will appear and this is a surface, which means that visible immediately. You don't have to open it.
+
+Miklos Mayer
+You cannot. Verbs. That's what's the what.
+
+Miklos Mayer
+What can you do with that?
+
+Ren
+Yeah, yeah, yeah.
+
+Miklos Mayer
+For object for example, you can.
+
+Miklos Mayer
+Yeah, object can be dropped or not.
+
+Ren
+I like.
+
+Miklos Mayer
+Now set up a lot of things.
+
+Ren
+I like the option that this gives you like it gives you a lot of options, but I really don't like the ways it gives you those options. It's.
+
+Ren
+It doesn't feel very easy to grasp like the other one. The other one feels like it's a lot quicker to grasp a lot easier to figure out where everything is.
+
+Ren
+This doesn't feel like it's very intuitive.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Yes.
+
+Ren
+Like that? That that's me as a programming person is a maybe I'm biased on the one that's using a bit more programming language, but I I'm having a hard time understanding what you use on its own might OK, maybe it means that you can use one the item without another item and then use on other object on this? OK kinda get what's going on here, but it's still.
+
+Ren
+It's a bit clunky.
+
+Miklos Mayer
+OK.
+
+Ren
+I like that it gives you those options and that it specifies them, but.
+
+Ren
+It's not very easy to grasp immediately.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Yeah, I'm not sure this is how you cannot.
+
+Miklos Mayer
+Different scripts, for example.
+
+Miklos Mayer
+There's a lot of precepts, babes.
+
+Miklos Mayer
+Ohh what are you stored on the key so use with other objects. This was yeah it will unload the exit.
+
+Ren
+Yeah. And I'm like, I see it also use like a file structure as well.
+
+Miklos Mayer
+Yes. So for example objects here it is not OK actually.
+
+Ren
+Yeah, yeah, yeah.
+
+Miklos Mayer
+And or keep first time.
+
+Miklos Mayer
+Said object like. Yeah, so it does a lot of things you can do.
+
+Miklos Mayer
+The packets.
+
+Miklos Mayer
+Find yourself so.
+
+Miklos Mayer
+This is how you ask it sound.
+
+Ren
+All right.
+
+Miklos Mayer
+I don't know what happens here.
+
+Miklos Mayer
+Yeah, and and then it's become a a form again.
+
+Ren
+It's in. It's, it's interesting. It's a good it's a good visual way of like depicting what should go where, I guess.
+
+Miklos Mayer
+I'd like to get this.
+
+Ren
+What's this? See, even you are struggling.
+
+Miklos Mayer
+Yes.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+I don't know how it is, yeah.
+
+Miklos Mayer
+OK, this is how you did. Great. Yeah. Although it has the.
+
+Miklos Mayer
+Ability to.
+
+Miklos Mayer
+Switch to.
+
+Ren
+Switch to code.
+
+Miklos Mayer
+Yes, which is a big sum up is something.
+
+Ren
+OK. Yeah, that doesn't look any that, yeah, that doesn't quite look any easier to me.
+
+Miklos Mayer
+Yeah, it's just for the ability to copy paste things and.
+
+Ren
+Yeah, I can see that. OK. That makes sense. Yeah.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+I see.
+
+Ren
+I mean, I know, I know. I program in Windows Forms, but I do that in C#, not in XAML, so I'm still I'm. I'd stay away from that one still.
+
+Miklos Mayer
+OK.
+
+Ren
+That one looks that still looked painful to me.
+
+Miklos Mayer
+Yeah, and and you can modify the lot of textbooks can be done anywhere.
+
+Miklos Mayer
+Yeah.
+
+Ren
+Like I said, no, I like the amount of options this gives you. That's fantastic, especially as someone who This is why I'm programming my own game rather than using preexisting stuff, because there's lots of stuff that exists, like renpy and et cetera.
+
+Ren
+But because I want to put more stuff in there that.
+
+Ren
+That I.
+
+Ren
+Because they have the programming knowledge and I want to put more stuff in there than those programs offer me. I'm just doing it.
+
+Ren
+But yeah, in any case more choice for stuff like this is always a positive.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Umm.
+
+Ren
+Like I said, the only problem I have with it is the presentation and.
+
+Ren
+The way things are kind of layered here.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+OK. Thanks. And yeah, they actually have a documentation too.
+
+Miklos Mayer
+To tomorrow, all times, lot of things.
+
+Ren
+Ohh that I I like. That's a very nice documentation.
+
+Miklos Mayer
+Come on, Sara. Sweet shores. That's just not the how to a lot of common.
+
+Miklos Mayer
+Solutions or problems?
+
+Ren
+And very basic coding help, yeah.
+
+Ren
+Can you press one of them?
+
+Miklos Mayer
+Uh, yes. So for example show map. Let's see.
+
+Miklos Mayer
+So it's possible.
+
+Ren
+You see, I this this looks like a very nice look. Like a nice looking tutorial to me. Then what? The other one had going? Because it's just it's there. It's showing everything you need.
+
+Ren
+And very big.
+
+Ren
+Texts very very big text, very big pictures.
+
+Miklos Mayer
+Yeah, there are some.
+
+Ren
+But like I said, the only thing that I I really don't like how the UI on this one looks that's.
+
+Miklos Mayer
+OK.
+
+Ren
+I'll yeah.
+
+Ren
+I can only reiterate the same point over and over at this point.
+
+Miklos Mayer
+Yeah. OK.
+
+Miklos Mayer
+I just.
+
+Miklos Mayer
+OK, let's go to the next one. Have you used?
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+You only this visual scripting.
+
+Ren
+I have at one point not for very long, but uh.
+
+Ren
+I still ended up normally scripting at the end of it.
+
+Miklos Mayer
+Yeah, I see.
+
+Miklos Mayer
+Yeah, because, uh, another.
+
+Miklos Mayer
+Umm, so you should or direction I can imagine is to have something which is completely graphics to.
+
+Miklos Mayer
+I mean, this is too complicated because it's designed for.
+
+Ren
+Yeah.
+
+Ren
+Yeah.
+
+Ren
+I mean, yeah, no, it's.
+
+Miklos Mayer
+Graphical games, but I I I can imagine that the simplified version of it would be useful for creating textual adventure games.
+
+Miklos Mayer
+And.
+
+Ren
+This is what I told you before about the whole flow charts are very helpful. Visual aids for figuring out which direction you're story is going in.
+
+Miklos Mayer
+Yeah.
+
+Miklos Mayer
+So.
+
+Ren
+But yeah, some of simplified version of this.
+
+Ren
+Would look very would, I think be very useful.
+
+Miklos Mayer
+OK, any idea how we would simplify this or?
+
+Miklos Mayer
+Uh, because you already used, probably more than me, so.
+
+Ren
+Well, no, I I I didn't trust me, but considering I am an expert at flowcharts, for instance the if statement that says true false, you can very much.
+
+Ren
+Just make different types of arrows to signify those.
+
+Miklos Mayer
+I see.
+
+Ren
+Or.
+
+Ren
+Like let's say green arrow for true red arrow for false, just as a basic example.
+
+Ren
+Because then then you'll know immediately. OK, this this scene has two outcomes, and that generates those two arrows. It makes it a bit less cluttered in that case.
+
+Miklos Mayer
+And for the switch state and you can be multi colored or that something, I mean I I'd be the Switch statement instead of a choice because basically this is a choice so.
+
+Ren
+I mean, yeah.
+
+Ren
+I ohgi I love me. Some switch statements, OK.
+
+Ren
+But a.
+
+Miklos Mayer
+But yeah, but this is the same scenario. Basically only other thing I have is here the inventory.
+
+Ren
+In for instance in in float in float charts.
+
+Ren
+Like if you look at like common flow charts, an if statement would be a diamond instead of a rectangle. That and the diamond would say.
+
+Ren
+Uh can open door, no, yes.
+
+Miklos Mayer
+Alright, so you would, uh.
+
+Ren
+And like and the arrows would be no, yes.
+
+Miklos Mayer
+So you would change the shape of the blocks you're saying.
+
+Miklos Mayer
+OK.
+
+Ren
+Yes, it doesn't have to be. It's a very good visual aid to help you like on first glance. See. OK. Yeah, you don't need to read everything out. You don't necessarily even need to make it a different visual block. You can make it a different color.
+
+Miklos Mayer
+Yeah.
+
+Ren
+Like anything, that's a switch can be like in this example. This is orange at the moment, so every switch statement is an orange box and all out of a switch statement. There's always a yes, like a couple of arrows that.
+
+Ren
+Are different than type to signify the yes, no maybe.
+
+Ren
+Outcomes.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+That's.
+
+Miklos Mayer
+That's a good, good idea.
+
+Miklos Mayer
+Thank you.
+
+Miklos Mayer
+Yeah, and I find it. That's.
+
+Miklos Mayer
+The option is.
+
+Miklos Mayer
+Strange that. Yeah, I mean, this is a condition and you have two things that comes into it, but it's so long.
+
+Ren
+Quite, quite, quite, quite honestly. Quite honestly, look into flow chart diagrams and like the symbol meanings for them.
+
+Miklos Mayer
+Now.
+
+Miklos Mayer
+OK.
+
+Ren
+That I think that could help you out quite a bit if you if you want to make a flow chart.
+
+Ren
+Thing in your thing.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+And would you?
+
+Miklos Mayer
+Would you like to use a graph only for visualization or actually to be able to change it and change the?
+
+Ren
+Yes.
+
+Miklos Mayer
+Umm so for example in fine this is just a visualization, you cannot modify the.
+
+Miklos Mayer
+A flow. The flow of the story by.
+
+Miklos Mayer
+Dragging, dropping.
+
+Miklos Mayer
+On this.
+
+Miklos Mayer
+Blueprints. That's what it blueprint. But here you can actually.
+
+Miklos Mayer
+Create new things.
+
+Ren
+Yeah, yeah, that, that I actually creates code. Yes. OK.
+
+Ren
+Uh.
+
+Ren
+I I mean if I'm creating a simpler game like the ones you've shown me and like falling on, I think I wouldn't mind.
+
+Ren
+That these things generate code.
+
+Miklos Mayer
+OK.
+
+Ren
+Actually, I think in general I wouldn't mind if they generate code.
+
+Ren
+Because you can always, because for me, I can. I can always go edit it later for myself, but.
+
+Ren
+That's me. I'm weird. I'm a Collider.
+
+Miklos Mayer
+Yeah, I see.
+
+Ren
+I I'm not your usual use case.
+
+Ren
+But I I think if I didn't know how to code, I was using these things to make the game for me anyway. Then yes, I would want it to not be just a visual presentation, but to also be the thing that makes it for me.
+
+Miklos Mayer
+OK.
+
+Ren
+Any other questions?
+
+Miklos Mayer
+Umm, actually that's make me want to show you the. I'm not sure if you seen it.
+
+Miklos Mayer
+Uh, what's the name of it?
+
+Miklos Mayer
+I think.
+
+Miklos Mayer
+Yeah, this is it. So this is a game maker's own version of.
+
+Miklos Mayer
+Or.
+
+Ren
+OK, of the unity.
+
+Miklos Mayer
+No, sorry.
+
+Ren
+Of the unity one.
+
+Miklos Mayer
+Yeah. So it's a, it's more like a, it's less less flow charity, it's more like a mix of forms like in quest and this.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+So it has a. You can also drag and drops different actions here, then they will.
+
+Miklos Mayer
+Uh, be connected and you can see it in the tree here. How they go after each other, which is color-coded and also every.
+
+Miklos Mayer
+Kind of action has a.
+
+Miklos Mayer
+Icon for them.
+
+Miklos Mayer
+I mean, this is also for graphical games, so it's.
+
+Miklos Mayer
+You have a something graphical and you attach an event so it and then the you create the code for the events here.
+
+Ren
+OK. Yeah.
+
+Miklos Mayer
+But.
+
+Miklos Mayer
+Uh, if I pull to that?
+
+Miklos Mayer
+UM.
+
+Miklos Mayer
+Yeah. So it will create something like this. I will things go after each other so.
+
+Miklos Mayer
+I'm not sure. Do you have any opinion on this, how it could be used for extra adventure games? I mean, yeah, it's it's it could be event based.
+
+Ren
+I mean, it's very similar to the unity one I guess.
+
+Miklos Mayer
+You know.
+
+Ren
+Which just like I I I feel like all the all these like.
+
+Ren
+Flow charts can I mean it depends on what? What kind of person is also like. If you have a visual person.
+
+Miklos Mayer
+Yeah.
+
+Ren
+Then to them the flow chart will be very, very, very like much easier to use, but if you have a person who's more.
+
+Ren
+Tech space, I guess.
+
+Miklos Mayer
+Yeah.
+
+Ren
+They might prefer something along with, like what quests offers just.
+
+Ren
+Please, for the love of God, if you make something like that, make the UI nicer cause that that's.
+
+Miklos Mayer
+Nicer than this, this game maker.
+
+Ren
+It's getting like her.
+
+Miklos Mayer
+Or or the the trying one.
+
+Ren
+The quest one the the.
+
+Miklos Mayer
+Ohh the question OK.
+
+Ren
+Yeah, that, that I hate that. I mean, I cannot express to you how much I hate it.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+That makes sense.
+
+Miklos Mayer
+Yeah. So.
+
+Ren
+I'll.
+
+Miklos Mayer
+OK. I just wanted to show you this, but yeah.
+
+Ren
+I'll. I'll have you know that the engine that I am using to code my game does also have visual scripting.
+
+Miklos Mayer
+OK. Which one is that?
+
+Ren
+It's called godeaux.
+
+Miklos Mayer
+Oh, God. Oh yeah. Although they they start.
+
+Ren
+Yeah, they're they're a bit more programming. They're a bit more programming.
+
+Miklos Mayer
+That there's staff supporting the.
+
+Miklos Mayer
+Uh for visual scripting?
+
+Ren
+Yeah.
+
+Miklos Mayer
+OK. I just wanted to show you this, but.
+
+Miklos Mayer
+Actually this is the free program I prepared to with this scenario to I haven't donated to G ML or any others.
+
+Ren
+OK. Yeah, yeah, fair enough. No problem.
+
+Miklos Mayer
+But it.
+
+Ren
+You only have so much time with each of your interviewees.
+
+Miklos Mayer
+Yes.
+
+Miklos Mayer
+So I mean, we are meeting the end of it, but.
+
+Miklos Mayer
+Uh, I just want to. I I I'm, I'm sure this.
+
+Miklos Mayer
+Keeps going this.
+
+Miklos Mayer
+Yes, it's actually permission on over us. So I'm not sure if you heard of it.
+
+Ren
+Tuesday JS.
+
+Miklos Mayer
+Yes.
+
+Miklos Mayer
+So it's also more official so.
+
+Miklos Mayer
+You have a.
+
+Miklos Mayer
+Yeah, you you have scenes.
+
+Ren
+Yeah, yeah, yeah.
+
+Miklos Mayer
+And and then uh.
+
+Miklos Mayer
+The scene has a.
+
+Ren
+OK. Legacy choice. Yeah, that makes sense.
+
+Ren
+Yeah. That like I said.
+
+Miklos Mayer
+Background image, music, etcetera. Color, size, position and set up a lot of things.
+
+Miklos Mayer
+Yeah.
+
+Ren
+Like I said that there are other apps as well like renpa, I and.
+
+Ren
+I think he even gave what was the name game maker like? I don't know.
+
+Ren
+15 at this point, there's so many of them.
+
+Ren
+They're all great at making visual novels and also like RPG games.
+
+Miklos Mayer
+OK.
+
+Ren
+But there are a bit too limiting to me, which is why I'm using Godot to make it from scratch basically, but there are they're all very useful and for like visual novels it's a good thing to look at if you want to.
+
+Ren
+See about adding images to the text space adventures.
+
+Miklos Mayer
+Yeah, actually you have an editor here where you can grab it.
+
+Ren
+Yeah, yeah.
+
+Miklos Mayer
+Drag and dropped the different elements. Why elements?
+
+Ren
+I like the UI on that one looks very.
+
+Ren
+Apple.
+
+Miklos Mayer
+Ah, OK.
+
+Ren
+I I may not be the biggest fan of Apple, but their UI is quite quite clean.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Actually I.
+
+Miklos Mayer
+I find it hard to.
+
+Miklos Mayer
+Realize what's in what here and how they connect with each other and what's after what.
+
+Ren
+Uh, So what I'm guessing is this is them using it? Is that at that looks like a phone.
+
+Miklos Mayer
+No, this is the.
+
+Ren
+Yeah, I'm.
+
+Miklos Mayer
+This is a desktop screenshot.
+
+Ren
+That's the that's all that's that's how I I don't like that. But I like how the buttons look.
+
+Miklos Mayer
+I see.
+
+Ren
+Yeah, I'm. I'm not. I'm not saying the usability is good. I'm saying I like how it looks.
+
+Miklos Mayer
+Alright.
+
+Miklos Mayer
+Yeah. So you can add it.
+
+Ren
+And like if you see on like these pictures on like the right side, you have like these options that are like.
+
+Ren
+Clearly like a line art. You see that it has like a nice.
+
+Miklos Mayer
+Uh.
+
+Ren
+Picture on how you can actually align it around. That's.
+
+Ren
+Like his uh, then again, I'm a visual person, so to me that's always a nice extra.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Yeah. So.
+
+Ren
+He had duplicate cuts. They all have little pictures on them as well.
+
+Miklos Mayer
+Yeah, that's what you put in the arts. So that's an art element in the scene.
+
+Ren
+OK. Yeah.
+
+Miklos Mayer
+Yeah.
+
+Ren
+Sentencing.
+
+Miklos Mayer
+And then later you can give choices. You have now two buttons and.
+
+Miklos Mayer
+Somewhere there's a choice. Yeah. And now if you have a choice, then you have.
+
+Miklos Mayer
+The branching to go to a defense and.
+
+Miklos Mayer
+And this will also represent it like this.
+
+Ren
+Cool.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Umm.
+
+Miklos Mayer
+I think that's all I prepared with.
+
+Miklos Mayer
+And.
+
+Ren
+Uh.
+
+Miklos Mayer
+So I have any more questions? Let's see.
+
+Ren
+If you're gonna be looking at more visual novel, like stuff, you may wanna look at Grandpa.
+
+Ren
+Just so you have like.
+
+Miklos Mayer
+But that's the name.
+
+Ren
+Uh, I'll post it in the thing again.
+
+Miklos Mayer
+Trump, I like this.
+
+Ren
+There you go.
+
+Ren
+For for this kind of project I'm a very good uh source of extra stuff.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+But.
+
+Ren
+That's just visual novel, but it's still at the because visual novels are kind of sisters to text.
+
+Miklos Mayer
+Yeah.
+
+Ren
+To text games, it's still.
+
+Ren
+Good to see at what they do.
+
+Miklos Mayer
+OK, so this is a.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+So this is scripting.
+
+Ren
+Very simple simple scripting.
+
+Miklos Mayer
+I see.
+
+Ren
+Because this is the usual like in the visual novel community, this is like the usual choice for people who just wanna.
+
+Ren
+With barely any coding skills who want to build a game.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+OK.
+
+Ren
+Uh, just.
+
+Miklos Mayer
+Actually.
+
+Ren
+I figured you might as well.
+
+Ren
+Have the link.
+
+Miklos Mayer
+OK.
+
+Ren
+Doesn't hurt you?
+
+Miklos Mayer
+Yeah, that's true.
+
+Miklos Mayer
+Actually I will show you something, but is it?
+
+Miklos Mayer
+OK, just stop.
+
+Miklos Mayer
+Uh, you said that you want something that will generate a.
+
+Miklos Mayer
+Ah.
+
+Miklos Mayer
+Why did they?
+
+Ren
+Ah yes, actually yarn spinners.
+
+Miklos Mayer
+Yes, but I think this will be the one. So this is used to write dialogues for games.
+
+Ren
+OK.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+I think let me show quick start.
+
+Miklos Mayer
+You can use it in unity.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+UM.
+
+Miklos Mayer
+So it's something like this.
+
+Ren
+I'll show you the one that I got recommended by someone who did work in the visual novel industry.
+
+Miklos Mayer
+Alright.
+
+Ren
+Link sent.
+
+Miklos Mayer
+Ankle. Yes, that's also I.
+
+Miklos Mayer
+Uh.
+
+Miklos Mayer
+I tried it out, yes.
+
+Miklos Mayer
+I think it's.
+
+Miklos Mayer
+Kind of similar to yours. You know, I think.
+
+Miklos Mayer
+So.
+
+Ren
+Yeah, that, that, that that's the one I was planning on using for my scripts so.
+
+Miklos Mayer
+OK. Yeah, I I I stumbled that points and.
+
+Miklos Mayer
+Apart.
+
+Miklos Mayer
+And also more choice scripts.
+
+Ren
+Yeah, yeah, yeah.
+
+Miklos Mayer
+Yeah, these these are these were the three script based I looked up which is just clearly screen based and I mean Chinese also quiz.
+
+Miklos Mayer
+A sweet face, but.
+
+Ren
+Yeah, yeah, yeah.
+
+Miklos Mayer
+It's more.
+
+Ren
+Yeah, yeah.
+
+Ren
+The flow, yeah.
+
+Miklos Mayer
+It it has box or or it it said more more visualized a little.
+
+Miklos Mayer
+Yeah. OK.
+
+Miklos Mayer
+It's like you.
+
+Miklos Mayer
+So research this.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+Yeah, but I think that's all the questions I have.
+
+Miklos Mayer
+So I just stopped sharing my screen.
+
+Ren
+OK.
+
+Miklos Mayer
+And.
+
+Miklos Mayer
+OK, I have one more question. Can you recommend anyone who put me would also help me out with my project. Someone who's maybe.
+
+Miklos Mayer
+Yes, someone who guys would like to create interactive stories on.
+
+Miklos Mayer
+Adventure games.
+
+Ren
+I can. I can see about my DND.
+
+Ren
+Getting people if you want.
+
+Miklos Mayer
+OK.
+
+Ren
+There might be one or two people in there who might be able to help you.
+
+Miklos Mayer
+OK, that's.
+
+Ren
+I'll I'll send them a message to ask if they want to help out and then if they do, I'll get you into contact.
+
+Miklos Mayer
+Yeah, that's what the date. Thank you.
+
+Ren
+Sure, no problem.
+
+Miklos Mayer
+OK.
+
+Ren
+Can do.
+
+Ren
+Can do.
+
+Miklos Mayer
+Later I may create some prototypes and user testing and if you interested to help me out with that later, OK, that's great.
+
+Ren
+Look, I I I was in your position.
+
+Ren
+A year and a half ago.
+
+Ren
+I need to do my due diligence.
+
+Miklos Mayer
+I see. OK. Thanks.
+
+Ren
+Give back.
+
+Miklos Mayer
+Now, if you have time so.
+
+Ren
+Well, my my schedule is work eight to five.
+
+Ren
+And on a weekend travel to the boyfriend. So.
+
+Ren
+If you're fine with that schedule.
+
+Miklos Mayer
+Ohh I'd be yes.
+
+Ren
+Then there we go. You'll probably be fine.
+
+Miklos Mayer
+OK. Thanks.
+
+Ren
+No problem.
+
+Miklos Mayer
+Uh.
+
+Ren
+Hope I was helpful.
+
+Miklos Mayer
+Umm yeah, I mean I.
+
+Miklos Mayer
+It will come out when I compare the different interviews, etcetera. I think you're the third one, so.
+
+Miklos Mayer
+A fortune of the some of the people haven't written back so.
+
+Ren
+I'll I'll try and push some people onto maybe maybe I can ask my boyfriend if anyone at work is happy to be interviewed.
+
+Miklos Mayer
+I would be happy to have any creative writer so.
+
+Ren
+I'll I'll pull my connections. How do you feel about some random Americans?
+
+Miklos Mayer
+OK.
+
+Ren
+I'll. I'll I'll ask why my former story writing communities as anyone's into that.
+
+Miklos Mayer
+OK.
+
+Ren
+Because I used to be like on a video game like I used to write stories with other people and video games.
+
+Miklos Mayer
+Ah.
+
+Ren
+So I actually know quite a few people who might still have kept up with the creativeness there.
+
+Miklos Mayer
+OK.
+
+Miklos Mayer
+OK. Thank you.
+
+Miklos Mayer
+That would be very useful.
+
+Ren
+Cool.
+
+Miklos Mayer
+I guess starting point.
