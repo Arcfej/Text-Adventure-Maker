@@ -5,19 +5,25 @@ name: Deploy to Firebase Hosting on merge
       - main
     paths:
       - 'text-adventure-creator/**'
+    ignore_paths:
+      - 'text-adventure-creator/src/functions/**'
 jobs:
-  build_test_and_deploy:
-    name: Build, test and deploy
+  build_test_and_deploy_creator:
+    name: Creator build, test and deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
         working-directory: text-adventure-creator
-      - run: npm run build
+      - name: Build creator
+        run: npm run build
         working-directory: text-adventure-creator
-      - run: npm test
+      - name: Run tests
+        run: npm test
         working-directory: text-adventure-creator
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TEXTUAL_ADVENTURE_CREATOR }}'
