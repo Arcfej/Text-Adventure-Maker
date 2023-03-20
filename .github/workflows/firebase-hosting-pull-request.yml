@@ -8,7 +8,7 @@ name: Deploy to Firebase Hosting on PR
 jobs:
   build_test_and_preview:
     name: Build, test and preview
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+#    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,6 +21,18 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TEXTUAL_ADVENTURE_CREATOR }}'
+          firebaseServiceAccount: '{
+              "type": "service_account",
+              "project_id": "textual-adventure-creator",
+              "private_key_id": "ca9ffb2023e8060709c6b11605aa6bf68da8e4a5",
+              "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDVC634/1HCWtE6\ni/jAaHojYK084rb/FNi3cBxFWVryZJ2QD6VPGU2fzdBlQ+76yfHPy9Iktex4M603\nm6VHxkQOha0InN77ssRc4XDt8pxwfZc4TF8sNasV0TSMw2LLivHX03RNhd5xrRFa\nPu7gNQeNq9mZPyi4bj1btBjFIQxpfsXGCYJN+Uvauek1XY9uYtgYnTlkSg4VekVx\njhanGJ9oMozrC/gA5dMc7yvJxC5pHaBGdgvHNkL8NdzK71pBM7bSe7ZqOJCuJ7aq\nOuIhHADCZFM5XTyKyKC3lqL7024Nt9338ob6beqemz2qJblF4jgqi4ddhzKLapE1\njLXF4BxVAgMBAAECggEACeKAmC66e6bMkeeYK089qYIND6fiPzwXoQ071pDiiiAW\nem5raFvfcORzAJvSDQNNK6vEjIz/U4VsSkn3tXiSxEy5/k4O/4UoHLoeDABHd2Ww\nXD2Y5dt4nGrIQia3oQOJnI60VPt62nHh/fqxCSiUuONKFZTrXgFJagWVZ6IUqhlQ\nwOC3Nr8e6hGOmne0LxGNpC5IzpCiFetWvgCPxre+eCrrAzfoRfjTfRahV80PmgoQ\nrPEolna2nM58g8T5IsmrSPQ20Kxa063QoQXWkh9hj0a3ID//JmaPJeGwbue9EA5s\nU9oN8d43QOdn3cvvhcryIg8e63jY4zGLjSXgIyhIWQKBgQD0PLNFyTSyL930/vMQ\nlNTpe0vzLXSg/mR9FzuqcK+GxC9Y1Wcf+JGx1T7nX6ZeViHZV/QZfAX0RKYWRFlW\nwOe+Vcba/436EcEgs55cn6Eq0pao0I+DHNyh7ydXnC9ccqj9VGeYHKEUcIVDklJG\n2+0u5inVKcGOLaU0uNs+T7PROQKBgQDfTmgZE/JSoy3l8LkdsWWhLq1mYyomg4G+\nDY6zPsPAu6MgtZx3usgQB0CYZks9yTgff6oqZViriNlZ8QYezHveVfqw3kQAytyN\nQ2qRbAP3KErn+d+PV9i2MgBZEUmxmsO/d0o1UZbx6RQ1DQuYfZN3bdLetbJKTQXZ\n3xid/ygP/QKBgQDc3e+5EkWnRgZQwiYJPq50Hl4GoXqxBJzXSqVYcuMo2k1+5i2G\nCgGnchKapjMLaJTfudwzF6dCyLnxtQmdnIF17JgR/7zjAh9GdWimlmznDt3T+Bdw\nGC+l+WH4pnNmBQKxZRzxwCIjG8ZH3xCsp8IMAXSfIk25R6n4zZrm9KjGcQKBgGOc\nJA9buHJoW+cANHMsWLtHiQ3tGjZH3y4Z+he23bcxfBjxKjS2WtvbgFL6/oE3KxPR\n7OQwhRcvWlUmkKZYbMDG9abD3u3DkBJrijQITNSJYrCL48+bTg4ny8PvVEInWT4l\nRjL2jDCo2dy4Tv3ctlVF5hR2VGuUZBHF1MNVuFc5AoGAb20jeGOwx/nMoyIzzbJ6\nNSmDUwxDJPIt5jtj/uKWPIVvYxiTIjm4O8/eVAw+AcCdzu6A/xJXnaovGUtz/0+t\new48qkVuVaty2MvjxR8P5cWAtv0UtG5vGIACX5FtY8m5lCLUlkj84s05tOYm9hQ6\nGqnbYvRXp49fUoqtq3ksSKU=\n-----END PRIVATE KEY-----\n",
+              "client_email": "firebase-adminsdk-dhtay@textual-adventure-creator.iam.gserviceaccount.com",
+              "client_id": "101719527056707976367",
+              "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+              "token_uri": "https://oauth2.googleapis.com/token",
+              "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+              "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-dhtay%40textual-adventure-creator.iam.gserviceaccount.com"
+            }'
+          channelId: preview
           projectId: textual-adventure-creator
           entryPoint: text-adventure-creator
