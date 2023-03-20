@@ -3,6 +3,8 @@ name: Deploy to Firebase Hosting on PR
   pull_request:
     paths:
     - 'text-adventure-creator/**'
+    ignore_paths:
+      - 'text-adventure-creator/src/functions/**'
 jobs:
   build_and_preview:
     name: Build, test and preview

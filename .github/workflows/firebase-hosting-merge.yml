@@ -5,6 +5,8 @@ name: Deploy to Firebase Hosting on merge
       - main
     paths:
       - 'text-adventure-creator/**'
+    ignore_paths:
+      - 'text-adventure-creator/src/functions/**'
 jobs:
   build_test_and_deploy:
     name: Build, test and deploy
