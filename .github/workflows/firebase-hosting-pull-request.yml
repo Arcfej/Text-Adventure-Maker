@@ -23,7 +23,7 @@ jobs:
         run: npm run build
         working-directory: text-adventure-creator
       - name: Run tests
-        run: npm test
+        run: npm test --debug
         working-directory: text-adventure-creator
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
