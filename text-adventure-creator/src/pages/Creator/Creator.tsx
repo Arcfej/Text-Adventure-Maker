@@ -8,7 +8,7 @@ import { connectFunctionsEmulator } from 'firebase/functions';
 
 function Creator(): JSX.Element {
     const navigate = useNavigate();
-    const [message, setMessage] = React.useState<string>("");
+    const [message, setMessage] = React.useState<string>("Loading...");
 
     if (process.env.NODE_ENV === "development") {
         connectFunctionsEmulator(firebaseFunctions, "localhost", 5001);
