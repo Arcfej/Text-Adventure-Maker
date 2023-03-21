@@ -1,7 +1,8 @@
 import * as functions from "firebase-functions";
 
 export const helloWorld = functions
-  .region(functions.config().env.region)
+  .region(`${process.env.region}`)
   .https.onCall(() => {
-    return {message: "Hello from Firebase!"};
+    console.log(functions.config().evn.region);
+    return "Hello from Firebase!";
   });

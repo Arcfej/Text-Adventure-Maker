@@ -12,12 +12,18 @@ function Creator(): JSX.Element {
 
     if (process.env.NODE_ENV === "development") {
         connectFunctionsEmulator(firebaseFunctions, "localhost", 5001);
+        console.log("Connected to emulator");
     }
 
     useEffect(() => {
         const getMessage = async () => {
-            const {data: message} = await helloWorld();
-            setMessage(message);
+            try {
+                const {data: message} = await helloWorld();
+                setMessage(message);
+            } catch (e) {
+                // @ts-ignore
+                setMessage(e.message);
+            }
         };
         getMessage();
     }, []);
@@ -34,6 +40,7 @@ function Creator(): JSX.Element {
             justifyContent="flex-start"
             alignItems="center"
         >
+            <Typography level="h1">Creator</Typography>
             <Typography level="body1">{message}</Typography>
             <Button onClick={() => firebaseAuth.signOut()}>Log out</Button>
         </Stack>
