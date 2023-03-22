@@ -10,15 +10,16 @@ function Creator(): JSX.Element {
     const navigate = useNavigate();
     const [message, setMessage] = React.useState<string>("Loading...");
 
-    if (process.env.NODE_ENV === "development") {
-        connectFunctionsEmulator(firebaseFunctions, "localhost", 5001);
-        console.log("Connected to emulator");
-    }
+    useEffect(() => {
+        if(process.env.NODE_ENV === "development") {
+            connectFunctionsEmulator(firebaseFunctions, "localhost", 5001);
+        }
+    }, []);
 
     useEffect(() => {
         const getMessage = async () => {
             try {
-                const {data: message} = await helloWorld();
+                const {data: {message}} = await helloWorld();
                 setMessage(message);
             } catch (e) {
                 // @ts-ignore
