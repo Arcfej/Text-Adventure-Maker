@@ -1,6 +1,12 @@
+export const corsHeaders = {
+		'Access-Control-Allow-Headers': '*',
+		'Access-Control-Allow-Methods': 'GET, OPTIONS',
+		'Access-Control-Allow-Origin': '*',
+};
+
 export function toJSON(data: unknown, status = 200): Response {
     let body = JSON.stringify(data, null, 2);
-    let headers = {'content-type': 'application/json'};
+    let headers = {'content-type': 'application/json', ...corsHeaders};
     return new Response(body, {headers, status});
 }
 

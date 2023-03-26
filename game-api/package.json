@@ -17,7 +17,6 @@
 		"realm-web": "^1.5.1",
 		"typescript": "^5.0.2",
 		"vitest": "^0.29.7",
-		"worktop.build": "0.0.3",
-		"wrangler": "2.13.0"
+		"worktop.build": "0.0.3"
 	}
 }
