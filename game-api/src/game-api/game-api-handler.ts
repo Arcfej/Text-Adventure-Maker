@@ -51,7 +51,8 @@ const getGames = async (request: RequestWithGames) => {
 };
 
 const postGame = async (request: RequestWithGames) => {
-		const {game, uId} = await request.json();
+		const {uId} = request;
+		const {game} = await request.json();
 		return json(await request.games.insertOne({
 				owner: uId,
 				intro: game

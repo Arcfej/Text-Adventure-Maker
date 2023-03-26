@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react';
 import { onAuthStateChanged } from "firebase/auth";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {useNavigate} from "react-router-dom";
-import {Button, Stack, Typography} from "@mui/joy";
+import {Button, Stack} from "@mui/joy";
 
 function Creator(): JSX.Element {
     const navigate = useNavigate();
     const [games, setGames] = useState<Array<{key: string, value: string}>>([]);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (currentUser) => {
@@ -14,26 +15,32 @@ function Creator(): JSX.Element {
         });
     }, [navigate]);
 
-    useEffect(() => {
-        const fetchGames = async () => {
-            const response = fetch("http://localhost:8787/games", {
+    const fetchGames = async () =>
+        fetch("http://localhost:8787/games",
+            {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 }
             })
-                .then(response => {
-                    console.log(response);
-                    return response.json();
+            .then(response => response.json())
+            .then(data => setGames(data))
+            .then(() => console.log(games));
+
+    const insertGame = async () =>
+        fetch("http://localhost:8787/games",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    game: count,
                 })
-                .then(data => console.log(data));
-        };
-        try {
-            fetchGames();
-        } catch (e) {
-            console.error(e);
-        }
-    })
+            })
+            .then(response => response.json())
+            .then(() => setCount(count + 1))
+            .then(fetchGames);
 
     return (
         <Stack
@@ -41,8 +48,9 @@ function Creator(): JSX.Element {
             justifyContent="flex-start"
             alignItems="center"
         >
-            <Typography level="body1">Logged in</Typography>
             <Button onClick={() => firebaseAuth.signOut()}>Log out</Button>
+            <Button onClick={fetchGames}>List / update games</Button>
+            <Button onClick={insertGame}>Insert game</Button>
         </Stack>
     );
 }

@@ -18,6 +18,9 @@ export default {
 		fetch: (request: IRequest, env: any) => router
 				.handle(request, env)
 				.then(json)
-				.catch(error)
+				.catch((err: any) => {
+						console.error(err);
+						return error(500, err.message)
+				})
 				.then(corsify)
 };
