@@ -1,26 +1,23 @@
 // Based on https://github.com/mongodb-developer/cloudflare-worker-rest-api-atlas
-import { Router, IRequest} from 'itty-router';
+import {Router, IRequest, createCors, error, json} from 'itty-router';
 import gameApiHandler from "./game-api/game-api-handler";
-import * as utils from './utils';
 
-export const withCorsPreflight = (request: IRequest) => {
-		if (request.method.toLowerCase() === 'options') {
-				return new Response('ok', {
-						headers: utils.corsHeaders,
-				});
-		}
-};
+const { preflight, corsify } = createCors();
 
-const missingHandler = () => utils.toError('Method not allowed', 405);
+const missingHandler = () => error(405, 'Method not allowed');
 
 // Create a new router
 const router = Router();
 
 router
-		.all('*', withCorsPreflight)
+		.all('*', preflight)
 		.all('/games', gameApiHandler)
 		.all('*', missingHandler);
 
 export default {
-		fetch: router.handle
+		fetch: (request: IRequest, env: any) => router
+				.handle(request, env)
+				.then(json)
+				.catch(error)
+				.then(corsify)
 };

@@ -1,5 +1,4 @@
-import {IRequest, Router} from 'itty-router';
-import * as utils from "../utils";
+import {error, json, IRequest, Router} from 'itty-router';
 import * as Realm from "realm-web";
 
 const ObjectId = Realm.BSON.ObjectID;
@@ -35,7 +34,7 @@ const withGames = async (request: IRequest, env: any) => {
 				request.games = client.db('games').collection<Game>('published');
 		} catch (err) {
 				console.log(err);
-				return utils.toError(500);
+				return error(500);
 		}
 };
 
@@ -43,21 +42,17 @@ const getGame = async (request: RequestWithGames) => {
 		const game = await request.games.findOne({
 				_id: new ObjectId(request.params.id)
 		});
-		return game ? utils.reply(game) : utils.toError('Game not found', 404);
+		return game ? json(game) : error(404, 'Game not found');
 };
 
 const getGames = async (request: RequestWithGames) => {
-		console.log('getGames');
 		const games = await request.games.find();
-		console.log(games);
-		const response = utils.reply(games);
-		console.log(response);
-		return response;
+		return json(games);
 };
 
 const postGame = async (request: RequestWithGames) => {
 		const {game, uId} = await request.json();
-		return utils.reply(await request.games.insertOne({
+		return json(await request.games.insertOne({
 				owner: uId,
 				intro: game
 		}));
@@ -70,8 +65,8 @@ const updateGame = async (request: RequestWithGames) => {
 				{$set: {intro: game}}
 		);
 		return result.matchedCount > 0
-				? utils.reply("Game updated")
-				: utils.toError('Game not found', 404);
+				? json("Game updated")
+				: error(404, 'Game not found');
 };
 
 const deleteGame = async (request: RequestWithGames) => {
@@ -79,8 +74,8 @@ const deleteGame = async (request: RequestWithGames) => {
 				_id: new ObjectId(request.params.id)
 		});
 		return result.deletedCount > 0
-				? utils.reply("Game deleted")
-				: utils.toError('Game not found', 404);
+				? json("Game deleted")
+				: error(404, 'Game not found');
 };
 
 // Create a new router
