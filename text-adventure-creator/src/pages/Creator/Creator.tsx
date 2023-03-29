@@ -16,7 +16,7 @@ function Creator(): JSX.Element {
     }, [navigate]);
 
     const fetchGames = async () =>
-        fetch("http://localhost:8787/games",
+        fetch("https://backend.text-adventure-maker.workers.dev/games",
             {
                 method: "GET",
                 headers: {
@@ -27,8 +27,12 @@ function Creator(): JSX.Element {
             .then(data => setGames(data))
             .then(() => console.log(games));
 
+    useEffect(() => {
+        fetchGames();
+    }, []);
+
     const insertGame = async () =>
-        fetch("http://localhost:8787/games",
+        fetch("https://backend.text-adventure-maker.workers.dev/games",
             {
                 method: "POST",
                 headers: {
