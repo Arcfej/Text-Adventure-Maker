@@ -1,0 +1,10 @@
+name = "backend"
+compatibility_date = "2023-03-23"
+
+account_id = "af658a349862d1cffaf575181ddcb474"
+workers_dev = true # or zone_id = "<ZONE ID>" if you have one
+
+main = "./src/index.ts"
+
+[vars]
+REALM_APP_ID = "text-adventure-maker-pcbeb"
