@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import {Appbar, List} from 'react-native-paper';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {
   FlatList,
   ListRenderItemInfo,
   SafeAreaView,
-  Text,
   useColorScheme,
 } from 'react-native';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 interface Game {
   intro: string;
@@ -39,12 +38,14 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView style={backgroundStyle}>
+      <Appbar.Header>
+        <Appbar.Content title="Games" />
+      </Appbar.Header>
       <FlatList
         data={games}
-        renderItem={({item}: ListRenderItemInfo<Game>) => {
-          console.log(item);
-          return <Text>{item.intro}</Text>;
-        }}
+        renderItem={({item}: ListRenderItemInfo<Game>) => (
+          <List.Item title={item.intro} />
+        )}
       />
     </SafeAreaView>
   );
