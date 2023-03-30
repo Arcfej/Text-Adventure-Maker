@@ -20,15 +20,18 @@ type RequestWithGames = {
 		uId: string;
 } & IRequest
 
-let app: Realm.App;
+let realmApp: Realm.App;
 
 // Middleware to connect to MongoDB Realm and append userId and games collection to request
 const withGames = async (request: IRequest, env: any) => {
 		try {
-				app = app || new Realm.App(env.REALM_APP_ID);
-				const credentials = Realm.Credentials.apiKey(env.REALM_API_KEY);
+				realmApp = realmApp || new Realm.App(env.REALM_APP_ID);
+				const token = request.headers.get('Authorization')?.split(' ')[1];
+				const credentials = token
+						? Realm.Credentials.jwt(token)
+						: Realm.Credentials.anonymous();
 				// Attempt to authenticate
-				const user: Realm.User = await app.logIn(credentials);
+				const user: Realm.User = await realmApp.logIn(credentials);
 				const client = user.mongoClient('mongodb-atlas');
 				request.uId = user.id;
 				request.games = client.db('games').collection<Game>('published');
