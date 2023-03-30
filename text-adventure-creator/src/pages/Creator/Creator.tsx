@@ -1,12 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { onAuthStateChanged } from "firebase/auth";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {useNavigate} from "react-router-dom";
-import {Button, Stack} from "@mui/joy";
+import {
+    addEdge,
+    applyEdgeChanges,
+    applyNodeChanges,
+    Background,
+    BackgroundVariant,
+    Connection,
+    Controls,
+    EdgeChange,
+    MiniMap,
+    NodeChange,
+    ReactFlow,
+} from "reactflow";
+import 'reactflow/dist/style.css';
+import {initialEdges, initialNodes} from "../../components/LightDarkToggle/initalGraph";
+
+const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
 function Creator(): JSX.Element {
     const navigate = useNavigate();
-    const [games, setGames] = useState<Array<{key: string, value: string}>>([]);
+    const [games, setGames] = useState<Array<{ key: string, value: string }>>([]);
     const [count, setCount] = useState(0);
 
     useEffect(() => {
@@ -24,8 +40,7 @@ function Creator(): JSX.Element {
                 }
             })
             .then(response => response.json())
-            .then(data => setGames(data))
-            .then(() => console.log(games));
+            .then(data => setGames(data));
 
     useEffect(() => {
         fetchGames();
@@ -46,16 +61,38 @@ function Creator(): JSX.Element {
             .then(() => setCount(count + 1))
             .then(fetchGames);
 
+    const [nodes, setNodes] = useState(initialNodes);
+    const [edges, setEdges] = useState(initialEdges);
+
+    const onNodesChange = useCallback(
+        (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
+        [setNodes]
+    );
+    const onEdgesChange = useCallback(
+        (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+        [setEdges]
+    );
+    const onConnect = useCallback(
+        (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
+        [setEdges]
+    );
+
     return (
-        <Stack
-            spacing={2}
-            justifyContent="flex-start"
-            alignItems="center"
-        >
-            <Button onClick={() => firebaseAuth.signOut()}>Log out</Button>
-            <Button onClick={fetchGames}>List / update games</Button>
-            <Button onClick={insertGame}>Insert game</Button>
-        </Stack>
+        <div style={{ width: '100vw', height: '100vh' }}>
+            <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                fitView
+                deleteKeyCode={deleteKeyCodes}
+            >
+                <Controls />
+                <MiniMap />
+                <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
+            </ReactFlow>
+        </div>
     );
 }
 
