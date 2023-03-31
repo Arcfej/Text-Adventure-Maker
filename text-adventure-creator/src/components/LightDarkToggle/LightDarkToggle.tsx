@@ -1,5 +1,6 @@
 import React from 'react';
-import {Button, useColorScheme} from "@mui/joy";
+import { useColorScheme } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
 // Taken from https://mui.com/joy-ui/getting-started/tutorial/#bonus-build-a-toggle-for-light-and-dark-mode
 function LightDarkToggle(): JSX.Element | null {
