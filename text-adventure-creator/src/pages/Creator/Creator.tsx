@@ -16,14 +16,17 @@ import {
     ReactFlow,
 } from "reactflow";
 import 'reactflow/dist/style.css';
-import {initialEdges, initialNodes} from "../../components/LightDarkToggle/initalGraph";
+import {initialEdges, initialNodes} from "../../components/initalGraph";
+import Navbar from '../../components/Navbar';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
 function Creator(): JSX.Element {
     const navigate = useNavigate();
-    const [games, setGames] = useState<Array<{ key: string, value: string }>>([]);
-    const [count, setCount] = useState(0);
+    // const [games, setGames] = useState<Array<{ key: string, value: string }>>([]);
+    // const [count, setCount] = useState(0);
 
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (currentUser) => {
@@ -31,35 +34,35 @@ function Creator(): JSX.Element {
         });
     }, [navigate]);
 
-    const fetchGames = async () =>
-        fetch("https://backend.text-adventure-maker.workers.dev/games",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-            .then(response => response.json())
-            .then(data => setGames(data));
+    // const fetchGames = async () =>
+    //     fetch("https://backend.text-adventure-maker.workers.dev/games",
+    //         {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             }
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => setGames(data));
+    //
+    // useEffect(() => {
+    //     fetchGames();
+    // }, []);
 
-    useEffect(() => {
-        fetchGames();
-    }, []);
-
-    const insertGame = async () =>
-        fetch("https://backend.text-adventure-maker.workers.dev/games",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    game: count,
-                })
-            })
-            .then(response => response.json())
-            .then(() => setCount(count + 1))
-            .then(fetchGames);
+    // const insertGame = async () =>
+    //     fetch("https://backend.text-adventure-maker.workers.dev/games",
+    //         {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({
+    //                 game: count,
+    //             })
+    //         })
+    //         .then(response => response.json())
+    //         .then(() => setCount(count + 1))
+    //         .then(fetchGames);
 
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
@@ -78,21 +81,34 @@ function Creator(): JSX.Element {
     );
 
     return (
-        <div style={{ width: '100vw', height: '100vh' }}>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                fitView
-                deleteKeyCode={deleteKeyCodes}
+        <Stack
+            direction="column"
+            justifyContent="flex-start"
+            alignItems="center"
+            spacing={0}
+            height="100vh"
+        >
+            <Navbar />
+            <Box
+                width="100%"
+                flexGrow={1}
+                height="100%"
             >
-                <Controls />
-                <MiniMap />
-                <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-            </ReactFlow>
-        </div>
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
+                    fitView
+                    deleteKeyCode={deleteKeyCodes}
+                >
+                    <Controls/>
+                    <MiniMap/>
+                    <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
+                </ReactFlow>
+            </Box>
+        </Stack>
     );
 }
 

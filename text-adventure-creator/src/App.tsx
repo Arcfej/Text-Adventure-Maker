@@ -8,19 +8,19 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
 
 function App() {
-  return (
-      <CssVarsProvider>
-          <React.Fragment>
-              <CssBaseline />
-              <BrowserRouter>
-                  <Routes>
-                      <Route path="/" element={<Creator />} />
-                      <Route path="/login" element={<RegisterLogin onAuthStateChanged={onAuthStateChanged} />} />
-                  </Routes>
-              </BrowserRouter>
-          </React.Fragment>
-      </CssVarsProvider>
-  );
+    return (
+        <CssVarsProvider>
+            <React.Fragment>
+                <CssBaseline />
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Creator />} />
+                        <Route path="/login" element={<RegisterLogin onAuthStateChanged={onAuthStateChanged} />} />
+                    </Routes>
+                </BrowserRouter>
+            </React.Fragment>
+        </CssVarsProvider>
+    );
 }
 
 export default App;
