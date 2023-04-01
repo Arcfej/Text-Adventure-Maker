@@ -24,8 +24,8 @@ import Box from '@mui/material/Box';
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
 const Creator = (): JSX.Element => {
-    const [isProjectSaved, setIsProjectSaved] = useState(false);
-    const [isProjectOpened, setIsProjectOpened] = useState(false);
+    const [isProjectSaved, setIsProjectSaved] = useState<boolean>(true);
+    const [openedProject, setOpenedProject] = useState<string | null>(null);
     const [nodes, setNodes] = useState<Node[]>([]);
     const [edges, setEdges] = useState<Edge[]>([]);
     const navigate = useNavigate();
@@ -36,20 +36,9 @@ const Creator = (): JSX.Element => {
         });
     }, [navigate]);
 
-    // const insertGame = async () =>
-    //     fetch("https://backend.text-adventure-maker.workers.dev/games",
-    //         {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({
-    //                 game: count,
-    //             })
-    //         })
-    //         .then(response => response.json())
-    //         .then(() => setCount(count + 1))
-    //         .then(fetchGames);
+    useEffect(() => {
+        setIsProjectSaved(false);
+    }, [nodes, edges]);
 
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -72,13 +61,18 @@ const Creator = (): JSX.Element => {
             spacing={0}
             height="100vh"
         >
-            <Navbar isProjectOpened={isProjectOpened} isProjectSaved={isProjectSaved} />
+            <Navbar
+                openedProject={openedProject}
+                isProjectSaved={isProjectSaved}
+                setOpenedProject={setOpenedProject}
+                setIsProjectSaved={setIsProjectSaved}
+            />
             <Box
                 width="100%"
                 flexGrow={1}
                 height="100%"
             >
-                {isProjectOpened &&
+                {openedProject !== null &&
                     <ReactFlow
                         nodes={nodes}
                         edges={edges}

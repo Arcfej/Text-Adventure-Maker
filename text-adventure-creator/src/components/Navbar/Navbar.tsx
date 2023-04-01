@@ -18,11 +18,7 @@ import ListItemText from "@mui/material/ListItemText";
 import LightDarkToggle from "../LightDarkToggle/LightDarkToggle";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import PropTypes from "prop-types";
-
-interface NavbarProps {
-    isProjectOpened: boolean;
-    isProjectSaved: boolean;
-}
+import NewProjectWizard from "../NewProjectWizard";
 
 interface MenuOption {
     label: string;
@@ -43,7 +39,16 @@ const menuItems: MenuOption[] = [
         icon: <Save />,
     }];
 
-const Navbar = ({isProjectOpened, isProjectSaved}: NavbarProps) => {
+interface SmallScreenMenuProps {
+    openedProject: string | null;
+    isProjectSaved: boolean;
+    handleMenuClick: (target: string) => void;
+}
+const SmallScreenMenu = ({
+    openedProject,
+    isProjectSaved,
+    handleMenuClick
+}: SmallScreenMenuProps) : JSX.Element => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -55,140 +60,225 @@ const Navbar = ({isProjectOpened, isProjectSaved}: NavbarProps) => {
     };
 
     return (
+        <>
+            <Box sx={{display: {xs: 'flex', md: 'none'}}}>
+                <Badge
+                    color="error"
+                    variant="dot"
+                    overlap="circular"
+                    invisible={openedProject === null || Boolean(anchorEl) || isProjectSaved}
+                >
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleOpenMenu}
+                        color="inherit"
+                    >
+                        <MenuIcon/>
+                    </IconButton>
+                </Badge>
+                <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleCloseMenu}
+                    sx={{
+                        display: {xs: 'block', md: 'none'},
+                    }}
+                >
+                    <MenuList sx={{flexDirection: "column"}}>
+                        {menuItems.map((item) => (
+                            <MenuItem key={item.label} onClick={() => {
+                                handleCloseMenu();
+                                handleMenuClick(item.label);
+                            }}>
+                                <Badge
+                                    color="error"
+                                    variant="dot"
+                                    invisible={item.label !== 'Save' || openedProject === null || isProjectSaved}
+                                >
+                                    <ListItemIcon>{item.icon}</ListItemIcon>
+                                    <ListItemText>{item.label}</ListItemText>
+                                </Badge>
+                            </MenuItem>
+                        ))}
+                    </MenuList>
+                </Menu>
+            </Box>
+            <Typography
+                variant="h5"
+                noWrap
+                component="a"
+                href="/"
+                sx={{
+                    display: {xs: 'flex', md: 'none'},
+                    ml: 1,
+                    flexGrow: 1,
+                    fontFamily: 'monospace',
+                    fontWeight: 700,
+                    letterSpacing: '.2rem',
+                    color: 'inherit',
+                    textDecoration: 'none',
+                }}
+            >
+                Text Adventure Maker
+            </Typography>
+        </>
+    );
+};
+
+SmallScreenMenu.propTypes = {
+    openedProject: PropTypes.string,
+    isProjectSaved: PropTypes.bool.isRequired,
+    handleMenuClick: PropTypes.func.isRequired
+};
+
+interface LargerScreenMenuProps {
+    openedProject: string | null;
+    isProjectSaved: boolean;
+    handleMenuClick: (target: string) => void;
+}
+const LargerScreenMenu = ({openedProject, isProjectSaved, handleMenuClick}: LargerScreenMenuProps): JSX.Element => (
+    <>
+        <Typography
+            variant="h6"
+            component="a"
+            href="/"
+            noWrap
+            sx={{
+                mr: 2,
+                display: {xs: 'none', md: 'flex'},
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.2rem',
+                color: 'inherit',
+                textDecoration: 'none',
+            }}
+        >
+            Text Adventure Maker
+        </Typography>
+        <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
+            {menuItems.map((item) => (
+                <Badge
+                    key={item.label}
+                    color="error"
+                    variant="dot"
+                    invisible={item.label !== 'Save' || openedProject === null || isProjectSaved}
+                    sx={{my: 2, mx: 1}}
+                >
+                    <Button
+                        startIcon={item.icon}
+                        onClick={() => handleMenuClick(item.label)}
+                        sx={{color: 'white'}}
+                    >
+                        {item.label}
+                    </Button>
+                </Badge>
+            ))}
+        </Box>
+    </>
+);
+
+LargerScreenMenu.propTypes = {
+    openedProject: PropTypes.string,
+    isProjectSaved: PropTypes.bool.isRequired,
+    handleMenuClick: PropTypes.func.isRequired
+}
+
+interface NavbarProps {
+    openedProject: string | null;
+    setOpenedProject: (projectId: string) => void;
+    isProjectSaved: boolean;
+    setIsProjectSaved: (isProjectSaved: boolean) => void;
+}
+
+const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSaved}: NavbarProps) => {
+    const [isWizardOpen, setIsWizardOpen] = useState(false);
+
+    const handleMenuClick = (target: string) => {
+        switch (target) {
+            case 'New': {
+                if (isProjectSaved || openedProject === null) {
+                    setIsWizardOpen(true);
+                } else {
+                    // TODO
+                    console.log('Save project first');
+                }
+                break;
+            }
+            case 'Load': {
+                if (isProjectSaved || openedProject === null) {
+                    // TODO
+                    console.log('Load project');
+                } else {
+                    // TODO
+                    console.log('Save project first');
+                }
+                break;
+            }
+             case 'Save': {
+                if (openedProject !== null) {
+                    // TODO
+                    console.log('Save project');
+                }
+                break;
+             }
+             default: {
+                    console.log('Unknown menu item');
+             }
+        }
+    }
+
+    return (
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
+                    <SmallScreenMenu
+                        // anchorEl={anchorEl}
+                        openedProject={openedProject}
+                        isProjectSaved={isProjectSaved}
+                        // handleOpenMenu={handleOpenMenu}
+                        // handleCloseMenu={handleCloseMenu}
+                        handleMenuClick={handleMenuClick}
+                    />
 
-                    {/* Logo on larger screens */}
-                    <Typography
-                        variant="h6"
-                        component="a"
-                        href="/"
-                        noWrap
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.2rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        Text Adventure Maker
-                    </Typography>
-
-                    {/* The menu on small screens */}
-                    <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
-                        <Badge
-                            color="error"
-                            variant="dot"
-                            overlap="circular"
-                            invisible={!isProjectOpened || Boolean(anchorEl) || isProjectSaved}
-                        >
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenMenu}
-                                color="inherit"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                        </Badge>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorEl)}
-                            onClose={handleCloseMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                            <MenuList sx={{flexDirection: "column"}}>
-                                {menuItems.map((item) => (
-                                        <MenuItem key={item.label}>
-                                            <Badge
-                                                color="error"
-                                                variant="dot"
-                                                invisible={item.label !== 'Save' || !isProjectOpened || isProjectSaved}
-                                            >
-                                                <ListItemIcon>{item.icon}</ListItemIcon>
-                                                <ListItemText>{item.label}</ListItemText>
-                                            </Badge>
-                                        </MenuItem>
-                                ))}
-                            </MenuList>
-                        </Menu>
-                    </Box>
-                    {/* Logo on small screens */}
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            display: { xs: 'flex', md: 'none' },
-                            ml: 1,
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.2rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        Text Adventure Maker
-                    </Typography>
-
-                    {/* The menu on larger screens */}
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {menuItems.map((item) => (
-                            <Badge
-                                color="error"
-                                variant="dot"
-                                invisible={item.label !== 'Save' || !isProjectOpened || isProjectSaved}
-                                sx={{ my: 2, mx: 1 }}
-                            >
-                                <Button
-                                    key={item.label}
-                                    startIcon={item.icon}
-                                    onClick={handleCloseMenu}
-                                    sx={{ color: 'white' }}
-                                >
-                                    {item.label}
-                                </Button>
-                            </Badge>
-                        ))}
-                    </Box>
-                    <LightDarkToggle sx={{mr: 1}} />
+                    <LargerScreenMenu
+                        openedProject={openedProject}
+                        isProjectSaved={isProjectSaved}
+                        handleMenuClick={handleMenuClick}
+                    />
+                    <LightDarkToggle sx={{mr: 1}}/>
                     <Button
                         variant="contained"
                         color="secondary"
                         disableElevation
-                        endIcon={<Logout />}
+                        endIcon={<Logout/>}
                         onClick={() => firebaseAuth.signOut()}
                     >
                         Logout
                     </Button>
                 </Toolbar>
+                <NewProjectWizard open={isWizardOpen} handleClose={() => setIsWizardOpen(false)} setOpenedProject={setOpenedProject} />
             </Container>
         </AppBar>
     );
 };
 
 Navbar.propTypes = {
-    isProjectOpened: PropTypes.bool.isRequired,
+    openedProject: PropTypes.string,
+    setOpenedProject: PropTypes.func.isRequired,
     isProjectSaved: PropTypes.bool.isRequired,
+    setIsProjectSaved: PropTypes.func.isRequired
 };
 export default Navbar;
