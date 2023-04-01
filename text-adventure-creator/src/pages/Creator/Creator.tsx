@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { onAuthStateChanged } from "firebase/auth";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {useNavigate} from "react-router-dom";
@@ -16,14 +16,18 @@ import {
     ReactFlow,
 } from "reactflow";
 import 'reactflow/dist/style.css';
-import {initialEdges, initialNodes} from "../../components/initalGraph";
+import {Node, Edge} from 'reactflow';
 import Navbar from '../../components/Navbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
-function Creator(): JSX.Element {
+const Creator = (): JSX.Element => {
+    const [isProjectSaved, setIsProjectSaved] = useState(false);
+    const [isProjectOpened, setIsProjectOpened] = useState(false);
+    const [nodes, setNodes] = useState<Node[]>([]);
+    const [edges, setEdges] = useState<Edge[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,9 +51,6 @@ function Creator(): JSX.Element {
     //         .then(() => setCount(count + 1))
     //         .then(fetchGames);
 
-    const [nodes, setNodes] = useState(initialNodes);
-    const [edges, setEdges] = useState(initialEdges);
-
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
         [setNodes]
@@ -71,28 +72,30 @@ function Creator(): JSX.Element {
             spacing={0}
             height="100vh"
         >
-            <Navbar />
+            <Navbar isProjectOpened={isProjectOpened} isProjectSaved={isProjectSaved} />
             <Box
                 width="100%"
                 flexGrow={1}
                 height="100%"
             >
-                <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-                    fitView
-                    deleteKeyCode={deleteKeyCodes}
-                >
-                    <Controls/>
-                    <MiniMap/>
-                    <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
-                </ReactFlow>
+                {isProjectOpened &&
+                    <ReactFlow
+                        nodes={nodes}
+                        edges={edges}
+                        onNodesChange={onNodesChange}
+                        onEdgesChange={onEdgesChange}
+                        onConnect={onConnect}
+                        fitView
+                        deleteKeyCode={deleteKeyCodes}
+                    >
+                        <Controls/>
+                        <MiniMap/>
+                        <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
+                    </ReactFlow>
+                }
             </Box>
         </Stack>
     );
-}
+};
 
 export default Creator;

@@ -12,9 +12,17 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import {LibraryAdd, Logout, Save, Update} from "@mui/icons-material";
 import MenuList from '@mui/material/MenuList';
-import {ListItemIcon, ListItemText} from "@mui/material";
+import Badge from '@mui/material/Badge';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from "@mui/material/ListItemText";
 import LightDarkToggle from "../LightDarkToggle/LightDarkToggle";
 import {firebaseAuth} from "../../firebase/firebase-config";
+import PropTypes from "prop-types";
+
+interface NavbarProps {
+    isProjectOpened: boolean;
+    isProjectSaved: boolean;
+}
 
 interface MenuOption {
     label: string;
@@ -35,7 +43,7 @@ const menuItems: MenuOption[] = [
         icon: <Save />,
     }];
 
-function ResponsiveAppBar() {
+const Navbar = ({isProjectOpened, isProjectSaved}: NavbarProps) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -50,6 +58,8 @@ function ResponsiveAppBar() {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
+
+                    {/* Logo on larger screens */}
                     <Typography
                         variant="h6"
                         component="a"
@@ -68,17 +78,25 @@ function ResponsiveAppBar() {
                         Text Adventure Maker
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenMenu}
-                            color="inherit"
+                    {/* The menu on small screens */}
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
+                        <Badge
+                            color="error"
+                            variant="dot"
+                            overlap="circular"
+                            invisible={!isProjectOpened || Boolean(anchorEl) || isProjectSaved}
                         >
-                            <MenuIcon />
-                        </IconButton>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        </Badge>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorEl}
@@ -97,16 +115,23 @@ function ResponsiveAppBar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            <MenuList>
+                            <MenuList sx={{flexDirection: "column"}}>
                                 {menuItems.map((item) => (
-                                    <MenuItem key={item.label}>
-                                        <ListItemIcon>{item.icon}</ListItemIcon>
-                                        <ListItemText>{item.label}</ListItemText>
-                                    </MenuItem>
+                                        <MenuItem key={item.label}>
+                                            <Badge
+                                                color="error"
+                                                variant="dot"
+                                                invisible={item.label !== 'Save' || !isProjectOpened || isProjectSaved}
+                                            >
+                                                <ListItemIcon>{item.icon}</ListItemIcon>
+                                                <ListItemText>{item.label}</ListItemText>
+                                            </Badge>
+                                        </MenuItem>
                                 ))}
                             </MenuList>
                         </Menu>
                     </Box>
+                    {/* Logo on small screens */}
                     <Typography
                         variant="h5"
                         noWrap
@@ -114,6 +139,7 @@ function ResponsiveAppBar() {
                         href="/"
                         sx={{
                             display: { xs: 'flex', md: 'none' },
+                            ml: 1,
                             flexGrow: 1,
                             fontFamily: 'monospace',
                             fontWeight: 700,
@@ -124,16 +150,25 @@ function ResponsiveAppBar() {
                     >
                         Text Adventure Maker
                     </Typography>
+
+                    {/* The menu on larger screens */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {menuItems.map((item) => (
-                            <Button
-                                key={item.label}
-                                startIcon={item.icon}
-                                onClick={handleCloseMenu}
-                                sx={{ my: 2, mx: 1, color: 'white' }}
+                            <Badge
+                                color="error"
+                                variant="dot"
+                                invisible={item.label !== 'Save' || !isProjectOpened || isProjectSaved}
+                                sx={{ my: 2, mx: 1 }}
                             >
-                                {item.label}
-                            </Button>
+                                <Button
+                                    key={item.label}
+                                    startIcon={item.icon}
+                                    onClick={handleCloseMenu}
+                                    sx={{ color: 'white' }}
+                                >
+                                    {item.label}
+                                </Button>
+                            </Badge>
                         ))}
                     </Box>
                     <LightDarkToggle sx={{mr: 1}} />
@@ -150,5 +185,10 @@ function ResponsiveAppBar() {
             </Container>
         </AppBar>
     );
-}
-export default ResponsiveAppBar;
+};
+
+Navbar.propTypes = {
+    isProjectOpened: PropTypes.bool.isRequired,
+    isProjectSaved: PropTypes.bool.isRequired,
+};
+export default Navbar;
