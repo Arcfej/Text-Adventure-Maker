@@ -1,7 +1,7 @@
 import {error, IRequest, json, Router} from 'itty-router';
 import * as Realm from "realm-web";
 import type {ObjectId} from "bson";
-import type {RequestWithAuth} from "../index";
+import type {RequestWithAuth} from "./creator-api-handler";
 
 const objectId = Realm.BSON.ObjectID;
 
@@ -10,8 +10,8 @@ type Document = globalThis.Realm.Services.MongoDB.Document;
 
 // Declare the interface for a Game document
 interface Drafts extends Document {
-		owner: string;
-		intro: string;
+		owner_id: string;
+		title: string;
 		_id: ObjectId;
 }
 
@@ -23,7 +23,6 @@ type RequestWithDrafts = {
 } & RequestWithAuth
 
 const withDrafts = async (req: IRequest) => {
-		console.log("withDrafts");
 		try {
 				const request = req as RequestWithDrafts;
 				const client = request.user.mongoClient('mongodb-atlas');
@@ -42,16 +41,21 @@ const getDraft = async (request: RequestWithDrafts) => {
 };
 
 const getDrafts = async (request: RequestWithDrafts) => {
-		const draft = await request.drafts.find();
-		return json(draft);
+		const drafts = await request.drafts.find({
+				owner_id: request.user.id
+		});
+		return json({drafts: drafts});
 };
 
 const postDraft = async (request: RequestWithDrafts) => {
 		const {user: {id}} = request;
-		const {draft} = await request.json();
+		const {draft: {title}} = await request.json();
+
+		if (!title || typeof title === 'undefined') return error(400, 'Title is required');
+
 		return json(await request.drafts.insertOne({
-				owner: id,
-				intro: draft
+				owner_id: id,
+				title: title
 		}));
 };
 
@@ -59,7 +63,7 @@ const updateDraft = async (request: RequestWithDrafts) => {
 		const {draft} = await request.json();
 		const result = await request.drafts.updateOne(
 				{_id: new objectId(request.params.id)},
-				{$set: {intro: draft}}
+				{$set: draft}
 		);
 		return result.matchedCount > 0
 				? json("Draft updated")
@@ -76,23 +80,23 @@ const deleteDraft = async (request: RequestWithDrafts) => {
 };
 
 // Create a new router
-const router = Router({base: '/creator'});
+const router = Router({base: '/creator/drafts'});
 
 router
-		.all('/drafts', withDrafts)
-		.get('/drafts/:id', async (request: IRequest) => {
+		.all('*', withDrafts)
+		.get('/:id', async (request: IRequest) => {
 				return await getDraft(request as RequestWithDrafts);
 		})
-		.get('/drafts/', async (request: IRequest) => {
+		.get('/', async (request: IRequest) => {
 				return await getDrafts(request as RequestWithDrafts);
 		})
-		.post('/drafts/', async (request: IRequest) => {
+		.post('/', async (request: IRequest) => {
 				return await postDraft(request as RequestWithDrafts);
 		})
-		.patch('/drafts/:id', async (request: IRequest) => {
+		.patch('/:id', async (request: IRequest) => {
 				return await updateDraft(request as RequestWithDrafts);
 		})
-		.delete('/drafts/:id', async (request: IRequest) => {
+		.delete('/:id', async (request: IRequest) => {
 				return await deleteDraft(request as RequestWithDrafts);
 		});
 

@@ -8,7 +8,7 @@ type Document = globalThis.Realm.Services.MongoDB.Document;
 
 // Declare the interface for a Game document
 interface Game extends Document {
-		owner: string;
+		owner_id: string;
 		intro: string;
 }
 
@@ -58,7 +58,7 @@ const postGame = async (request: RequestWithGames) => {
 		const {uId} = request;
 		const {game} = await request.json();
 		return json(await request.games.insertOne({
-				owner: uId,
+				owner_id: uId,
 				intro: game
 		}));
 };
