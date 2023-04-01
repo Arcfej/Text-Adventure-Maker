@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { onAuthStateChanged } from "firebase/auth";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {useNavigate} from "react-router-dom";
@@ -25,29 +25,12 @@ const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
 function Creator(): JSX.Element {
     const navigate = useNavigate();
-    // const [games, setGames] = useState<Array<{ key: string, value: string }>>([]);
-    // const [count, setCount] = useState(0);
 
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (currentUser) => {
             if (!currentUser) navigate("/login");
         });
     }, [navigate]);
-
-    // const fetchGames = async () =>
-    //     fetch("https://backend.text-adventure-maker.workers.dev/games",
-    //         {
-    //             method: "GET",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             }
-    //         })
-    //         .then(response => response.json())
-    //         .then(data => setGames(data));
-    //
-    // useEffect(() => {
-    //     fetchGames();
-    // }, []);
 
     // const insertGame = async () =>
     //     fetch("https://backend.text-adventure-maker.workers.dev/games",
