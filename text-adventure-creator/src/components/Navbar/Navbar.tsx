@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import {LibraryAdd, Logout, Save, Update} from "@mui/icons-material";
+import {Logout, NoteAdd, Save, Update} from "@mui/icons-material";
 import MenuList from '@mui/material/MenuList';
 import Badge from '@mui/material/Badge';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -24,6 +24,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
+import {Node, Edge} from 'reactflow';
 
 interface MenuOption {
     label: string;
@@ -33,7 +34,7 @@ interface MenuOption {
 const menuItems: MenuOption[] = [
     {
         label: 'New',
-        icon: <LibraryAdd />,
+        icon: <NoteAdd />,
     },
     {
         label: 'Load',
@@ -206,9 +207,11 @@ interface NavbarProps {
     setOpenedProject: (projectId: string) => void;
     isProjectSaved: boolean;
     setIsProjectSaved: (isProjectSaved: boolean) => void;
+    setNodes: (nodes: Node[]) => void;
+    setEdges: (edges: Edge[]) => void;
 }
 
-const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSaved}: NavbarProps) => {
+const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSaved, setEdges, setNodes}: NavbarProps) => {
     const [isWizardOpen, setIsWizardOpen] = useState(false);
     const [warningDialogOpen, setWarningDialogOpen] = useState(false);
 
@@ -268,7 +271,11 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                         color="secondary"
                         disableElevation
                         endIcon={<Logout/>}
-                        onClick={() => firebaseAuth.signOut()}
+                        onClick={() => {
+                            setWarningDialogOpen(true);
+                            // TODO sign out only if project is saved or discarded
+                            return firebaseAuth.signOut();
+                        }}
                     >
                         Logout
                     </Button>
@@ -277,6 +284,8 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                     open={isWizardOpen}
                     passedHandleClose={() => setIsWizardOpen(false)}
                     setOpenedProject={setOpenedProject}
+                    setEdges={setEdges}
+                    setNodes={setNodes}
                 />
                 <Dialog open={warningDialogOpen} onClose={() => setWarningDialogOpen(false)}>
                     <DialogTitle>Warning</DialogTitle>
@@ -284,7 +293,7 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                         <DialogContentText>Project is not saved. Do you want to save it?</DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="contained" color="info" onClick={() => setWarningDialogOpen(false)}>
+                        <Button variant="outlined" color="info" onClick={() => setWarningDialogOpen(false)}>
                             Cancel
                         </Button>
                         <Button
@@ -318,6 +327,8 @@ Navbar.propTypes = {
     openedProject: PropTypes.string,
     setOpenedProject: PropTypes.func.isRequired,
     isProjectSaved: PropTypes.bool.isRequired,
-    setIsProjectSaved: PropTypes.func.isRequired
+    setIsProjectSaved: PropTypes.func.isRequired,
+    setEdges: PropTypes.func.isRequired,
+    setNodes: PropTypes.func.isRequired
 };
 export default Navbar;

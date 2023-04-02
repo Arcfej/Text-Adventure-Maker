@@ -24,6 +24,13 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
         // @ts-ignore
         onAuthStateChanged(firebaseAuth, (currentUser) => {
             if (currentUser) navigate("/");
+            else {
+                try {
+                    localStorage.clear();
+                } catch (e) {
+                    console.log("Problems with local storage", e);
+                }
+            }
         });
     }, [navigate, onAuthStateChanged]);
 

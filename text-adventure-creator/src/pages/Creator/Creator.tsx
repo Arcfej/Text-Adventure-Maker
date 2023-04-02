@@ -20,6 +20,7 @@ import {Node, Edge} from 'reactflow';
 import Navbar from '../../components/Navbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import SideToolbar from "../../components/SideToolbar";
 
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
@@ -28,17 +29,76 @@ const Creator = (): JSX.Element => {
     const [openedProject, setOpenedProject] = useState<string | null>(null);
     const [nodes, setNodes] = useState<Node[]>([]);
     const [edges, setEdges] = useState<Edge[]>([]);
+    const [user, setUser] = useState<string | null>(null);
     const navigate = useNavigate();
 
+    // If user logged out, clear local storage and redirect to login page
+    // Else, save the user's email to local storage and read any previous saved state back
     useEffect(() => {
-        onAuthStateChanged(firebaseAuth, (currentUser) => {
-            if (!currentUser) navigate("/login");
+        return onAuthStateChanged(firebaseAuth, (currentUser) => {
+            if (!currentUser) {
+                try {
+                    localStorage.clear();
+                } catch (e) {
+                    console.log("Problems with local storage", e);
+                } finally {
+                    navigate("/login");
+                }
+            } else {
+                try {
+                    setUser(currentUser.email);
+                    localStorage.setItem('user', JSON.stringify(currentUser.email));
+                    const openedProject = localStorage.getItem('openedProject');
+                    const isProjectSaved = localStorage.getItem('isProjectSaved');
+                    const savedNodes = localStorage.getItem('nodes');
+                    const savedEdges = localStorage.getItem('edges');
+                    if (openedProject !== null) setOpenedProject(openedProject);
+                    if (isProjectSaved !== null) setIsProjectSaved(isProjectSaved === 'true');
+                    if (savedNodes !== null) setNodes(JSON.parse(savedNodes));
+                    if (savedEdges !== null) setEdges(JSON.parse(savedEdges));
+                } catch (e) {
+                    console.log("Problems with local storage", e);
+                }
+            }
         });
     }, [navigate]);
 
+    // Set the project state to unsaved when the nodes or edges change
     useEffect(() => {
         setIsProjectSaved(false);
     }, [nodes, edges]);
+
+    // Save the editor's state to local storage when it changes
+    useEffect(() => {
+        try {
+            if (user) {
+                localStorage.setItem('openedProject', openedProject !== null ? openedProject : '');
+            }
+        } catch (e) {
+            console.log("Problems with local storage", e);
+        }
+    }, [openedProject, user]);
+    useEffect(() => {
+        try {
+            if (user) localStorage.setItem('isProjectSaved', isProjectSaved.toString());
+        } catch (e) {
+            console.log("Problems with local storage", e);
+        }
+    }, [isProjectSaved, user]);
+    useEffect(() => {
+        try {
+            if (user) localStorage.setItem('nodes', JSON.stringify(nodes));
+        } catch (e) {
+            console.log("Problems with local storage", e);
+        }
+    }, [nodes, user]);
+    useEffect(() => {
+        try {
+            if (user) localStorage.setItem('edges', JSON.stringify(edges));
+        } catch (e) {
+            console.log("Problems with local storage", e);
+        }
+    }, [edges, user]);
 
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -60,34 +120,52 @@ const Creator = (): JSX.Element => {
             alignItems="center"
             spacing={0}
             height="100vh"
+            width="100vw"
         >
             <Navbar
                 openedProject={openedProject}
                 isProjectSaved={isProjectSaved}
                 setOpenedProject={setOpenedProject}
                 setIsProjectSaved={setIsProjectSaved}
+                setEdges={setEdges}
+                setNodes={setNodes}
             />
-            <Box
+            <Stack
+                direction="row"
                 width="100%"
-                flexGrow={1}
-                height="100%"
+                justifyContent="flex-start"
+                alignItems="stretch"
+                spacing={0}
+                flexGrow={10}
             >
-                {openedProject !== null &&
-                    <ReactFlow
-                        nodes={nodes}
-                        edges={edges}
-                        onNodesChange={onNodesChange}
-                        onEdgesChange={onEdgesChange}
-                        onConnect={onConnect}
-                        fitView
-                        deleteKeyCode={deleteKeyCodes}
-                    >
-                        <Controls/>
-                        <MiniMap/>
-                        <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
-                    </ReactFlow>
-                }
-            </Box>
+                <SideToolbar
+                    nodes={nodes}
+                    edges={edges}
+                    setNodes={setNodes}
+                    setEdges={setEdges}
+                />
+                <Box
+                    width="100%"
+                    height="100%"
+                    flexGrow={10}
+                >
+                    {openedProject !== null &&
+                        <ReactFlow
+                            nodes={nodes}
+                            edges={edges}
+                            onNodesChange={onNodesChange}
+                            onEdgesChange={onEdgesChange}
+                            onConnect={onConnect}
+                            fitView
+                            deleteKeyCode={deleteKeyCodes}
+                        >
+                            <Controls/>
+                            <MiniMap/>
+                            <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
+                        </ReactFlow>
+                    }
+                </Box>
+            </Stack>
         </Stack>
     );
 };
