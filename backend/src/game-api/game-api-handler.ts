@@ -8,7 +8,7 @@ type Document = globalThis.Realm.Services.MongoDB.Document;
 
 // Declare the interface for a Game document
 interface Game extends Document {
-		owner: string;
+		owner_id: string;
 		intro: string;
 }
 
@@ -23,8 +23,9 @@ type RequestWithGames = {
 let realmApp: Realm.App;
 
 // Middleware to connect to MongoDB Realm and append userId and games collection to request
-const withGames = async (request: IRequest, env: any) => {
+const withGames = async (req: IRequest, env: any) => {
 		try {
+				const request = req as RequestWithGames;
 				realmApp = realmApp || new Realm.App(env.REALM_APP_ID);
 				const token = request.headers.get('Authorization')?.split(' ')[1];
 				const credentials = token
@@ -57,7 +58,7 @@ const postGame = async (request: RequestWithGames) => {
 		const {uId} = request;
 		const {game} = await request.json();
 		return json(await request.games.insertOne({
-				owner: uId,
+				owner_id: uId,
 				intro: game
 		}));
 };
@@ -101,6 +102,6 @@ router
 		})
 		.delete('/:id', async (request: IRequest) => {
 				return await deleteGame(request as RequestWithGames);
-		})
+		});
 
 export default router.handle;
