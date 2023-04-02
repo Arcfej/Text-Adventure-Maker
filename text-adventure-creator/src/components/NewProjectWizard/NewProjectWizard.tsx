@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from '@mui/material/CircularProgress'
 import Dialog from "@mui/material/Dialog";
+import {Node, Edge} from 'reactflow';
 
 interface FormData {
     title: string
@@ -17,9 +18,11 @@ interface NewProjectWizardProps {
     open: boolean,
     passedHandleClose: () => void,
     setOpenedProject: (projectId: string) => void;
+    setNodes: (nodes: Node[]) => void,
+    setEdges: (edges: Edge[]) => void,
 }
 
-const NewProjectWizard = ({open, passedHandleClose, setOpenedProject}: NewProjectWizardProps):JSX.Element => {
+const NewProjectWizard = ({open, passedHandleClose, setOpenedProject, setNodes, setEdges}: NewProjectWizardProps):JSX.Element => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [formData, setFormData] = useState<FormData>({
@@ -43,7 +46,6 @@ const NewProjectWizard = ({open, passedHandleClose, setOpenedProject}: NewProjec
     const createNewProject = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
-        console.log(formData);
 
         const token = await firebaseAuth.currentUser?.getIdToken();
         return fetch("https://backend.text-adventure-maker.workers.dev/creator/drafts",
@@ -67,7 +69,9 @@ const NewProjectWizard = ({open, passedHandleClose, setOpenedProject}: NewProjec
                 return result;
             })
             .then(result => {
-                setOpenedProject(result.insertedId);
+                setOpenedProject(result._id);
+                setNodes(result.graph.nodes);
+                setEdges(result.graph.edges);
                 handleClose();
             })
             .catch(error => {
@@ -125,7 +129,9 @@ const NewProjectWizard = ({open, passedHandleClose, setOpenedProject}: NewProjec
 NewProjectWizard.propTypes = {
     open: PropTypes.bool.isRequired,
     passedHandleClose: PropTypes.func.isRequired,
-    setOpenedProject: PropTypes.func.isRequired
+    setOpenedProject: PropTypes.func.isRequired,
+    setNodes: PropTypes.func.isRequired,
+    setEdges: PropTypes.func.isRequired,
 };
 
 export default NewProjectWizard;

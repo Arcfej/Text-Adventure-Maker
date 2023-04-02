@@ -20,6 +20,7 @@ import {Node, Edge} from 'reactflow';
 import Navbar from '../../components/Navbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import SideToolbar from "../../components/SideToolbar";
 
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
@@ -60,34 +61,52 @@ const Creator = (): JSX.Element => {
             alignItems="center"
             spacing={0}
             height="100vh"
+            width="100vw"
         >
             <Navbar
                 openedProject={openedProject}
                 isProjectSaved={isProjectSaved}
                 setOpenedProject={setOpenedProject}
                 setIsProjectSaved={setIsProjectSaved}
+                setEdges={setEdges}
+                setNodes={setNodes}
             />
-            <Box
+            <Stack
+                direction="row"
                 width="100%"
-                flexGrow={1}
-                height="100%"
+                justifyContent="flex-start"
+                alignItems="stretch"
+                spacing={0}
+                flexGrow={10}
             >
-                {openedProject !== null &&
-                    <ReactFlow
-                        nodes={nodes}
-                        edges={edges}
-                        onNodesChange={onNodesChange}
-                        onEdgesChange={onEdgesChange}
-                        onConnect={onConnect}
-                        fitView
-                        deleteKeyCode={deleteKeyCodes}
-                    >
-                        <Controls/>
-                        <MiniMap/>
-                        <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
-                    </ReactFlow>
-                }
-            </Box>
+                <SideToolbar
+                    nodes={nodes}
+                    edges={edges}
+                    setNodes={setNodes}
+                    setEdges={setEdges}
+                />
+                <Box
+                    width="100%"
+                    height="100%"
+                    flexGrow={10}
+                >
+                    {openedProject !== null &&
+                        <ReactFlow
+                            nodes={nodes}
+                            edges={edges}
+                            onNodesChange={onNodesChange}
+                            onEdgesChange={onEdgesChange}
+                            onConnect={onConnect}
+                            fitView
+                            deleteKeyCode={deleteKeyCodes}
+                        >
+                            <Controls/>
+                            <MiniMap/>
+                            <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
+                        </ReactFlow>
+                    }
+                </Box>
+            </Stack>
         </Stack>
     );
 };
