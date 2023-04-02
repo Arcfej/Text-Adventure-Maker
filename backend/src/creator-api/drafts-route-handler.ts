@@ -13,6 +13,18 @@ interface Drafts extends Document {
 		owner_id: string;
 		title: string;
 		_id: ObjectId;
+		graph: {
+				nodes: Array<{
+						id: string;
+						position: { x: number; y: number };
+						data: any;
+				}>
+				edges: Array<{
+						id: string;
+						source: string;
+						target: string;
+				}>
+		}
 }
 
 type DraftCollection = globalThis.Realm.Services.MongoDB.MongoDBCollection<Drafts>;
@@ -37,6 +49,7 @@ const getDraft = async (request: RequestWithDrafts) => {
 		const draft = await request.drafts.findOne({
 				_id: new objectId(request.params.id)
 		});
+		console.log(typeof draft?.graph.nodes[0].position.x);
 		return draft ? json(draft) : error(404, 'Draft not found');
 };
 
@@ -59,10 +72,20 @@ const postDraft = async (request: RequestWithDrafts) => {
 		});
 		if (conflict) return error(409, 'Project with this title already exists');
 
-		return json(await request.drafts.insertOne({
+		const insertedId = (await request.drafts.insertOne({
 				owner_id: id,
-				title: title
-		}));
+				title: title,
+				graph: {
+						nodes: [{
+								id: '1',
+								position: {x: 0, y: 0},
+								data: {}
+						}],
+						edges: []
+				}
+		})).insertedId;
+
+		return json(await request.drafts.findOne({_id: insertedId}));
 };
 
 const updateDraft = async (request: RequestWithDrafts) => {
