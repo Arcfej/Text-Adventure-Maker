@@ -271,7 +271,11 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                         color="secondary"
                         disableElevation
                         endIcon={<Logout/>}
-                        onClick={() => firebaseAuth.signOut()}
+                        onClick={() => {
+                            setWarningDialogOpen(true);
+                            // TODO sign out only if project is saved or discarded
+                            return firebaseAuth.signOut();
+                        }}
                     >
                         Logout
                     </Button>
