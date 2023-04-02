@@ -19,6 +19,11 @@ import LightDarkToggle from "../LightDarkToggle/LightDarkToggle";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import PropTypes from "prop-types";
 import NewProjectWizard from "../NewProjectWizard";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
 
 interface MenuOption {
     label: string;
@@ -205,6 +210,7 @@ interface NavbarProps {
 
 const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSaved}: NavbarProps) => {
     const [isWizardOpen, setIsWizardOpen] = useState(false);
+    const [warningDialogOpen, setWarningDialogOpen] = useState(false);
 
     const handleMenuClick = (target: string) => {
         switch (target) {
@@ -212,8 +218,7 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                 if (isProjectSaved || openedProject === null) {
                     setIsWizardOpen(true);
                 } else {
-                    // TODO
-                    console.log('Save project first');
+                    setWarningDialogOpen(true);
                 }
                 break;
             }
@@ -222,8 +227,7 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                     // TODO
                     console.log('Load project');
                 } else {
-                    // TODO
-                    console.log('Save project first');
+                    setWarningDialogOpen(true);
                 }
                 break;
             }
@@ -274,6 +278,37 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                     passedHandleClose={() => setIsWizardOpen(false)}
                     setOpenedProject={setOpenedProject}
                 />
+                <Dialog open={warningDialogOpen} onClose={() => setWarningDialogOpen(false)}>
+                    <DialogTitle>Warning</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>Project is not saved. Do you want to save it?</DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="contained" color="info" onClick={() => setWarningDialogOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            onClick={() => {
+                                // TODO
+                                setWarningDialogOpen(false);
+                            }}
+                        >
+                            Discard Changes
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                // TODO
+                                setWarningDialogOpen(false);
+                            }}
+                        >
+                            Save
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Container>
         </AppBar>
     );
