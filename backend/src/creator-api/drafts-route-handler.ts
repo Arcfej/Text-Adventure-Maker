@@ -79,7 +79,9 @@ const postDraft = async (request: RequestWithDrafts) => {
 						nodes: [{
 								id: '1',
 								position: {x: 0, y: 0},
-								data: {}
+								data: {
+										label: 'Start your story here'
+								}
 						}],
 						edges: []
 				}
