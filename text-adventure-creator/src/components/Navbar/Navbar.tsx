@@ -293,7 +293,7 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                         <DialogContentText>Project is not saved. Do you want to save it?</DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="contained" color="info" onClick={() => setWarningDialogOpen(false)}>
+                        <Button variant="outlined" color="info" onClick={() => setWarningDialogOpen(false)}>
                             Cancel
                         </Button>
                         <Button
