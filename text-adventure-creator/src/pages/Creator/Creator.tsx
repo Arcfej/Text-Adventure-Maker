@@ -36,11 +36,16 @@ const Creator = (): JSX.Element => {
     // Else, save the user's email to local storage and read any previous saved state back
     useEffect(() => {
         return onAuthStateChanged(firebaseAuth, (currentUser) => {
-            try {
-                if (!currentUser) {
+            if (!currentUser) {
+                try {
                     localStorage.clear();
+                } catch (e) {
+                    console.log("Problems with local storage", e);
+                } finally {
                     navigate("/login");
-                } else {
+                }
+            } else {
+                try {
                     setUser(currentUser.email);
                     localStorage.setItem('user', JSON.stringify(currentUser.email));
                     const openedProject = localStorage.getItem('openedProject');
@@ -51,9 +56,9 @@ const Creator = (): JSX.Element => {
                     if (isProjectSaved !== null) setIsProjectSaved(isProjectSaved === 'true');
                     if (savedNodes !== null) setNodes(JSON.parse(savedNodes));
                     if (savedEdges !== null) setEdges(JSON.parse(savedEdges));
+                } catch (e) {
+                    console.log("Problems with local storage", e);
                 }
-            } catch (e) {
-                console.log("Problems with local storage", e);
             }
         });
     }, [navigate]);
