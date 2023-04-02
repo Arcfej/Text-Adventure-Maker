@@ -269,7 +269,11 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                         Logout
                     </Button>
                 </Toolbar>
-                <NewProjectWizard open={isWizardOpen} handleClose={() => setIsWizardOpen(false)} setOpenedProject={setOpenedProject} />
+                <NewProjectWizard
+                    open={isWizardOpen}
+                    passedHandleClose={() => setIsWizardOpen(false)}
+                    setOpenedProject={setOpenedProject}
+                />
             </Container>
         </AppBar>
     );

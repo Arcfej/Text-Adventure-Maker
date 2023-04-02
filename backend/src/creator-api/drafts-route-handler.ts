@@ -53,6 +53,12 @@ const postDraft = async (request: RequestWithDrafts) => {
 
 		if (!title || typeof title === 'undefined') return error(400, 'Title is required');
 
+		const conflict = await request.drafts.findOne({
+				owner_id: id,
+				title: title,
+		});
+		if (conflict) return error(409, 'Project with this title already exists');
+
 		return json(await request.drafts.insertOne({
 				owner_id: id,
 				title: title
