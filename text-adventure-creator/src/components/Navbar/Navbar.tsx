@@ -1,5 +1,5 @@
 // Based on https://mui.com/material-ui/react-app-bar/
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -24,7 +24,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
-import {Node, Edge} from 'reactflow';
+import {Edge, Node} from 'reactflow';
 import LoadProjectModal from "../LoadProjectModal";
 
 interface MenuOption {
@@ -203,6 +203,57 @@ LargerScreenMenu.propTypes = {
     handleMenuClick: PropTypes.func.isRequired
 }
 
+interface WarningDialogProps {
+    open: boolean;
+    handleClose: (answer: string) => void;
+}
+
+/**
+ * Show a warning to the user about unsaved project before lossing progress.
+ *
+ * @param open true if the dialog is visible
+ * @param handleClose pass 'Cancel', 'Discard' or 'Save' based on what the user chose
+ * @constructor
+ */
+const WarningDialog = ({open, handleClose}: WarningDialogProps): JSX.Element => (
+    <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Warning</DialogTitle>
+        <DialogContent>
+            <DialogContentText>Project is not saved. Do you want to save it?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+            <Button
+                variant="outlined"
+                color="info"
+                onClick={() => handleClose('Cancel')}
+            >
+                Cancel
+            </Button>
+            <Button
+                variant="contained"
+                color="error"
+                onClick={() => {
+                    handleClose('Discard');
+                }}
+            >
+                Discard Changes
+            </Button>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleClose('Save')}
+            >
+                Save
+            </Button>
+        </DialogActions>
+    </Dialog>
+);
+
+WarningDialog.propTypes = {
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired
+}
+
 interface NavbarProps {
     openedProject: string | null;
     setOpenedProject: (projectId: string) => void;
@@ -212,92 +263,75 @@ interface NavbarProps {
     setEdges: (edges: Edge[]) => void;
 }
 
-interface WarningDialogProps {
-    warningDialogOpen: boolean;
-    handleClose: () => void;
-    onDiscard: () => void;
-    onSave: () => void;
-}
-
-const WarningDialog = ({warningDialogOpen, handleClose, onDiscard, onSave}: WarningDialogProps): JSX.Element => (
-    <Dialog open={warningDialogOpen} onClose={handleClose}>
-        <DialogTitle>Warning</DialogTitle>
-        <DialogContent>
-            <DialogContentText>Project is not saved. Do you want to save it?</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button
-                variant="outlined"
-                color="info"
-                onClick={handleClose}>
-                Cancel
-            </Button>
-            <Button
-                variant="contained"
-                color="error"
-                onClick={() => {
-                    handleClose();
-                    return onDiscard();
-                }}
-            >
-                Discard Changes
-            </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                    handleClose();
-                    return onSave();
-                }}
-            >
-                Save
-            </Button>
-        </DialogActions>
-    </Dialog>
-);
-
-WarningDialog.propTypes = {
-    warningDialogOpen: PropTypes.bool.isRequired,
-    handleClose: PropTypes.func.isRequired,
-    onDiscard: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired
-}
-
 const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSaved, setEdges, setNodes}: NavbarProps) => {
-    const [isWizardOpen, setIsWizardOpen] = useState(false);
-    const [warningDialogOpen, setWarningDialogOpen] = useState(false);
+    const [clickedButton, setClickedButton] = useState<string | null>(null);
+    const [wizardOpen, setWizardOpen] = useState(false);
     const [loadProjectDialogOpen, setLoadProjectDialogOpen] = useState(false);
+    const [warningDialogOpen, setWarningDialogOpen] = useState(false);
 
-    const handleMenuClick = (target: string) => {
+    const saveProject = () => {
+        console.log('Saving project...');
+    };
+
+    const executeMenuAction = (target: string | null) => {
         switch (target) {
+            case 'Save': {
+                saveProject();
+                break;
+            }
             case 'New': {
-                if (isProjectSaved || openedProject === null) {
-                    setIsWizardOpen(true);
-                } else {
-                    setWarningDialogOpen(true);
-                }
+                setWizardOpen(true);
                 break;
             }
             case 'Load': {
-                if (isProjectSaved || openedProject === null) {
-                    // TODO
-                    console.log('Load project');
-                } else {
-                    setWarningDialogOpen(true);
-                }
+                setLoadProjectDialogOpen(true);
                 break;
             }
-             case 'Save': {
-                if (openedProject !== null) {
-                    // TODO
-                    console.log('Save project');
-                }
+            case 'Logout': {
+                firebaseAuth.signOut();
                 break;
-             }
-             default: {
-                    console.log('Unknown menu item');
-             }
+            }
+            default: console.log('No action to execute: ', target);
         }
+    }
+
+    const handleMenuClick = (target: string) => {
+        // Save the project if there's one opened or do nothing
+        if (target === 'Save') {
+            if (openedProject) executeMenuAction('Save');
+        }
+        // If there's no opened project or the project is saved, execute the buttons' actions
+        else if (isProjectSaved || openedProject === null) {
+            executeMenuAction(target);
+        }
+        // If there's an opened project and it's not saved,
+        // ask the user if he wants to save it and wait for the answer
+        else {
+            setClickedButton(target);
+            setWarningDialogOpen(true);
+        }
+    }
+
+    const handleWarningDialogClose = (dialogAnswer: string) => {
+        switch (dialogAnswer) {
+            case 'Save': {
+                saveProject();
+                executeMenuAction(clickedButton);
+                setClickedButton(null);
+                break;
+            }
+            case 'Discard': {
+                executeMenuAction(clickedButton);
+                setClickedButton(null);
+                break;
+            }
+            case 'Cancel': {
+                setClickedButton(null);
+                break;
+            }
+            default: console.log('Unknown dialog answer');
+        }
+        setWarningDialogOpen(false);
     }
 
     return (
@@ -308,8 +342,6 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                         // anchorEl={anchorEl}
                         openedProject={openedProject}
                         isProjectSaved={isProjectSaved}
-                        // handleOpenMenu={handleOpenMenu}
-                        // handleCloseMenu={handleCloseMenu}
                         handleMenuClick={handleMenuClick}
                     />
 
@@ -324,28 +356,22 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                         color="secondary"
                         disableElevation
                         endIcon={<Logout/>}
-                        onClick={() => {
-                            setWarningDialogOpen(true);
-                            // TODO sign out only if project is saved or discarded
-                            return firebaseAuth.signOut();
-                        }}
+                        onClick={() => handleMenuClick('Logout')}
                     >
                         Logout
                     </Button>
                 </Toolbar>
                 <NewProjectWizard
-                    open={isWizardOpen}
-                    passedHandleClose={() => setIsWizardOpen(false)}
+                    open={wizardOpen}
+                    passedHandleClose={() => setWizardOpen(false)}
                     setOpenedProject={setOpenedProject}
                     setEdges={setEdges}
                     setNodes={setNodes}
                 />
                 <LoadProjectModal open={loadProjectDialogOpen} handleClose={() => setLoadProjectDialogOpen(false)}/>
                 <WarningDialog
-                    warningDialogOpen={warningDialogOpen}
-                    handleClose={() => setWarningDialogOpen(false)}
-                    onDiscard={() => {}} // TODO
-                    onSave={() => {}} // TODO
+                    open={warningDialogOpen}
+                    handleClose={handleWarningDialogClose}
                 />
             </Container>
         </AppBar>

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 interface LoadProjectModalProps {
     open: boolean,
@@ -12,7 +13,7 @@ const LoadProjectModal = ({open, handleClose}: LoadProjectModalProps) => (
         open={open}
         onClose={handleClose}
     >
-        <div>text</div>
+        <Typography>text</Typography>
     </Modal>
 );
 
