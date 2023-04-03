@@ -25,7 +25,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import {Edge, Node} from 'reactflow';
-import LoadProjectModal from "../LoadProjectModal";
+import LoadProjectDialog from "../LoadProjectDialog";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -258,7 +258,7 @@ WarningDialog.propTypes = {
 
 interface NavbarProps {
     openedProject: string | null;
-    setOpenedProject: (projectId: string) => void;
+    setOpenedProject: (projectId: string | null) => void;
     isProjectSaved: boolean;
     setIsProjectSaved: (isProjectSaved: boolean) => void;
     edges: Edge[];
@@ -304,14 +304,15 @@ const Navbar = ({
                 });
             if (response.ok) {
                 setIsProjectSaved(true);
-                setIsLoading(false);
                 return true;
             } else {
                 return false;
             }
         } catch(error) {
-            console.log(error);
+            console.error(error);
             return false;
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -333,7 +334,7 @@ const Navbar = ({
                 firebaseAuth.signOut();
                 break;
             }
-            default: console.log('No action to execute: ', target);
+            default: console.warn('No action to execute: ', target);
         }
     }
 
@@ -360,7 +361,7 @@ const Navbar = ({
                 setClickedButton(null);
                 break;
             }
-            default: console.log('Unknown dialog answer');
+            default: console.warn('Unknown dialog answer');
         }
     }
 
@@ -380,6 +381,39 @@ const Navbar = ({
             setWarningDialogOpen(true);
         }
     }
+
+    const handleLoadProject = async (projectId: string | null) => {
+        setLoadProjectDialogOpen(false);
+        if (projectId) {
+            setIsLoading(true);
+            const token = await firebaseAuth.currentUser?.getIdToken();
+            fetch("https://backend.text-adventure-maker.workers.dev/creator/drafts/" + projectId + "/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer: " + token
+                }
+            })
+                .then(response => {
+                    if (response.ok) return response.json();
+                    else throw new Error("Something went wrong while loading the project");
+                })
+                .then(data => {
+                    console.log(data.graph.nodes);
+                    console.log(nodes);
+                    setNodes(data.graph.nodes);
+                    setEdges(data.graph.edges);
+                    setOpenedProject(projectId);
+                })
+                .catch(error => {
+                    // TODO show error message to user
+                    console.error(error);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+    };
 
     return (
         <AppBar position="static">
@@ -417,7 +451,10 @@ const Navbar = ({
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
                 />
-                <LoadProjectModal open={loadProjectDialogOpen} handleClose={() => setLoadProjectDialogOpen(false)}/>
+                <LoadProjectDialog
+                    open={loadProjectDialogOpen}
+                    handleClose={handleLoadProject}
+                />
                 <WarningDialog
                     open={warningDialogOpen}
                     handleClose={handleWarningDialogClose}

@@ -117,6 +117,7 @@ const NewProjectWizard = ({
                         label="Project title"
                         placeholder="Untitled Project"
                         variant="filled"
+                        autoFocus
                         onChange={handleChange}
                     />
                     <Stack direction="row" gap={2} justifyContent="flex-end">
