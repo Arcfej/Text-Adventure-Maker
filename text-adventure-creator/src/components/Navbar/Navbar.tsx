@@ -460,7 +460,7 @@ const Navbar = ({
                     handleClose={handleWarningDialogClose}
                 />
             </Container>
-            <Backdrop open={isLoading}>
+            <Backdrop open={isLoading} sx={{zIndex: 10}}>
                 <CircularProgress color="inherit"/>
             </Backdrop>
         </AppBar>
