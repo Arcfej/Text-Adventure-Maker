@@ -49,13 +49,16 @@ const getDraft = async (request: RequestWithDrafts) => {
 		const draft = await request.drafts.findOne({
 				_id: new objectId(request.params.id)
 		});
-		console.log(typeof draft?.graph.nodes[0].position.x);
 		return draft ? json(draft) : error(404, 'Draft not found');
 };
 
 const getDrafts = async (request: RequestWithDrafts) => {
 		const drafts = await request.drafts.find({
 				owner_id: request.user.id
+		}, {
+				projection: {
+						title: 1,
+				}
 		});
 		return json({drafts: drafts});
 };

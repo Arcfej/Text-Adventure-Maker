@@ -4,7 +4,9 @@ import gameApiHandler from "./game-api/game-api-handler";
 import draftsRouteHandler from "./creator-api/drafts-route-handler";
 import creatorApiHandler from "./creator-api/creator-api-handler";
 
-const { preflight, corsify } = createCors();
+const { preflight, corsify } = createCors({
+		methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+});
 
 const missingHandler = (request: IRequest) => {
 		console.log(request.url);

@@ -5,8 +5,6 @@ import {firebaseAuth} from "../../firebase/firebase-config";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from '@mui/material/CircularProgress'
 import Dialog from "@mui/material/Dialog";
 import {Node, Edge} from 'reactflow';
 
@@ -20,10 +18,18 @@ interface NewProjectWizardProps {
     setOpenedProject: (projectId: string) => void;
     setNodes: (nodes: Node[]) => void,
     setEdges: (edges: Edge[]) => void,
+    isLoading: boolean,
+    setIsLoading: (isLoading: boolean) => void,
 }
 
-const NewProjectWizard = ({open, passedHandleClose, setOpenedProject, setNodes, setEdges}: NewProjectWizardProps):JSX.Element => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+const NewProjectWizard = ({
+    open,
+    passedHandleClose,
+    setOpenedProject,
+    setNodes,
+    setEdges,
+    setIsLoading,
+}: NewProjectWizardProps) : JSX.Element => {
     const [error, setError] = useState<string>('');
     const [formData, setFormData] = useState<FormData>({
         title: '',
@@ -111,6 +117,7 @@ const NewProjectWizard = ({open, passedHandleClose, setOpenedProject, setNodes, 
                         label="Project title"
                         placeholder="Untitled Project"
                         variant="filled"
+                        autoFocus
                         onChange={handleChange}
                     />
                     <Stack direction="row" gap={2} justifyContent="flex-end">
@@ -119,9 +126,6 @@ const NewProjectWizard = ({open, passedHandleClose, setOpenedProject, setNodes, 
                     </Stack>
                 </Stack>
             </form>
-            <Backdrop open={isLoading}>
-                <CircularProgress color="inherit"/>
-            </Backdrop>
         </Dialog>
     );
 };
@@ -132,6 +136,8 @@ NewProjectWizard.propTypes = {
     setOpenedProject: PropTypes.func.isRequired,
     setNodes: PropTypes.func.isRequired,
     setEdges: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    setIsLoading: PropTypes.func.isRequired,
 };
 
 export default NewProjectWizard;

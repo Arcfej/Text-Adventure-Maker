@@ -127,6 +127,8 @@ const Creator = (): JSX.Element => {
                 isProjectSaved={isProjectSaved}
                 setOpenedProject={setOpenedProject}
                 setIsProjectSaved={setIsProjectSaved}
+                edges={edges}
+                nodes={nodes}
                 setEdges={setEdges}
                 setNodes={setNodes}
             />
