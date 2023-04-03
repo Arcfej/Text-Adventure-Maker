@@ -297,8 +297,10 @@ const Navbar = ({
                     },
                     body: JSON.stringify({
                         draft: {
-                            edges: edges,
-                            nodes: nodes,
+                            graph: {
+                                edges: edges,
+                                nodes: nodes,
+                            }
                         },
                     })
                 });
