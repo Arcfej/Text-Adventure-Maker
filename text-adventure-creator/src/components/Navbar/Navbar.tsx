@@ -26,6 +26,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import {Edge, Node} from 'reactflow';
 import LoadProjectModal from "../LoadProjectModal";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface MenuOption {
     label: string;
@@ -259,18 +261,58 @@ interface NavbarProps {
     setOpenedProject: (projectId: string) => void;
     isProjectSaved: boolean;
     setIsProjectSaved: (isProjectSaved: boolean) => void;
-    setNodes: (nodes: Node[]) => void;
+    edges: Edge[];
+    nodes: Node[];
     setEdges: (edges: Edge[]) => void;
+    setNodes: (nodes: Node[]) => void;
 }
 
-const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSaved, setEdges, setNodes}: NavbarProps) => {
+const Navbar = ({
+    openedProject,
+    setOpenedProject,
+    isProjectSaved,
+    setIsProjectSaved,
+    edges,
+    nodes,
+    setEdges,
+    setNodes
+}: NavbarProps) => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [clickedButton, setClickedButton] = useState<string | null>(null);
     const [wizardOpen, setWizardOpen] = useState(false);
     const [loadProjectDialogOpen, setLoadProjectDialogOpen] = useState(false);
     const [warningDialogOpen, setWarningDialogOpen] = useState(false);
 
-    const saveProject = () => {
-        console.log('Saving project...');
+    const saveProject = async (): Promise<boolean> => {
+        setIsLoading(true);
+        try {
+            const token = await firebaseAuth.currentUser?.getIdToken();
+            const url = "https://backend.text-adventure-maker.workers.dev/creator/drafts/" + openedProject + "/";
+            const response: Response = await fetch(url,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': 'Bearer: ' + token
+                    },
+                    body: JSON.stringify({
+                        draft: {
+                            edges: edges,
+                            nodes: nodes,
+                        },
+                    })
+                });
+            if (response.ok) {
+                setIsProjectSaved(true);
+                setIsLoading(false);
+                return true;
+            } else {
+                return false;
+            }
+        } catch(error) {
+            console.log(error);
+            return false;
+        }
     };
 
     const executeMenuAction = (target: string | null) => {
@@ -295,29 +337,18 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
         }
     }
 
-    const handleMenuClick = (target: string) => {
-        // Save the project if there's one opened or do nothing
-        if (target === 'Save') {
-            if (openedProject) executeMenuAction('Save');
-        }
-        // If there's no opened project or the project is saved, execute the buttons' actions
-        else if (isProjectSaved || openedProject === null) {
-            executeMenuAction(target);
-        }
-        // If there's an opened project and it's not saved,
-        // ask the user if he wants to save it and wait for the answer
-        else {
-            setClickedButton(target);
-            setWarningDialogOpen(true);
-        }
-    }
-
-    const handleWarningDialogClose = (dialogAnswer: string) => {
+    const handleWarningDialogClose = async (dialogAnswer: string) => {
+        setWarningDialogOpen(false);
         switch (dialogAnswer) {
             case 'Save': {
-                saveProject();
-                executeMenuAction(clickedButton);
-                setClickedButton(null);
+                const success = await saveProject();
+                if (success) {
+                    executeMenuAction(clickedButton);
+                    setClickedButton(null);
+                } else {
+                    // TODO show warning of unsuccessful save
+                    setWarningDialogOpen(true);
+                }
                 break;
             }
             case 'Discard': {
@@ -331,7 +362,23 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
             }
             default: console.log('Unknown dialog answer');
         }
-        setWarningDialogOpen(false);
+    }
+
+    const handleMenuClick = (target: string) => {
+        // Save the project if there's one opened or do nothing
+        if (target === 'Save') {
+            if (openedProject && !isProjectSaved) executeMenuAction('Save');
+        }
+        // If there's no opened project or the project is saved, execute the buttons' actions
+        else if (isProjectSaved || openedProject === null) {
+            executeMenuAction(target);
+        }
+            // If there's an opened project and it's not saved,
+        // ask the user if he wants to save it and wait for the answer
+        else {
+            setClickedButton(target);
+            setWarningDialogOpen(true);
+        }
     }
 
     return (
@@ -367,6 +414,8 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                     setOpenedProject={setOpenedProject}
                     setEdges={setEdges}
                     setNodes={setNodes}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
                 />
                 <LoadProjectModal open={loadProjectDialogOpen} handleClose={() => setLoadProjectDialogOpen(false)}/>
                 <WarningDialog
@@ -374,6 +423,9 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                     handleClose={handleWarningDialogClose}
                 />
             </Container>
+            <Backdrop open={isLoading}>
+                <CircularProgress color="inherit"/>
+            </Backdrop>
         </AppBar>
     );
 };
