@@ -25,6 +25,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import {Node, Edge} from 'reactflow';
+import LoadProjectModal from "../LoadProjectModal";
 
 interface MenuOption {
     label: string;
@@ -211,9 +212,61 @@ interface NavbarProps {
     setEdges: (edges: Edge[]) => void;
 }
 
+interface WarningDialogProps {
+    warningDialogOpen: boolean;
+    handleClose: () => void;
+    onDiscard: () => void;
+    onSave: () => void;
+}
+
+const WarningDialog = ({warningDialogOpen, handleClose, onDiscard, onSave}: WarningDialogProps): JSX.Element => (
+    <Dialog open={warningDialogOpen} onClose={handleClose}>
+        <DialogTitle>Warning</DialogTitle>
+        <DialogContent>
+            <DialogContentText>Project is not saved. Do you want to save it?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+            <Button
+                variant="outlined"
+                color="info"
+                onClick={handleClose}>
+                Cancel
+            </Button>
+            <Button
+                variant="contained"
+                color="error"
+                onClick={() => {
+                    handleClose();
+                    return onDiscard();
+                }}
+            >
+                Discard Changes
+            </Button>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                    handleClose();
+                    return onSave();
+                }}
+            >
+                Save
+            </Button>
+        </DialogActions>
+    </Dialog>
+);
+
+WarningDialog.propTypes = {
+    warningDialogOpen: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    onDiscard: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired
+}
+
 const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSaved, setEdges, setNodes}: NavbarProps) => {
     const [isWizardOpen, setIsWizardOpen] = useState(false);
     const [warningDialogOpen, setWarningDialogOpen] = useState(false);
+    const [loadProjectDialogOpen, setLoadProjectDialogOpen] = useState(false);
 
     const handleMenuClick = (target: string) => {
         switch (target) {
@@ -287,37 +340,13 @@ const Navbar = ({openedProject, setOpenedProject, isProjectSaved, setIsProjectSa
                     setEdges={setEdges}
                     setNodes={setNodes}
                 />
-                <Dialog open={warningDialogOpen} onClose={() => setWarningDialogOpen(false)}>
-                    <DialogTitle>Warning</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>Project is not saved. Do you want to save it?</DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button variant="outlined" color="info" onClick={() => setWarningDialogOpen(false)}>
-                            Cancel
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="error"
-                            onClick={() => {
-                                // TODO
-                                setWarningDialogOpen(false);
-                            }}
-                        >
-                            Discard Changes
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                                // TODO
-                                setWarningDialogOpen(false);
-                            }}
-                        >
-                            Save
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                <LoadProjectModal open={loadProjectDialogOpen} handleClose={() => setLoadProjectDialogOpen(false)}/>
+                <WarningDialog
+                    warningDialogOpen={warningDialogOpen}
+                    handleClose={() => setWarningDialogOpen(false)}
+                    onDiscard={() => {}} // TODO
+                    onSave={() => {}} // TODO
+                />
             </Container>
         </AppBar>
     );
