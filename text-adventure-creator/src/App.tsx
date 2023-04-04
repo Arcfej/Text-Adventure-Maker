@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Creator from "./pages/Creator";
+import {Creator} from "./pages/Creator";
 import RegisterLogin from "./pages/RegisterLogin";
 import {onAuthStateChanged} from "firebase/auth";
 import CssBaseline from '@mui/material/CssBaseline';

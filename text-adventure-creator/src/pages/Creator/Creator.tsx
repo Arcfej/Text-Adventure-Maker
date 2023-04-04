@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import { onAuthStateChanged } from "firebase/auth";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {useNavigate} from "react-router-dom";
@@ -13,7 +13,10 @@ import {
     EdgeChange,
     MiniMap,
     NodeChange,
+    OnConnectStartParams,
     ReactFlow,
+    ReactFlowProvider,
+    useReactFlow,
 } from "reactflow";
 import 'reactflow/dist/style.css';
 import {Node, Edge} from 'reactflow';
@@ -30,6 +33,20 @@ const Creator = (): JSX.Element => {
     const [nodes, setNodes] = useState<Node[]>([]);
     const [edges, setEdges] = useState<Edge[]>([]);
     const [user, setUser] = useState<string | null>(null);
+    const [idCounter, setIdCounter] = useState<number>(0);
+
+    const getId = useCallback((): string => {
+        try {
+            return `${idCounter}`;
+        } finally {
+            setIdCounter(idCounter + 1);
+        }
+    }, [idCounter]);
+
+    const reactFlowWrapper = useRef<HTMLDivElement>(null);
+    const connectingNodeId = useRef<string>('');
+    const {project: reactFlow} = useReactFlow();
+
     const navigate = useNavigate();
 
     // If user logged out, clear local storage and redirect to login page
@@ -52,10 +69,12 @@ const Creator = (): JSX.Element => {
                     const isProjectSaved = localStorage.getItem('isProjectSaved');
                     const savedNodes = localStorage.getItem('nodes');
                     const savedEdges = localStorage.getItem('edges');
+                    const savedIdCounter = localStorage.getItem('idCounter');
                     if (openedProject !== null) setOpenedProject(openedProject);
                     if (isProjectSaved !== null) setIsProjectSaved(isProjectSaved === 'true');
                     if (savedNodes !== null) setNodes(JSON.parse(savedNodes));
                     if (savedEdges !== null) setEdges(JSON.parse(savedEdges));
+                    if (savedIdCounter !== null) setIdCounter(parseInt(savedIdCounter));
                 } catch (e) {
                     console.log("Problems with local storage", e);
                 }
@@ -99,6 +118,13 @@ const Creator = (): JSX.Element => {
             console.log("Problems with local storage", e);
         }
     }, [edges, user]);
+    useEffect(() => {
+        try {
+            if (user) localStorage.setItem('idCounter', idCounter.toString());
+        } catch (e) {
+            console.log("Problems with local storage", e);
+        }
+    }, [idCounter, user]);
 
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -111,6 +137,35 @@ const Creator = (): JSX.Element => {
     const onConnect = useCallback(
         (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
         [setEdges]
+    );
+
+    const onConnectStart = useCallback((_: any, {nodeId}: OnConnectStartParams) => {
+        connectingNodeId.current = nodeId as string;
+    }, []);
+
+    const onConnectEnd = useCallback(
+        (event: MouseEvent | TouchEvent) => {
+            const targetIsPane = (event.target as HTMLElement).classList.contains('react-flow__pane');
+
+            if (targetIsPane) {
+                // we need to remove the wrapper bounds, in order to get the correct position
+                const { top, left } = reactFlowWrapper.current!.getBoundingClientRect();
+                const id = getId();
+                // we are removing the half of the node width (75) to center the new node
+                const position = 'touches' in event
+                    ? reactFlow({ x: event.touches[0].clientX - left - 75, y: event.touches[0].clientY - top })
+                    : reactFlow({ x: event.clientX - left - 75, y: event.clientY - top });
+                const newNode = {
+                    id,
+                    position: position,
+                    data: { label: `Node ${id}` },
+                };
+
+                setNodes((nds) => nds.concat(newNode));
+                setEdges((eds) => eds.concat({ id, source: connectingNodeId.current, target: id }));
+            }
+        },
+        [getId, reactFlow]
     );
 
     return (
@@ -147,24 +202,27 @@ const Creator = (): JSX.Element => {
                     setEdges={setEdges}
                 />
                 <Box
+                    ref={reactFlowWrapper}
                     width="100%"
                     height="100%"
                     flexGrow={10}
                 >
                     {openedProject !== null &&
-                        <ReactFlow
-                            nodes={nodes}
-                            edges={edges}
-                            onNodesChange={onNodesChange}
-                            onEdgesChange={onEdgesChange}
-                            onConnect={onConnect}
-                            fitView
-                            deleteKeyCode={deleteKeyCodes}
-                        >
-                            <Controls/>
-                            <MiniMap/>
-                            <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
-                        </ReactFlow>
+                            <ReactFlow
+                                nodes={nodes}
+                                edges={edges}
+                                onNodesChange={onNodesChange}
+                                onEdgesChange={onEdgesChange}
+                                onConnect={onConnect}
+                                onConnectStart={onConnectStart}
+                                onConnectEnd={onConnectEnd}
+                                fitView
+                                deleteKeyCode={deleteKeyCodes}
+                            >
+                                <Controls/>
+                                <MiniMap/>
+                                <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
+                            </ReactFlow>
                     }
                 </Box>
             </Stack>
@@ -172,4 +230,10 @@ const Creator = (): JSX.Element => {
     );
 };
 
-export default Creator;
+const CreatorWithFlowProvider = () => (
+    <ReactFlowProvider>
+        <Creator/>
+    </ReactFlowProvider>
+);
+
+export default CreatorWithFlowProvider;
