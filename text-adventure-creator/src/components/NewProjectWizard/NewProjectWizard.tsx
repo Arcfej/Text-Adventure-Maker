@@ -20,6 +20,7 @@ interface NewProjectWizardProps {
     setEdges: (edges: Edge[]) => void,
     isLoading: boolean,
     setIsLoading: (isLoading: boolean) => void,
+    setIdCounter: (idCounter: number) => void,
 }
 
 const NewProjectWizard = ({
@@ -29,6 +30,7 @@ const NewProjectWizard = ({
     setNodes,
     setEdges,
     setIsLoading,
+    setIdCounter,
 }: NewProjectWizardProps) : JSX.Element => {
     const [error, setError] = useState<string>('');
     const [formData, setFormData] = useState<FormData>({
@@ -54,6 +56,7 @@ const NewProjectWizard = ({
         setIsLoading(true);
 
         const token = await firebaseAuth.currentUser?.getIdToken();
+        // return fetch("http://localhost:8787/creator/drafts",
         return fetch("https://backend.text-adventure-maker.workers.dev/creator/drafts",
             {
                 method: "POST",
@@ -78,6 +81,7 @@ const NewProjectWizard = ({
                 setOpenedProject(result._id);
                 setNodes(result.graph.nodes);
                 setEdges(result.graph.edges);
+                setIdCounter(result.graph.idCounter);
                 handleClose();
             })
             .catch(error => {
@@ -138,6 +142,7 @@ NewProjectWizard.propTypes = {
     setEdges: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     setIsLoading: PropTypes.func.isRequired,
+    setIdCounter: PropTypes.func.isRequired,
 };
 
 export default NewProjectWizard;

@@ -57,7 +57,7 @@ const Creator = (): JSX.Element => {
                 try {
                     localStorage.clear();
                 } catch (e) {
-                    console.log("Problems with local storage", e);
+                    console.warn("Problems with local storage", e);
                 } finally {
                     navigate("/login");
                 }
@@ -76,7 +76,7 @@ const Creator = (): JSX.Element => {
                     if (savedEdges !== null) setEdges(JSON.parse(savedEdges));
                     if (savedIdCounter !== null) setIdCounter(parseInt(savedIdCounter));
                 } catch (e) {
-                    console.log("Problems with local storage", e);
+                    console.warn("Problems with local storage", e);
                 }
             }
         });
@@ -94,35 +94,35 @@ const Creator = (): JSX.Element => {
                 localStorage.setItem('openedProject', openedProject !== null ? openedProject : '');
             }
         } catch (e) {
-            console.log("Problems with local storage", e);
+            console.warn("Problems with local storage", e);
         }
     }, [openedProject, user]);
     useEffect(() => {
         try {
             if (user) localStorage.setItem('isProjectSaved', isProjectSaved.toString());
         } catch (e) {
-            console.log("Problems with local storage", e);
+            console.warn("Problems with local storage", e);
         }
     }, [isProjectSaved, user]);
     useEffect(() => {
         try {
             if (user) localStorage.setItem('nodes', JSON.stringify(nodes));
         } catch (e) {
-            console.log("Problems with local storage", e);
+            console.warn("Problems with local storage", e);
         }
     }, [nodes, user]);
     useEffect(() => {
         try {
             if (user) localStorage.setItem('edges', JSON.stringify(edges));
         } catch (e) {
-            console.log("Problems with local storage", e);
+            console.warn("Problems with local storage", e);
         }
     }, [edges, user]);
     useEffect(() => {
         try {
             if (user) localStorage.setItem('idCounter', idCounter.toString());
         } catch (e) {
-            console.log("Problems with local storage", e);
+            console.warn("Problems with local storage", e);
         }
     }, [idCounter, user]);
 
@@ -186,6 +186,8 @@ const Creator = (): JSX.Element => {
                 nodes={nodes}
                 setEdges={setEdges}
                 setNodes={setNodes}
+                idCounter={idCounter}
+                setIdCounter={setIdCounter}
             />
             <Stack
                 direction="row"
