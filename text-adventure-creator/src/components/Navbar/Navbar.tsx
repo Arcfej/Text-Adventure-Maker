@@ -452,7 +452,7 @@ const Navbar = ({
                 </Toolbar>
                 <NewProjectWizard
                     open={wizardOpen}
-                    passedHandleClose={() => setWizardOpen(false)}
+                    handleClose={() => setWizardOpen(false)}
                     setOpenedProject={setOpenedProject}
                     setEdges={setEdges}
                     setNodes={setNodes}
@@ -469,7 +469,7 @@ const Navbar = ({
                     handleClose={handleWarningDialogClose}
                 />
             </Container>
-            <Backdrop open={isLoading} sx={{zIndex: 10}}>
+            <Backdrop open={isLoading} sx={{zIndex: 1600}}>
                 <CircularProgress color="inherit"/>
             </Backdrop>
         </AppBar>

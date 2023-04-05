@@ -158,7 +158,7 @@ const Creator = (): JSX.Element => {
                 const newNode = {
                     id,
                     position: position,
-                    data: { label: `Node ${id}` },
+                    data: { label: `Scene ${id}` },
                 };
 
                 setNodes((nds) => nds.concat(newNode));

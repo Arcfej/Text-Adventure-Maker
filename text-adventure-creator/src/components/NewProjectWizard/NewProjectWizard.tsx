@@ -14,7 +14,7 @@ interface FormData {
 
 interface NewProjectWizardProps {
     open: boolean,
-    passedHandleClose: () => void,
+    handleClose: () => void,
     setOpenedProject: (projectId: string) => void;
     setNodes: (nodes: Node[]) => void,
     setEdges: (edges: Edge[]) => void,
@@ -25,7 +25,7 @@ interface NewProjectWizardProps {
 
 const NewProjectWizard = ({
     open,
-    passedHandleClose,
+    handleClose,
     setOpenedProject,
     setNodes,
     setEdges,
@@ -37,9 +37,9 @@ const NewProjectWizard = ({
         title: '',
     });
 
-    const handleClose = () => {
+    const handleCloseInside = () => {
         setIsLoading(false);
-        passedHandleClose();
+        handleClose();
         setError('');
     }
 
@@ -94,7 +94,7 @@ const NewProjectWizard = ({
     return (
         <Dialog
             open={open}
-            onClose={handleClose}
+            onClose={handleCloseInside}
             aria-labelledby="modal-modal-title"
             // aria-describedby="modal-modal-description"
         >
@@ -136,7 +136,7 @@ const NewProjectWizard = ({
 
 NewProjectWizard.propTypes = {
     open: PropTypes.bool.isRequired,
-    passedHandleClose: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
     setOpenedProject: PropTypes.func.isRequired,
     setNodes: PropTypes.func.isRequired,
     setEdges: PropTypes.func.isRequired,
