@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from "@mui/material/Paper";
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Box from "@mui/material/Box";
 
 interface EditorNodeProps {
 
@@ -8,7 +11,6 @@ interface EditorNodeProps {
 
 const SceneEditor = ({}:EditorNodeProps) => (
     <Paper
-        variant="outlined"
         elevation={1}
         square
         sx={{
@@ -17,13 +19,33 @@ const SceneEditor = ({}:EditorNodeProps) => (
             right: 0,
             zIndex: 10,
             height: `calc(100% - 190px)`,
-            width: '30%',
+            width: '35%',
             margin: 1,
-            borderWidth: 2,
-            // borderColor: 'grey.900',
+            border: .5,
         }}
     >
-        <h4>Editor</h4>
+        <Stack
+            direction="column"
+            alignItems="stretch"
+            justifyContent="flex-start"
+            height="100%"
+        >
+            <TextField
+                id="scene-title"
+                label="Scene Title (optional)"
+                defaultValue=""
+                variant="filled"
+            />
+            <Box padding={1} justifyContent="stretch" flexGrow={1} sx={{overflowY: 'auto', maxHeight: "100%"}}>
+                <TextField
+                    id="scene-body"
+                    label="Scene Script"
+                    variant="filled"
+                    multiline
+                    fullWidth
+                />
+            </Box>
+        </Stack>
     </Paper>
 );
 
