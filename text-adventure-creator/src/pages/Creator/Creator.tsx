@@ -24,6 +24,7 @@ import Navbar from '../../components/Navbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import SideToolbar from "../../components/SideToolbar";
+import SceneEditor from "../../components/SceneEditor";
 
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
@@ -210,21 +211,22 @@ const Creator = (): JSX.Element => {
                     flexGrow={10}
                 >
                     {openedProject !== null &&
-                            <ReactFlow
-                                nodes={nodes}
-                                edges={edges}
-                                onNodesChange={onNodesChange}
-                                onEdgesChange={onEdgesChange}
-                                onConnect={onConnect}
-                                onConnectStart={onConnectStart}
-                                onConnectEnd={onConnectEnd}
-                                fitView
-                                deleteKeyCode={deleteKeyCodes}
-                            >
-                                <Controls/>
-                                <MiniMap/>
-                                <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
-                            </ReactFlow>
+                        <ReactFlow
+                            nodes={nodes}
+                            edges={edges}
+                            onNodesChange={onNodesChange}
+                            onEdgesChange={onEdgesChange}
+                            onConnect={onConnect}
+                            onConnectStart={onConnectStart}
+                            onConnectEnd={onConnectEnd}
+                            fitView
+                            deleteKeyCode={deleteKeyCodes}
+                        >
+                            <Controls/>
+                            <MiniMap />
+                            <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
+                            <SceneEditor/>
+                        </ReactFlow>
                     }
                 </Box>
             </Stack>
