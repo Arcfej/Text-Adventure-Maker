@@ -14,30 +14,32 @@ interface FormData {
 
 interface NewProjectWizardProps {
     open: boolean,
-    passedHandleClose: () => void,
+    handleClose: () => void,
     setOpenedProject: (projectId: string) => void;
     setNodes: (nodes: Node[]) => void,
     setEdges: (edges: Edge[]) => void,
     isLoading: boolean,
     setIsLoading: (isLoading: boolean) => void,
+    setIdCounter: (idCounter: number) => void,
 }
 
 const NewProjectWizard = ({
     open,
-    passedHandleClose,
+    handleClose,
     setOpenedProject,
     setNodes,
     setEdges,
     setIsLoading,
+    setIdCounter,
 }: NewProjectWizardProps) : JSX.Element => {
     const [error, setError] = useState<string>('');
     const [formData, setFormData] = useState<FormData>({
         title: '',
     });
 
-    const handleClose = () => {
+    const handleCloseInside = () => {
         setIsLoading(false);
-        passedHandleClose();
+        handleClose();
         setError('');
     }
 
@@ -54,6 +56,7 @@ const NewProjectWizard = ({
         setIsLoading(true);
 
         const token = await firebaseAuth.currentUser?.getIdToken();
+        // return fetch("http://localhost:8787/creator/drafts",
         return fetch("https://backend.text-adventure-maker.workers.dev/creator/drafts",
             {
                 method: "POST",
@@ -78,6 +81,7 @@ const NewProjectWizard = ({
                 setOpenedProject(result._id);
                 setNodes(result.graph.nodes);
                 setEdges(result.graph.edges);
+                setIdCounter(result.graph.idCounter);
                 handleClose();
             })
             .catch(error => {
@@ -90,7 +94,7 @@ const NewProjectWizard = ({
     return (
         <Dialog
             open={open}
-            onClose={handleClose}
+            onClose={handleCloseInside}
             aria-labelledby="modal-modal-title"
             // aria-describedby="modal-modal-description"
         >
@@ -132,12 +136,13 @@ const NewProjectWizard = ({
 
 NewProjectWizard.propTypes = {
     open: PropTypes.bool.isRequired,
-    passedHandleClose: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
     setOpenedProject: PropTypes.func.isRequired,
     setNodes: PropTypes.func.isRequired,
     setEdges: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     setIsLoading: PropTypes.func.isRequired,
+    setIdCounter: PropTypes.func.isRequired,
 };
 
 export default NewProjectWizard;

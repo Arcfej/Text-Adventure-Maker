@@ -265,6 +265,8 @@ interface NavbarProps {
     nodes: Node[];
     setEdges: (edges: Edge[]) => void;
     setNodes: (nodes: Node[]) => void;
+    idCounter: number;
+    setIdCounter: (idCounter: number) => void;
 }
 
 const Navbar = ({
@@ -275,7 +277,9 @@ const Navbar = ({
     edges,
     nodes,
     setEdges,
-    setNodes
+    setNodes,
+    idCounter,
+    setIdCounter
 }: NavbarProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [clickedButton, setClickedButton] = useState<string | null>(null);
@@ -287,6 +291,7 @@ const Navbar = ({
         setIsLoading(true);
         try {
             const token = await firebaseAuth.currentUser?.getIdToken();
+            // const url = "http://localhost:8787/creator/drafts/" + openedProject + "/";
             const url = "https://backend.text-adventure-maker.workers.dev/creator/drafts/" + openedProject + "/";
             const response: Response = await fetch(url,
                 {
@@ -300,6 +305,7 @@ const Navbar = ({
                             graph: {
                                 edges: edges,
                                 nodes: nodes,
+                                idCounter: idCounter,
                             }
                         },
                     })
@@ -389,6 +395,7 @@ const Navbar = ({
         if (projectId) {
             setIsLoading(true);
             const token = await firebaseAuth.currentUser?.getIdToken();
+            // fetch("http://localhost:8787/creator/drafts/" + projectId + "/", {
             fetch("https://backend.text-adventure-maker.workers.dev/creator/drafts/" + projectId + "/", {
                 method: "GET",
                 headers: {
@@ -401,11 +408,10 @@ const Navbar = ({
                     else throw new Error("Something went wrong while loading the project");
                 })
                 .then(data => {
-                    console.log(data.graph.nodes);
-                    console.log(nodes);
                     setNodes(data.graph.nodes);
                     setEdges(data.graph.edges);
                     setOpenedProject(projectId);
+                    setIdCounter(data.graph.idCounter);
                 })
                 .catch(error => {
                     // TODO show error message to user
@@ -446,12 +452,13 @@ const Navbar = ({
                 </Toolbar>
                 <NewProjectWizard
                     open={wizardOpen}
-                    passedHandleClose={() => setWizardOpen(false)}
+                    handleClose={() => setWizardOpen(false)}
                     setOpenedProject={setOpenedProject}
                     setEdges={setEdges}
                     setNodes={setNodes}
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
+                    setIdCounter={setIdCounter}
                 />
                 <LoadProjectDialog
                     open={loadProjectDialogOpen}
@@ -462,7 +469,7 @@ const Navbar = ({
                     handleClose={handleWarningDialogClose}
                 />
             </Container>
-            <Backdrop open={isLoading} sx={{zIndex: 10}}>
+            <Backdrop open={isLoading} sx={{zIndex: 1600}}>
                 <CircularProgress color="inherit"/>
             </Backdrop>
         </AppBar>
@@ -475,6 +482,8 @@ Navbar.propTypes = {
     isProjectSaved: PropTypes.bool.isRequired,
     setIsProjectSaved: PropTypes.func.isRequired,
     setEdges: PropTypes.func.isRequired,
-    setNodes: PropTypes.func.isRequired
+    setNodes: PropTypes.func.isRequired,
+    idCounter: PropTypes.number.isRequired,
+    setIdCounter: PropTypes.func.isRequired,
 };
 export default Navbar;

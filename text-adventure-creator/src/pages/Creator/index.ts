@@ -1,1 +1,1 @@
-export {default} from './Creator';
+export {default as Creator} from './Creator';

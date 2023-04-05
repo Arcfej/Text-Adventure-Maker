@@ -2,6 +2,7 @@ import {error, IRequest, json, Router} from 'itty-router';
 import * as Realm from "realm-web";
 import type {ObjectId} from "bson";
 import type {RequestWithAuth} from "./creator-api-handler";
+import type {MongoDBRealmError} from "realm-web";
 
 const objectId = Realm.BSON.ObjectID;
 
@@ -24,6 +25,7 @@ interface Drafts extends Document {
 						source: string;
 						target: string;
 				}>
+				idCounter: number;
 		}
 }
 
@@ -86,7 +88,8 @@ const postDraft = async (request: RequestWithDrafts) => {
 										label: 'Start your story here'
 								}
 						}],
-						edges: []
+						edges: [],
+						idCounter: 2
 				}
 		})).insertedId;
 
@@ -95,13 +98,20 @@ const postDraft = async (request: RequestWithDrafts) => {
 
 const updateDraft = async (request: RequestWithDrafts) => {
 		const {draft} = await request.json();
-		const result = await request.drafts.updateOne(
-				{_id: new objectId(request.params.id)},
-				{$set: draft}
-		);
-		return result.matchedCount > 0
-				? json("Draft updated")
-				: error(404, 'Draft not found');
+		try {
+				const result = await request.drafts.updateOne(
+						{_id: new objectId(request.params.id)},
+						{$set: draft}
+				);
+				return result.matchedCount > 0
+						? json("Draft updated")
+						: error(404, 'Draft not found');
+		} catch (e) {
+				const err = e as MongoDBRealmError;
+				if (err.errorCode === 'SchemaValidationFailedWrite') {
+						return error(400, 'Invalid data');
+				}
+		}
 };
 
 const deleteDraft = async (request: RequestWithDrafts) => {
