@@ -21,6 +21,7 @@ interface NewProjectWizardProps {
     isLoading: boolean,
     setIsLoading: (isLoading: boolean) => void,
     setIdCounter: (idCounter: number) => void,
+    setProjectTitle: (projectTitle: string) => void,
 }
 
 const NewProjectWizard = ({
@@ -31,6 +32,7 @@ const NewProjectWizard = ({
     setEdges,
     setIsLoading,
     setIdCounter,
+    setProjectTitle,
 }: NewProjectWizardProps) : JSX.Element => {
     const [error, setError] = useState<string>('');
     const [formData, setFormData] = useState<FormData>({
@@ -82,7 +84,8 @@ const NewProjectWizard = ({
                 setNodes(result.graph.nodes);
                 setEdges(result.graph.edges);
                 setIdCounter(result.graph.idCounter);
-                handleClose();
+                setProjectTitle(result.title);
+                handleCloseInside();
             })
             .catch(error => {
                 console.error(error);
@@ -125,7 +128,7 @@ const NewProjectWizard = ({
                         onChange={handleChange}
                     />
                     <Stack direction="row" gap={2} justifyContent="flex-end">
-                        <Button color="info" variant="outlined" onClick={handleClose}>Cancel</Button>
+                        <Button color="info" variant="outlined" onClick={handleCloseInside}>Cancel</Button>
                         <Button type="submit" color="primary" variant="contained">Create</Button>
                     </Stack>
                 </Stack>
@@ -143,6 +146,7 @@ NewProjectWizard.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     setIsLoading: PropTypes.func.isRequired,
     setIdCounter: PropTypes.func.isRequired,
+    setProjectTitle: PropTypes.func.isRequired,
 };
 
 export default NewProjectWizard;

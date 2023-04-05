@@ -1,3 +1,1 @@
-import SideToolbar from "./SideToolbar";
-
-export default SideToolbar;
+export {default} from "./SideToolbar";

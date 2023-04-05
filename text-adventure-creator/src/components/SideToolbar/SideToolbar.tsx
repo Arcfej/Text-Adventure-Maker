@@ -20,7 +20,7 @@ const SideToolbar = ({nodes, setNodes, edges, setEdges}: SideToolbarProps) => {
     return (
         <Stack
             padding={0.5}
-            boxShadow={1}
+            boxShadow={3}
             direction="column"
             justifyContent="flex-start"
             alignItems="flex-start"

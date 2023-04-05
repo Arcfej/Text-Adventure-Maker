@@ -25,31 +25,25 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import SideToolbar from "../../components/SideToolbar";
 import SceneEditor from "../../components/SceneEditor";
+import Typography from '@mui/material/Typography';
+import Paper from "@mui/material/Paper";
 
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
 const Creator = (): JSX.Element => {
     const [isProjectSaved, setIsProjectSaved] = useState<boolean>(true);
     const [openedProject, setOpenedProject] = useState<string | null>(null);
+    const [projectTitle, setProjectTitle] = useState<string>('');
     const [nodes, setNodes] = useState<Node[]>([]);
     const [edges, setEdges] = useState<Edge[]>([]);
-    const [user, setUser] = useState<string | null>(null);
     const [idCounter, setIdCounter] = useState<number>(0);
-
-    const getId = useCallback((): string => {
-        try {
-            return `${idCounter}`;
-        } finally {
-            setIdCounter(idCounter + 1);
-        }
-    }, [idCounter]);
+    const [user, setUser] = useState<string | null>(null);
 
     const reactFlowWrapper = useRef<HTMLDivElement>(null);
     const connectingNodeId = useRef<string>('');
     const {project: reactFlow} = useReactFlow();
 
     const navigate = useNavigate();
-
     // If user logged out, clear local storage and redirect to login page
     // Else, save the user's email to local storage and read any previous saved state back
     useEffect(() => {
@@ -67,11 +61,13 @@ const Creator = (): JSX.Element => {
                     setUser(currentUser.email);
                     localStorage.setItem('user', JSON.stringify(currentUser.email));
                     const openedProject = localStorage.getItem('openedProject');
+                    const projectTitle = localStorage.getItem('projectTitle');
                     const isProjectSaved = localStorage.getItem('isProjectSaved');
                     const savedNodes = localStorage.getItem('nodes');
                     const savedEdges = localStorage.getItem('edges');
                     const savedIdCounter = localStorage.getItem('idCounter');
                     if (openedProject !== null) setOpenedProject(openedProject);
+                    if (projectTitle !== null) setProjectTitle(projectTitle);
                     if (isProjectSaved !== null) setIsProjectSaved(isProjectSaved === 'true');
                     if (savedNodes !== null) setNodes(JSON.parse(savedNodes));
                     if (savedEdges !== null) setEdges(JSON.parse(savedEdges));
@@ -98,6 +94,13 @@ const Creator = (): JSX.Element => {
             console.warn("Problems with local storage", e);
         }
     }, [openedProject, user]);
+    useEffect(() => {
+        try {
+            if (user) localStorage.setItem('projectTitle', projectTitle);
+        } catch (e) {
+            console.warn("Problems with local storage", e);
+        }
+    }, [projectTitle, user]);
     useEffect(() => {
         try {
             if (user) localStorage.setItem('isProjectSaved', isProjectSaved.toString());
@@ -139,6 +142,14 @@ const Creator = (): JSX.Element => {
         (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
         [setEdges]
     );
+
+    const getId = useCallback((): string => {
+        try {
+            return `${idCounter}`;
+        } finally {
+            setIdCounter(idCounter + 1);
+        }
+    }, [idCounter]);
 
     const onConnectStart = useCallback((_: any, {nodeId}: OnConnectStartParams) => {
         connectingNodeId.current = nodeId as string;
@@ -189,6 +200,8 @@ const Creator = (): JSX.Element => {
                 setNodes={setNodes}
                 idCounter={idCounter}
                 setIdCounter={setIdCounter}
+                projectTitle={projectTitle}
+                setProjectTitle={setProjectTitle}
             />
             <Stack
                 direction="row"
@@ -222,6 +235,22 @@ const Creator = (): JSX.Element => {
                             fitView
                             deleteKeyCode={deleteKeyCodes}
                         >
+                            <Paper
+                                variant="outlined"
+                                square
+                                sx={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    zIndex: 10,
+                                    py: 1,
+                                    px: 2,
+                                    borderBottomRightRadius: 2,
+                                    boxShadow: 2
+                                }}
+                            >
+                                <Typography variant="h6" sx={{fontWeight: 600}}>{projectTitle}</Typography>
+                            </Paper>
                             <Controls/>
                             <MiniMap />
                             <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>

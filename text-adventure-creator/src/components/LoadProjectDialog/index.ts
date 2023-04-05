@@ -1,3 +1,1 @@
-import LoadProjectDialog from "./LoadProjectDialog";
-
-export default LoadProjectDialog;
+export { default } from "./LoadProjectDialog";
