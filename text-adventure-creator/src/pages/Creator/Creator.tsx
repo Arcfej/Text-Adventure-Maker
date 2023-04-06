@@ -38,6 +38,8 @@ const Creator = (): JSX.Element => {
     const [edges, setEdges] = useState<Edge[]>([]);
     const [idCounter, setIdCounter] = useState<number>(0);
     const [user, setUser] = useState<string | null>(null);
+    const [sceneEditorOpen, setSceneEditorOpen] = useState<boolean>(false);
+    const [editedNode, setEditedNode] = useState<Node | null>(null);
 
     const reactFlowWrapper = useRef<HTMLDivElement>(null);
     const connectingNodeId = useRef<string>('');
@@ -84,6 +86,7 @@ const Creator = (): JSX.Element => {
         setIsProjectSaved(false);
     }, [nodes, edges]);
 
+    // TODO debounce writing to local storage when performance issues arise
     // Save the editor's state to local storage when it changes
     useEffect(() => {
         try {
@@ -180,6 +183,15 @@ const Creator = (): JSX.Element => {
         [getId, reactFlow]
     );
 
+    const onNodeClick = useCallback(
+        (event: React.MouseEvent, node: Node) => {
+            setSceneEditorOpen(true);
+            setEditedNode(null);
+            setEditedNode(node);
+        },
+        [setSceneEditorOpen]
+    );
+
     return (
         <Stack
             direction="column"
@@ -227,6 +239,7 @@ const Creator = (): JSX.Element => {
                         <ReactFlow
                             nodes={nodes}
                             edges={edges}
+                            onNodeClick={onNodeClick}
                             onNodesChange={onNodesChange}
                             onEdgesChange={onEdgesChange}
                             onConnect={onConnect}
@@ -254,7 +267,7 @@ const Creator = (): JSX.Element => {
                             <Controls/>
                             <MiniMap />
                             <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
-                            <SceneEditor/>
+                            {sceneEditorOpen && <SceneEditor editedNode={editedNode} nodes={nodes} setNodes={setNodes}/>}
                         </ReactFlow>
                     }
                 </Box>
