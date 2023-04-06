@@ -186,8 +186,15 @@ const Creator = (): JSX.Element => {
     const onNodeClick = useCallback(
         (event: React.MouseEvent, node: Node) => {
             setSceneEditorOpen(true);
-            setEditedNode(null);
             setEditedNode(node);
+        },
+        [setSceneEditorOpen]
+    );
+
+    const onPaneClick = useCallback(
+        () => {
+            setSceneEditorOpen(false);
+            setEditedNode(null);
         },
         [setSceneEditorOpen]
     );
@@ -247,6 +254,7 @@ const Creator = (): JSX.Element => {
                             onConnectEnd={onConnectEnd}
                             fitView
                             deleteKeyCode={deleteKeyCodes}
+                            onPaneClick={onPaneClick}
                         >
                             <Paper
                                 variant="outlined"
