@@ -93,6 +93,7 @@ const Creator = (): JSX.Element => {
             if (user) {
                 localStorage.setItem('openedProject', openedProject !== null ? openedProject : '');
             }
+            setSceneEditorOpen(false);
         } catch (e) {
             console.warn("Problems with local storage", e);
         }
