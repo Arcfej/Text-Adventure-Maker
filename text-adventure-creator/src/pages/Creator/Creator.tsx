@@ -27,6 +27,7 @@ import SideToolbar from "../../components/SideToolbar";
 import SceneEditor from "../../components/SceneEditor";
 import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
+import nodeTypes from '../../components/node-types/node-types';
 
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
@@ -175,6 +176,7 @@ const Creator = (): JSX.Element => {
                     id,
                     position: position,
                     data: { label: `Scene ${id}` },
+                    type: 'choice'
                 };
 
                 setNodes((nds) => nds.concat(newNode));
@@ -245,9 +247,11 @@ const Creator = (): JSX.Element => {
                 >
                     {openedProject !== null &&
                         <ReactFlow
+                            nodeTypes={nodeTypes}
                             nodes={nodes}
                             edges={edges}
                             onNodeClick={onNodeClick}
+                            onPaneClick={onPaneClick}
                             onNodesChange={onNodesChange}
                             onEdgesChange={onEdgesChange}
                             onConnect={onConnect}
@@ -255,7 +259,6 @@ const Creator = (): JSX.Element => {
                             onConnectEnd={onConnectEnd}
                             fitView
                             deleteKeyCode={deleteKeyCodes}
-                            onPaneClick={onPaneClick}
                         >
                             <Paper
                                 variant="outlined"
@@ -285,7 +288,7 @@ const Creator = (): JSX.Element => {
     );
 };
 
-const CreatorWithFlowProvider = () => (
+const CreatorWithFlowProvider = (): JSX.Element => (
     <ReactFlowProvider>
         <Creator/>
     </ReactFlowProvider>
