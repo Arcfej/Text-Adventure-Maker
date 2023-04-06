@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import TextField from "@mui/material/TextField";
 import Stack from '@mui/material/Stack';
@@ -8,11 +8,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 interface ChoiceFormProps {
-
+    onChange: (choices: string[]) => void;
 }
 
-const ChoiceForm = ({}: ChoiceFormProps): JSX.Element => {
+const ChoiceForm = ({onChange}: ChoiceFormProps): JSX.Element => {
     const [choices, setChoices] = React.useState<string[]>([]);
+
+    useEffect(() => {
+        onChange(choices);
+    }, [choices, onChange]);
 
     const addChoice = () => {
         setChoices([...choices, '']);
@@ -22,9 +26,9 @@ const ChoiceForm = ({}: ChoiceFormProps): JSX.Element => {
         setChoices(choices.filter((_, i) => i !== index));
     }
 
-    const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setChoices(choices.map((choice, index) =>
-            index === parseInt(event.target.id)
+            index === parseInt(event.target.name)
                 ? event.target.value
                 : choice));
     }, [setChoices]);
@@ -34,7 +38,17 @@ const ChoiceForm = ({}: ChoiceFormProps): JSX.Element => {
         <Stack direction="column" spacing={1} maxHeight="85%" sx={{overflowY: 'auto'}}>
             {choices.map((choice: string, index: number) => (
                 <Stack key={index} direction="row" spacing={1}>
-                    <TextField size="small" hiddenLabel variant="filled" fullWidth defaultValue={choice} onChange={onChange}></TextField>
+                    <TextField
+                        name={`${index}`}
+                        size="small"
+                        hiddenLabel
+                        variant="filled"
+                        fullWidth
+                        defaultValue={choice}
+                        onChange={handleChange}
+                    >
+                        {choice}
+                    </TextField>
                     <IconButton onClick={() => removeChoice(index)}>
                         <Delete/>
                     </IconButton>
@@ -46,7 +60,7 @@ const ChoiceForm = ({}: ChoiceFormProps): JSX.Element => {
 };
 
 ChoiceForm.propTypes = {
-
+    onChange: PropTypes.func.isRequired,
 };
 
 export default ChoiceForm;

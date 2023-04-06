@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Paper from "@mui/material/Paper";
 import Stack from '@mui/material/Stack';
@@ -17,11 +17,13 @@ interface EditorNodeProps {
 const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
     const [label, setLabel] = React.useState<string>(editedNode?.data?.label ?? "");
     const [body, setBody] = React.useState<string>(editedNode?.data?.body ?? "");
+    const [choices, setChoices] = React.useState<string[]>(editedNode?.data?.choices ?? []);
 
     // Reset label and body if a new scene is selected
     useEffect(() => {
         setLabel(editedNode?.data?.label ?? "");
         setBody(editedNode?.data?.body ?? "");
+        setChoices(editedNode?.data?.choices ?? []);
     }, [editedNode]);
 
     // save modification to the data
@@ -30,13 +32,14 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
             if (node.id === editedNode?.id) {
                 node.data = {
                     ...node.data,
-                    body: body,
                     label: label,
+                    body: body,
+                    choices: choices,
                 };
             }
             return node;
         }));
-    }, [label, body, setNodes]);
+    }, [label, body, choices, setNodes]);
 
     const handleLabelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLabel(event.target.value);
@@ -45,6 +48,11 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
     const handleBodyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setBody(event.target.value);
     };
+
+    const handleChoicesChange = useCallback((choices: string[]) => {
+        console.log(choices);
+        setChoices(choices);
+    }, [setChoices]);
 
     return (
         <Paper
@@ -90,7 +98,7 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
                 </Box>
                 <Divider/>
                 <Box padding={1} width="100%" maxHeight="50%">
-                    <ChoiceForm />
+                    <ChoiceForm onChange={handleChoicesChange} />
                 </Box>
             </Stack>
         </Paper>
