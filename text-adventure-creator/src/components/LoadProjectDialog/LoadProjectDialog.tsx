@@ -26,6 +26,12 @@ const LoadProjectDialog = ({open, handleClose}: LoadProjectModalProps) => {
     const [projects, setProjects] = useState<Project[]>([]);
     const [selectedProject, setSelectedProject] = useState<string | null>(null);
 
+    const handleCloseInside = (selectedProject: string | null) => {
+        handleClose(selectedProject);
+        setSelectedProject(null);
+        setProjects([]);
+    }
+
     useEffect(() => {
         const loadProjects = async () => {
             const token = await firebaseAuth.currentUser?.getIdToken();
@@ -53,10 +59,7 @@ const LoadProjectDialog = ({open, handleClose}: LoadProjectModalProps) => {
     return (
         <Dialog
             open={open}
-            onClose={() => {
-                handleClose(null);
-                setSelectedProject(null);
-            }}
+            onClose={() => handleCloseInside(null)}
             aria-labelledby="modal-title"
             // aria-describedby="modal-description"
         >
@@ -77,17 +80,11 @@ const LoadProjectDialog = ({open, handleClose}: LoadProjectModalProps) => {
                 </List>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => {
-                    handleClose(null);
-                    setSelectedProject(null);
-                }}>
+                <Button onClick={() => handleCloseInside(null)}>
                     Cancel
                 </Button>
                 <Button
-                    onClick={() => {
-                        handleClose(selectedProject);
-                        setSelectedProject(null);
-                    }}
+                    onClick={() => handleCloseInside(selectedProject)}
                     disabled={selectedProject === null}
                     variant="contained"
                 >

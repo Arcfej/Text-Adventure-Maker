@@ -267,6 +267,8 @@ interface NavbarProps {
     setNodes: (nodes: Node[]) => void;
     idCounter: number;
     setIdCounter: (idCounter: number) => void;
+    projectTitle: string;
+    setProjectTitle: (projectName: string) => void;
 }
 
 const Navbar = ({
@@ -279,7 +281,9 @@ const Navbar = ({
     setEdges,
     setNodes,
     idCounter,
-    setIdCounter
+    setIdCounter,
+    projectTitle,
+    setProjectTitle
 }: NavbarProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [clickedButton, setClickedButton] = useState<string | null>(null);
@@ -306,7 +310,8 @@ const Navbar = ({
                                 edges: edges,
                                 nodes: nodes,
                                 idCounter: idCounter,
-                            }
+                            },
+                            title: projectTitle,
                         },
                     })
                 });
@@ -412,6 +417,7 @@ const Navbar = ({
                     setEdges(data.graph.edges);
                     setOpenedProject(projectId);
                     setIdCounter(data.graph.idCounter);
+                    setProjectTitle(data.title);
                 })
                 .catch(error => {
                     // TODO show error message to user
@@ -459,6 +465,7 @@ const Navbar = ({
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
                     setIdCounter={setIdCounter}
+                    setProjectTitle={setProjectTitle}
                 />
                 <LoadProjectDialog
                     open={loadProjectDialogOpen}
@@ -485,5 +492,7 @@ Navbar.propTypes = {
     setNodes: PropTypes.func.isRequired,
     idCounter: PropTypes.number.isRequired,
     setIdCounter: PropTypes.func.isRequired,
+    projectTitle: PropTypes.string.isRequired,
+    setProjectTitle: PropTypes.func.isRequired,
 };
 export default Navbar;

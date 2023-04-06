@@ -1,3 +1,1 @@
-import NewProjectWizard from "./NewProjectWizard";
-
-export default NewProjectWizard;
+export {default} from "./NewProjectWizard";
