@@ -5,6 +5,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Box from "@mui/material/Box";
 import {Node} from "reactflow";
+import ChoiceForm from "../ChoiceForm";
+import Divider from "@mui/material/Divider";
 
 interface EditorNodeProps {
     editedNode: Node | null,
@@ -75,7 +77,7 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
                     InputLabelProps={{shrink: true}}
                     onChange={handleLabelChange}
                 />
-                <Box padding={1} justifyContent="stretch" flexGrow={1} sx={{overflowY: 'auto', maxHeight: "100%"}}>
+                <Box padding={1} flexGrow={1} maxHeight="100%" sx={{overflowY: 'auto'}}>
                     <TextField
                         id="scene-body"
                         label="Scene Script"
@@ -85,6 +87,10 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
                         fullWidth
                         onChange={handleBodyChange}
                     />
+                </Box>
+                <Divider/>
+                <Box padding={1} width="100%" maxHeight="50%">
+                    <ChoiceForm />
                 </Box>
             </Stack>
         </Paper>
