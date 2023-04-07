@@ -287,7 +287,9 @@ const Creator = (): JSX.Element => {
                             <Controls/>
                             <MiniMap />
                             <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
-                            {sceneEditorOpen && <SceneEditor editedNode={editedNode} nodes={nodes} setNodes={setNodes}/>}
+                            {sceneEditorOpen &&
+                                <SceneEditor editedNode={editedNode} nodes={nodes} setNodes={setNodes} setEdges={setEdges}/>
+                            }
                         </ReactFlow>
                     }
                 </Box>

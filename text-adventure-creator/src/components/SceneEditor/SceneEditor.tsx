@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Box from "@mui/material/Box";
-import {Node} from "reactflow";
+import {Edge, Node} from "reactflow";
 import ChoiceForm from "../ChoiceForm";
 import Divider from "@mui/material/Divider";
 
@@ -12,9 +12,10 @@ interface EditorNodeProps {
     editedNode: Node | null,
     nodes: Node[],
     setNodes: (nodes: Node[]) => void,
+    setEdges: (edges: Edge[]) => void,
 }
 
-const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
+const SceneEditor = ({editedNode, nodes, setNodes, setEdges}: EditorNodeProps) => {
     const [label, setLabel] = React.useState<string>(editedNode?.data?.label ?? "");
     const [body, setBody] = React.useState<string>(editedNode?.data?.body ?? "");
     const [choices, setChoices] = React.useState<string[]>(editedNode?.data?.choices ?? []);
@@ -97,7 +98,11 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
                 </Box>
                 <Divider/>
                 <Box padding={1} width="100%" maxHeight="50%">
-                    <ChoiceForm onChange={handleChoicesChange} choices={choices} />
+                    <ChoiceForm
+                        onChange={handleChoicesChange}
+                        choices={choices}
+                        editedNode={editedNode}
+                        setEdges={setEdges} />
                 </Box>
             </Stack>
         </Paper>
