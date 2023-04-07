@@ -20,7 +20,7 @@ const ChoiceNode = ({data}: NodeProps<NodeChoiceData>) => (
         <CardHeader title={data.label}/>
         {data.choices?.length > 0 &&
             <CardContent>
-                <Stack direction="column" spacing={1} minHeight={32 * (data.choices?.length - 1)} alignItems="flex-end" marginRight={-1}>
+                <Stack minWidth="200px" direction="column" spacing={1} minHeight={32 * (data.choices?.length - 1)} alignItems="flex-end" marginRight={-1}>
                     {data.choices?.map((choice, index, array) => (
                         <Box key={index}>
                             <Handle
@@ -34,10 +34,13 @@ const ChoiceNode = ({data}: NodeProps<NodeChoiceData>) => (
                                     borderRadius: "2px 0 0 2px",
                                     backgroundColor: "#00ffff",
                                     top: 'auto',
-                                    bottom: (12 + 32 * (array.length - index - 1)),
+                                    bottom: (32 * (array.length - index - 1)),
                                     right: -5,
                                     padding: "0 20px",
-                                    textAlign: "right"
+                                    textAlign: "right",
+                                    textOverflow: "ellipsis",
+                                    overflow: "hidden",
+                                    whiteSpace: "nowrap",
                                 }}
                             >
                                 {choice}
