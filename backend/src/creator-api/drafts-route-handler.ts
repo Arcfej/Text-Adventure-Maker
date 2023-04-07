@@ -19,6 +19,7 @@ interface Drafts extends Document {
 						id: string;
 						position: { x: number; y: number };
 						data: any;
+						type: string;
 				}>
 				edges: Array<{
 						id: string;
@@ -84,8 +85,10 @@ const postDraft = async (request: RequestWithDrafts) => {
 						nodes: [{
 								id: '1',
 								position: {x: 0, y: 0},
+								type: 'choice',
 								data: {
-										label: 'Start your story here'
+										label: 'Start your story here',
+										choices: []
 								}
 						}],
 						edges: [],
