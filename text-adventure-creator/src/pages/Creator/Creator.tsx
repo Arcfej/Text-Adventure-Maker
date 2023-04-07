@@ -44,6 +44,7 @@ const Creator = (): JSX.Element => {
 
     const reactFlowWrapper = useRef<HTMLDivElement>(null);
     const connectingNodeId = useRef<string>('');
+    const connectingNodePort = useRef<string | null>(null);
     const {project: reactFlow} = useReactFlow();
 
     const navigate = useNavigate();
@@ -156,8 +157,9 @@ const Creator = (): JSX.Element => {
         }
     }, [idCounter]);
 
-    const onConnectStart = useCallback((_: any, {nodeId}: OnConnectStartParams) => {
+    const onConnectStart = useCallback((_: any, {nodeId, handleId}: OnConnectStartParams) => {
         connectingNodeId.current = nodeId as string;
+        connectingNodePort.current = handleId;
     }, []);
 
     const onConnectEnd = useCallback(
@@ -178,9 +180,15 @@ const Creator = (): JSX.Element => {
                     data: { label: `Scene ${id}` },
                     type: 'choice'
                 };
+                const newEdge = {
+                    id,
+                    source: connectingNodeId.current,
+                    target: id,
+                    ...(connectingNodePort) && {sourceHandle: connectingNodePort.current}
+                };
 
                 setNodes((nds) => nds.concat(newNode));
-                setEdges((eds) => eds.concat({ id, source: connectingNodeId.current, target: id }));
+                setEdges((eds) => eds.concat(newEdge));
             }
         },
         [getId, reactFlow]
