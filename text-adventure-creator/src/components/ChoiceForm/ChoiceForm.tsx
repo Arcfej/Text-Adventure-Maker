@@ -20,7 +20,7 @@ const ChoiceForm = ({choices, onChange}: ChoiceFormProps): JSX.Element => {
 
     const removeChoice = (index: number) => {
         onChange(choices.filter((_, i) => i !== index));
-    }
+    };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         onChange(choices.map((choice, index) => {
@@ -38,11 +38,12 @@ const ChoiceForm = ({choices, onChange}: ChoiceFormProps): JSX.Element => {
                 <Stack key={index} direction="row" spacing={1}>
                     <TextField
                         name={`${index}`}
+                        key={index}
                         size="small"
                         hiddenLabel
                         variant="filled"
                         fullWidth
-                        defaultValue={choice}
+                        value={choice}
                         onChange={handleChange}
                     >
                         {choice}

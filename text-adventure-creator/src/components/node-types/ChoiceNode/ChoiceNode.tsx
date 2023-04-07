@@ -4,8 +4,8 @@ import Card from "@mui/material/Card";
 import {Handle, Node, NodeProps, Position} from "reactflow";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import Typography from "@mui/material/Typography";
 import Box from '@mui/material/Box';
+import Stack from "@mui/material/Stack";
 
 type NodeChoiceData = {
     label: string;
@@ -20,17 +20,31 @@ const ChoiceNode = ({data}: NodeProps<NodeChoiceData>) => (
         <CardHeader title={data.label}/>
         {data.choices?.length > 0 &&
             <CardContent>
-                {data.choices?.map((choice, index, array) => (
-                    <Box key={index}>
-                        <Typography>{choice}</Typography>
-                        <Handle
-                            id={`${index}`}
-                            type="source"
-                            position={Position.Right}
-                            style={{background: "#555", top: 'auto', bottom: 30}}
-                        />
-                    </Box>
-                ))}
+                <Stack direction="column" spacing={1} minHeight={32 * (data.choices?.length - 1)} alignItems="flex-end" marginRight={-1}>
+                    {data.choices?.map((choice, index, array) => (
+                        <Box key={index}>
+                            <Handle
+                                id={`${index}`}
+                                type="source"
+                                position={Position.Right}
+                                style={{
+                                    width: "80%",
+                                    height: "25px",
+                                    borderColor: "#000",
+                                    borderRadius: "2px 0 0 2px",
+                                    backgroundColor: "#00ffff",
+                                    top: 'auto',
+                                    bottom: (12 + 32 * (array.length - index - 1)),
+                                    right: -5,
+                                    padding: "0 20px",
+                                    textAlign: "right"
+                                }}
+                            >
+                                {choice}
+                            </Handle>
+                        </Box>
+                    ))}
+                </Stack>
             </CardContent>
         }
     </Card>
