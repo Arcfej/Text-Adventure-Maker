@@ -28,6 +28,7 @@ import SceneEditor from "../../components/SceneEditor";
 import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
 import nodeTypes from '../../components/node-types/node-types';
+import {HandleType} from 'reactflow';
 
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
 
@@ -45,6 +46,7 @@ const Creator = (): JSX.Element => {
     const reactFlowWrapper = useRef<HTMLDivElement>(null);
     const connectingNodeId = useRef<string>('');
     const connectingNodePort = useRef<string | null>(null);
+    const connectingNodeType = useRef<HandleType>('source');
     const {project: reactFlow} = useReactFlow();
 
     const navigate = useNavigate();
@@ -157,9 +159,10 @@ const Creator = (): JSX.Element => {
         }
     }, [idCounter]);
 
-    const onConnectStart = useCallback((_: any, {nodeId, handleId}: OnConnectStartParams) => {
+    const onConnectStart = useCallback((_: any, {nodeId, handleId, handleType}: OnConnectStartParams) => {
         connectingNodeId.current = nodeId as string;
         connectingNodePort.current = handleId;
+        connectingNodeType.current = handleType as HandleType;
     }, []);
 
     const onConnectEnd = useCallback(
@@ -177,13 +180,18 @@ const Creator = (): JSX.Element => {
                 const newNode = {
                     id,
                     position: position,
-                    data: { label: `Scene ${id}` },
+                    data: {
+                        label: `Scene ${id}`,
+                        ...(connectingNodeType.current === 'target' && {choices: ['']}),
+                    },
                     type: 'choice'
                 };
+                const source = connectingNodeType.current === 'source' ? connectingNodeId.current : id;
+                const target = connectingNodeType.current === 'source' ? id : connectingNodeId.current;
                 const newEdge = {
-                    id,
-                    source: connectingNodeId.current,
-                    target: id,
+                    id: `${source}${connectingNodePort ? ('.' + connectingNodePort) : ''}-${target}`,
+                    source: source,
+                    target: target,
                     ...(connectingNodePort) && {sourceHandle: connectingNodePort.current}
                 };
 
