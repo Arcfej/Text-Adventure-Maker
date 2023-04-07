@@ -16,7 +16,11 @@ export type ChoiceNodeType = Node<NodeChoiceData>;
 
 const ChoiceNode = ({data}: NodeProps<NodeChoiceData>) => (
     <Card sx={{border: 1, borderColor: "grey.500"}}>
-        <Handle type="target" position={Position.Left} style={{background: "#555"}}/>
+        <Handle
+            type="target"
+            position={Position.Left}
+            style={{background: "#555", borderColor: "#000", borderRadius: "2px", backgroundColor: "#ffff00", width: "10px", height:"30px", top: 31}}
+        />
         <CardHeader title={data.label}/>
         {data.choices?.length > 0 &&
             <CardContent>
