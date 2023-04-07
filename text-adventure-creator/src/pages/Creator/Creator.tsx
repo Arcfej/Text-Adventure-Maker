@@ -267,6 +267,7 @@ const Creator = (): JSX.Element => {
                             onConnectEnd={onConnectEnd}
                             fitView
                             deleteKeyCode={deleteKeyCodes}
+                            onNodesDelete={() => setSceneEditorOpen(false)}
                         >
                             <Paper
                                 variant="outlined"
