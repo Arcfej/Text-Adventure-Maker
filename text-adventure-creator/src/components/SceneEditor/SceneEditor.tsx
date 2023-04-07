@@ -39,7 +39,7 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
             }
             return node;
         }));
-    }, [label, body, choices, setNodes]);
+    }, [label, body, choices, setNodes, editedNode?.id]);
 
     const handleLabelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLabel(event.target.value);
@@ -50,7 +50,6 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
     };
 
     const handleChoicesChange = useCallback((choices: string[]) => {
-        console.log(choices);
         setChoices(choices);
     }, [setChoices]);
 
@@ -98,7 +97,7 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
                 </Box>
                 <Divider/>
                 <Box padding={1} width="100%" maxHeight="50%">
-                    <ChoiceForm onChange={handleChoicesChange} />
+                    <ChoiceForm onChange={handleChoicesChange} choices={choices} />
                 </Box>
             </Stack>
         </Paper>

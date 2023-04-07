@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from "@mui/material/TextField";
 import Stack from '@mui/material/Stack';
@@ -8,30 +8,28 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 interface ChoiceFormProps {
+    choices: string[];
     onChange: (choices: string[]) => void;
 }
 
-const ChoiceForm = ({onChange}: ChoiceFormProps): JSX.Element => {
-    const [choices, setChoices] = React.useState<string[]>([]);
-
-    useEffect(() => {
-        onChange(choices);
-    }, [choices, onChange]);
+const ChoiceForm = ({choices, onChange}: ChoiceFormProps): JSX.Element => {
 
     const addChoice = () => {
-        setChoices([...choices, '']);
+        onChange([...choices, '']);
     }
 
     const removeChoice = (index: number) => {
-        setChoices(choices.filter((_, i) => i !== index));
+        onChange(choices.filter((_, i) => i !== index));
     }
 
-    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setChoices(choices.map((choice, index) =>
-            index === parseInt(event.target.name)
-                ? event.target.value
-                : choice));
-    }, [setChoices]);
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        onChange(choices.map((choice, index) => {
+            if (index === parseInt(event.target.name)) {
+                return event.target.value;
+            }
+            else return choice;
+        }));
+    };
 
     return (<>
         <Typography variant="h6">Choices</Typography>
