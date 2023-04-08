@@ -40,7 +40,7 @@ const SceneEditor = ({editedNode, nodes, setNodes, setEdges}: EditorNodeProps) =
             }
             return node;
         }));
-    }, [label, body, choices, setNodes, editedNode?.id]);
+    }, [label, body, choices, setNodes]);
 
     const handleLabelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLabel(event.target.value);
