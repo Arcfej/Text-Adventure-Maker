@@ -19,11 +19,13 @@ interface Drafts extends Document {
 						id: string;
 						position: { x: number; y: number };
 						data: any;
+						type: string;
 				}>
 				edges: Array<{
 						id: string;
 						source: string;
 						target: string;
+						sourceHandle: string | null;
 				}>
 				idCounter: number;
 		}
@@ -81,15 +83,35 @@ const postDraft = async (request: RequestWithDrafts) => {
 				owner_id: id,
 				title: title,
 				graph: {
-						nodes: [{
-								id: '1',
-								position: {x: 0, y: 0},
-								data: {
-										label: 'Start your story here'
+						nodes: [
+								{
+										id: '1',
+										position: {x: 0, y: 0},
+										type: 'choice',
+										data: {
+												label: 'Start your story here',
+												body: "This is the actual story you'll be writing, and you can add as many paragraphs as you want.\n\nYou can also add choices below that will help you branch your story out.\nI've already added one for you to get started.",
+												choices: ['First choice'],
+										}
+								},
+								{
+										id: '2',
+										position: {x: 330, y: 0},
+										type: 'choice',
+										data: {
+												label: 'Going in the first direction',
+										}
 								}
-						}],
-						edges: [],
-						idCounter: 2
+						],
+						edges: [
+								{
+										id: '1-2',
+										source: '1',
+										target: '2',
+										sourceHandle: '0',
+								}
+						],
+						idCounter: 3
 				}
 		})).insertedId;
 

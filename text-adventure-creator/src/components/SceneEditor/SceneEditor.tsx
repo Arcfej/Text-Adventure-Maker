@@ -1,25 +1,30 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Paper from "@mui/material/Paper";
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Box from "@mui/material/Box";
-import {Node} from "reactflow";
+import {Edge, Node} from "reactflow";
+import ChoiceForm from "../ChoiceForm";
+import Divider from "@mui/material/Divider";
 
 interface EditorNodeProps {
     editedNode: Node | null,
     nodes: Node[],
     setNodes: (nodes: Node[]) => void,
+    setEdges: (edges: Edge[]) => void,
 }
 
-const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
+const SceneEditor = ({editedNode, nodes, setNodes, setEdges}: EditorNodeProps) => {
     const [label, setLabel] = React.useState<string>(editedNode?.data?.label ?? "");
     const [body, setBody] = React.useState<string>(editedNode?.data?.body ?? "");
+    const [choices, setChoices] = React.useState<string[]>(editedNode?.data?.choices ?? []);
 
     // Reset label and body if a new scene is selected
     useEffect(() => {
         setLabel(editedNode?.data?.label ?? "");
         setBody(editedNode?.data?.body ?? "");
+        setChoices(editedNode?.data?.choices ?? []);
     }, [editedNode]);
 
     // save modification to the data
@@ -28,13 +33,14 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
             if (node.id === editedNode?.id) {
                 node.data = {
                     ...node.data,
-                    body: body,
                     label: label,
+                    body: body,
+                    choices: choices,
                 };
             }
             return node;
         }));
-    }, [label, body, setNodes]);
+    }, [label, body, choices, setNodes]);
 
     const handleLabelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLabel(event.target.value);
@@ -43,6 +49,10 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
     const handleBodyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setBody(event.target.value);
     };
+
+    const handleChoicesChange = useCallback((choices: string[]) => {
+        setChoices(choices);
+    }, [setChoices]);
 
     return (
         <Paper
@@ -75,7 +85,7 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
                     InputLabelProps={{shrink: true}}
                     onChange={handleLabelChange}
                 />
-                <Box padding={1} justifyContent="stretch" flexGrow={1} sx={{overflowY: 'auto', maxHeight: "100%"}}>
+                <Box padding={1} flexGrow={1} maxHeight="100%" sx={{overflowY: 'auto'}}>
                     <TextField
                         id="scene-body"
                         label="Scene Script"
@@ -85,6 +95,14 @@ const SceneEditor = ({editedNode, nodes, setNodes}: EditorNodeProps) => {
                         fullWidth
                         onChange={handleBodyChange}
                     />
+                </Box>
+                <Divider/>
+                <Box padding={1} width="100%" maxHeight="50%">
+                    <ChoiceForm
+                        onChange={handleChoicesChange}
+                        choices={choices}
+                        editedNode={editedNode}
+                        setEdges={setEdges} />
                 </Box>
             </Stack>
         </Paper>
