@@ -10,8 +10,10 @@ import {
     BackgroundVariant,
     Connection,
     Controls,
+    ControlProps,
     EdgeChange,
     MiniMap,
+    MiniMapProps,
     NodeChange,
     OnConnectStartParams,
     ReactFlow,
@@ -29,8 +31,41 @@ import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
 import nodeTypes from '../../components/node-types/node-types';
 import {HandleType} from 'reactflow';
+import {styled} from '@mui/material/styles';
 
 const deleteKeyCodes: string[] = ['Backspace', 'Delete'];
+
+const StyledControls = styled(Controls)<ControlProps>(({theme}) => {
+    const isLight = theme.palette.mode === 'light';
+    return {
+        button: {
+            backgroundColor: isLight ? theme.palette.grey["50"] : theme.palette.grey["700"],
+            color: isLight ? theme.palette.grey["900"] : theme.palette.common.white,
+            borderBottom: `1px solid ${isLight ? theme.palette.grey["300"] : theme.palette.grey["600"]}`,
+            '&:hover': {
+                backgroundColor: isLight ? theme.palette.grey["200"] : theme.palette.grey["700"],
+            },
+            path: {
+                fill: 'currentColor',
+            },
+        },
+    };
+});
+
+const StyledMiniMap = styled(MiniMap)<MiniMapProps>(({theme}) => {
+    const isLight = theme.palette.mode === 'light';
+    return {
+        backgroundColor: isLight ? theme.palette.common.white : theme.palette.common.black,
+        '.react-flow__minimap-mask': {
+            fill: isLight ? theme.palette.grey["300"] : theme.palette.grey["800"],
+            opacity: 0.5,
+        },
+        '.react-flow__minimap-node': {
+            fill: isLight ? theme.palette.grey["400"] : theme.palette.grey["700"],
+            stroke: 'none'
+        }
+    }
+});
 
 const Creator = (): JSX.Element => {
     const [isProjectSaved, setIsProjectSaved] = useState<boolean>(true);
@@ -293,8 +328,8 @@ const Creator = (): JSX.Element => {
                             >
                                 <Typography variant="h6" sx={{fontWeight: 600}}>{projectTitle}</Typography>
                             </Paper>
-                            <Controls/>
-                            <MiniMap />
+                            <StyledControls />
+                            <StyledMiniMap />
                             <Background variant={BackgroundVariant.Dots} gap={12} size={1}/>
                             {sceneEditorOpen &&
                                 <SceneEditor editedNode={editedNode} nodes={nodes} setNodes={setNodes} setEdges={setEdges}/>
