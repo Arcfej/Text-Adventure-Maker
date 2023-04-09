@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import {Logout, NoteAdd, Save, Update} from "@mui/icons-material";
+import {Logout, NoteAdd, Publish, Save, Update} from "@mui/icons-material";
 import MenuList from '@mui/material/MenuList';
 import Badge from '@mui/material/Badge';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -28,6 +28,9 @@ import {Edge, Node} from 'reactflow';
 import LoadProjectDialog from "../LoadProjectDialog";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import SaveWarningDialog from "../SaveWarningDialog";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 interface MenuOption {
     label: string;
@@ -46,6 +49,10 @@ const menuItems: MenuOption[] = [
     {
         label: 'Save',
         icon: <Save />,
+    },
+    {
+        label: 'Publish',
+        icon: <Publish />,
     }];
 
 interface SmallScreenMenuProps {
@@ -205,57 +212,6 @@ LargerScreenMenu.propTypes = {
     handleMenuClick: PropTypes.func.isRequired
 }
 
-interface WarningDialogProps {
-    open: boolean;
-    handleClose: (answer: string) => void;
-}
-
-/**
- * Show a warning to the user about unsaved project before lossing progress.
- *
- * @param open true if the dialog is visible
- * @param handleClose pass 'Cancel', 'Discard' or 'Save' based on what the user chose
- * @constructor
- */
-const WarningDialog = ({open, handleClose}: WarningDialogProps): JSX.Element => (
-    <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Warning</DialogTitle>
-        <DialogContent>
-            <DialogContentText>Project is not saved. Do you want to save it?</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button
-                variant="outlined"
-                color="info"
-                onClick={() => handleClose('Cancel')}
-            >
-                Cancel
-            </Button>
-            <Button
-                variant="contained"
-                color="error"
-                onClick={() => {
-                    handleClose('Discard');
-                }}
-            >
-                Discard Changes
-            </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleClose('Save')}
-            >
-                Save
-            </Button>
-        </DialogActions>
-    </Dialog>
-);
-
-WarningDialog.propTypes = {
-    open: PropTypes.bool.isRequired,
-    handleClose: PropTypes.func.isRequired
-}
-
 interface NavbarProps {
     openedProject: string | null;
     setOpenedProject: (projectId: string | null) => void;
@@ -286,10 +242,13 @@ const Navbar = ({
     setProjectTitle
 }: NavbarProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [clickedButton, setClickedButton] = useState<string | null>(null);
+    const [delayedMenuAction, setDelayedMenuAction] = useState<string | null>(null);
     const [wizardOpen, setWizardOpen] = useState(false);
     const [loadProjectDialogOpen, setLoadProjectDialogOpen] = useState(false);
     const [warningDialogOpen, setWarningDialogOpen] = useState(false);
+    const [notificationOpen, setNotificationOpen] = useState(false);
+    const [notifySuccess, setNotifySuccess] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState<string>('');
 
     const saveProject = async (): Promise<boolean> => {
         setIsLoading(true);
@@ -329,10 +288,32 @@ const Navbar = ({
         }
     };
 
-    const executeMenuAction = (target: string | null) => {
+    const publishProject = async (): Promise<boolean> => {
+        const token = await firebaseAuth.currentUser?.getIdToken();
+        // const url = "http://localhost:8787/creator/drafts/publish/" + openedProject + "/";
+        const url = "https://backend.text-adventure-maker.workers.dev/creator/drafts/publish/" + openedProject + "/";
+        const response: Response = await fetch(url,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer: " + token,
+                }
+            });
+        return response.ok;
+    }
+
+    const executeMenuAction = async (target: string | null) => {
         switch (target) {
             case 'Save': {
-                saveProject();
+                if(await saveProject()) {
+                    setNotifySuccess(true);
+                    setNotificationMessage('Project saved successfully!');
+                } else {
+                    setNotifySuccess(false);
+                    setNotificationMessage('Project could not be saved!');
+                }
+                setNotificationOpen(true);
                 break;
             }
             case 'New': {
@@ -344,10 +325,22 @@ const Navbar = ({
                 break;
             }
             case 'Logout': {
-                firebaseAuth.signOut();
+                await firebaseAuth.signOut();
                 break;
             }
-            default: console.warn('No action to execute: ', target);
+            case 'Publish': {
+                if(await publishProject()) {
+                    setNotifySuccess(true);
+                    setNotificationMessage('Project published successfully!');
+                } else {
+                    setNotifySuccess(false);
+                    setNotificationMessage('Project could not be published!');
+                }
+                setNotificationOpen(true);
+                break;
+            }
+            default:
+                console.warn('No action to execute: ', target);
         }
     }
 
@@ -357,21 +350,25 @@ const Navbar = ({
             case 'Save': {
                 const success = await saveProject();
                 if (success) {
-                    executeMenuAction(clickedButton);
-                    setClickedButton(null);
+                    await executeMenuAction(delayedMenuAction);
+                    setDelayedMenuAction(null);
+                    setNotifySuccess(true);
+                    setNotificationMessage('Project saved successfully!');
                 } else {
-                    // TODO show warning of unsuccessful save
+                    setNotifySuccess(false);
+                    setNotificationMessage('Project could not be saved!');
                     setWarningDialogOpen(true);
                 }
+                setNotificationOpen(true);
                 break;
             }
             case 'Discard': {
-                executeMenuAction(clickedButton);
-                setClickedButton(null);
+                await executeMenuAction(delayedMenuAction);
+                setDelayedMenuAction(null);
                 break;
             }
             case 'Cancel': {
-                setClickedButton(null);
+                setDelayedMenuAction(null);
                 break;
             }
             default: console.warn('Unknown dialog answer');
@@ -379,18 +376,18 @@ const Navbar = ({
     }
 
     const handleMenuClick = (target: string) => {
-        // Save the project if there's one opened or do nothing
         if (target === 'Save') {
+            // Save the project if there's one opened or do nothing
             if (openedProject && !isProjectSaved) executeMenuAction('Save');
         }
         // If there's no opened project or the project is saved, execute the buttons' actions
         else if (isProjectSaved || openedProject === null) {
             executeMenuAction(target);
         }
-            // If there's an opened project and it's not saved,
+        // If there's an opened project and it's not saved,
         // ask the user if he wants to save it and wait for the answer
         else {
-            setClickedButton(target);
+            setDelayedMenuAction(target);
             setWarningDialogOpen(true);
         }
     }
@@ -471,7 +468,7 @@ const Navbar = ({
                     open={loadProjectDialogOpen}
                     handleClose={handleLoadProject}
                 />
-                <WarningDialog
+                <SaveWarningDialog
                     open={warningDialogOpen}
                     handleClose={handleWarningDialogClose}
                 />
@@ -479,6 +476,16 @@ const Navbar = ({
             <Backdrop open={isLoading} sx={{zIndex: 1600}}>
                 <CircularProgress color="inherit"/>
             </Backdrop>
+            <Snackbar
+                open={notificationOpen}
+                autoHideDuration={6000}
+                onClose={() => setNotificationOpen(false)}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+            >
+                <Alert onClose={() => setNotificationOpen(false)} severity={notifySuccess ? 'success' : 'error'}>
+                    {notificationMessage}
+                </Alert>
+            </Snackbar>
         </AppBar>
     );
 };

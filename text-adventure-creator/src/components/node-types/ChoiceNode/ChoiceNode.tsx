@@ -15,11 +15,11 @@ type NodeChoiceData = {
 
 export type ChoiceNodeType = Node<NodeChoiceData>;
 
-const ChoiceNode = ({data}: NodeProps<NodeChoiceData>) => {
+const ChoiceNode = ({data, id}: NodeProps<NodeChoiceData>) => {
     const theme = useTheme();
     return (
         <Card sx={{border: 1, borderColor: "grey.500"}}>
-            <Handle
+            {id !=='1' && <Handle
                 type="target"
                 position={Position.Left}
                 style={{
@@ -31,7 +31,7 @@ const ChoiceNode = ({data}: NodeProps<NodeChoiceData>) => {
                     height: "30px",
                     top: 31
                 }}
-            />
+            />}
             <CardHeader title={data.label}/>
             {data.choices?.length > 0 &&
                 <CardContent>

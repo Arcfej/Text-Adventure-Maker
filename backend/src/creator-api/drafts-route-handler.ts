@@ -3,6 +3,7 @@ import * as Realm from "realm-web";
 import type {ObjectId} from "bson";
 import type {RequestWithAuth} from "./creator-api-handler";
 import type {MongoDBRealmError} from "realm-web";
+import type {Game} from "../game-api/game-api-handler";
 
 const objectId = Realm.BSON.ObjectID;
 
@@ -28,10 +29,44 @@ interface Drafts extends Document {
 						sourceHandle: string | null;
 				}>
 				idCounter: number;
+				startNode: string;
 		}
 }
 
 type DraftCollection = globalThis.Realm.Services.MongoDB.MongoDBCollection<Drafts>;
+
+const initialGraph = {
+		nodes: [
+				{
+						id: '1',
+						position: {x: 0, y: 0},
+						type: 'choice',
+						data: {
+								label: 'Start your story here',
+								body: "This is the actual story you'll be writing, and you can add as many paragraphs as you want.\n\nYou can also add choices below that will help you branch your story out.\nI've already added one for you to get started.",
+								choices: ['First choice'],
+						}
+				},
+				{
+						id: '2',
+						position: {x: 330, y: 0},
+						type: 'choice',
+						data: {
+								label: 'Going in the first direction',
+						}
+				}
+		],
+		edges: [
+				{
+						id: '1-2',
+						source: '1',
+						target: '2',
+						sourceHandle: '0',
+				}
+		],
+		idCounter: 3,
+		startNode: '1',
+};
 
 // declare a custom Request type to allow request injection from middleware
 type RequestWithDrafts = {
@@ -82,37 +117,7 @@ const postDraft = async (request: RequestWithDrafts) => {
 		const insertedId = (await request.drafts.insertOne({
 				owner_id: id,
 				title: title,
-				graph: {
-						nodes: [
-								{
-										id: '1',
-										position: {x: 0, y: 0},
-										type: 'choice',
-										data: {
-												label: 'Start your story here',
-												body: "This is the actual story you'll be writing, and you can add as many paragraphs as you want.\n\nYou can also add choices below that will help you branch your story out.\nI've already added one for you to get started.",
-												choices: ['First choice'],
-										}
-								},
-								{
-										id: '2',
-										position: {x: 330, y: 0},
-										type: 'choice',
-										data: {
-												label: 'Going in the first direction',
-										}
-								}
-						],
-						edges: [
-								{
-										id: '1-2',
-										source: '1',
-										target: '2',
-										sourceHandle: '0',
-								}
-						],
-						idCounter: 3
-				}
+				graph: initialGraph
 		})).insertedId;
 
 		return json(await request.drafts.findOne({_id: insertedId}));
@@ -133,6 +138,40 @@ const updateDraft = async (request: RequestWithDrafts) => {
 				if (err.errorCode === 'SchemaValidationFailedWrite') {
 						return error(400, 'Invalid data');
 				}
+		}
+};
+
+const publishDraft = async (request: RequestWithDrafts) => {
+		const {user: {id: uId}} = request;
+		const gameId = request.params.id;
+		const draft = await request.drafts.findOne({
+				_id: new objectId(gameId)
+		});
+		if (!draft) return error(404, 'Project not found');
+
+		const client = request.user.mongoClient('mongodb-atlas');
+		const games = client.db('games').collection<Game>('published');
+
+		const result = (await games.updateOne(
+				{_id: new objectId(gameId)},
+				{$set: {
+						owner_id: uId,
+						title: draft.title,
+						graph: {
+								nodes: draft.graph.nodes.map(node => ({id: node.id, data: node.data,})),
+								edges: draft.graph.edges.map(edge => ({id: edge.id, source: edge.source, target: edge.target})),
+								startNode: draft.graph.startNode,
+						},
+				}},
+				{upsert: true}
+		));
+
+		if (result.upsertedId) {
+				return json('Game Published');
+		} else if (result.matchedCount > 0) {
+				return json('Published game updated');
+		} else {
+				return error(400, 'Failed to publish');
 		}
 };
 
@@ -161,6 +200,9 @@ router
 		})
 		.patch('/:id', async (request: IRequest) => {
 				return await updateDraft(request as RequestWithDrafts);
+		})
+		.post('publish/:id', async (request: IRequest) => {
+				return await publishDraft(request as RequestWithDrafts);
 		})
 		.delete('/:id', async (request: IRequest) => {
 				return await deleteDraft(request as RequestWithDrafts);
