@@ -1,4 +1,4 @@
-import {error, json, IRequest, Router} from 'itty-router';
+import {error, IRequest, json, Router} from 'itty-router';
 import * as Realm from "realm-web";
 
 const ObjectId = Realm.BSON.ObjectID;
@@ -7,9 +7,21 @@ const ObjectId = Realm.BSON.ObjectID;
 type Document = globalThis.Realm.Services.MongoDB.Document;
 
 // Declare the interface for a Game document
-interface Game extends Document {
+export interface Game extends Document {
 		owner_id: string;
-		intro: string;
+		title: string;
+		graph: {
+				nodes: Array<{
+						id: string;
+						data: any;
+				}>,
+				edges: Array<{
+						id: string;
+						source: string;
+						target: string;
+				}>,
+				startNode: string;
+		}
 }
 
 type GameCollection = globalThis.Realm.Services.MongoDB.MongoDBCollection<Game>;
@@ -50,38 +62,43 @@ const getGame = async (request: RequestWithGames) => {
 };
 
 const getGames = async (request: RequestWithGames) => {
-		const games = await request.games.find();
-		return json(games);
-};
-
-const postGame = async (request: RequestWithGames) => {
-		const {uId} = request;
-		const {game} = await request.json();
-		return json(await request.games.insertOne({
-				owner_id: uId,
-				intro: game
-		}));
-};
-
-const updateGame = async (request: RequestWithGames) => {
-		const {game} = await request.json();
-		const result = await request.games.updateOne(
-				{_id: new ObjectId(request.params.id)},
-				{$set: {intro: game}}
-		);
-		return result.matchedCount > 0
-				? json("Game updated")
-				: error(404, 'Game not found');
-};
-
-const deleteGame = async (request: RequestWithGames) => {
-		const result = await request.games.deleteOne({
-				_id: new ObjectId(request.params.id)
+		const games = await request.games.find({}, {
+				projection: {
+						title: 1,
+				}
 		});
-		return result.deletedCount > 0
-				? json("Game deleted")
-				: error(404, 'Game not found');
+		return json({games: games});
 };
+
+// const postGame = async (request: RequestWithGames) => {
+// 		const {uId} = request;
+// 		const {game} = await request.json();
+// 		return json(await request.games.insertOne({
+// 				owner_id: uId,
+// 				intro: game
+//
+// 		}));
+// };
+//
+// const updateGame = async (request: RequestWithGames) => {
+// 		const {game} = await request.json();
+// 		const result = await request.games.updateOne(
+// 				{_id: new ObjectId(request.params.id)},
+// 				{$set: {intro: game}}
+// 		);
+// 		return result.matchedCount > 0
+// 				? json("Game updated")
+// 				: error(404, 'Game not found');
+// };
+//
+// const deleteGame = async (request: RequestWithGames) => {
+// 		const result = await request.games.deleteOne({
+// 				_id: new ObjectId(request.params.id)
+// 		});
+// 		return result.deletedCount > 0
+// 				? json("Game deleted")
+// 				: error(404, 'Game not found');
+// };
 
 // Create a new router
 const router = Router({base: '/games'});
@@ -94,14 +111,14 @@ router
 		.get('/', async (request: IRequest) => {
 				return await getGames(request as RequestWithGames);
 		})
-		.post('/', async (request: IRequest) => {
-				return await postGame(request as RequestWithGames);
-		})
-		.patch('/:id', async (request: IRequest) => {
-				return await updateGame(request as RequestWithGames);
-		})
-		.delete('/:id', async (request: IRequest) => {
-				return await deleteGame(request as RequestWithGames);
-		});
+		// .post('/', async (request: IRequest) => {
+		// 		return await postGame(request as RequestWithGames);
+		// })
+		// .patch('/:id', async (request: IRequest) => {
+		// 		return await updateGame(request as RequestWithGames);
+		// })
+		// .delete('/:id', async (request: IRequest) => {
+		// 		return await deleteGame(request as RequestWithGames);
+		// });
 
 export default router.handle;
