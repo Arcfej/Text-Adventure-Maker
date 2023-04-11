@@ -55,9 +55,17 @@ const withGames = async (req: IRequest, env: any) => {
 };
 
 const getGame = async (request: RequestWithGames) => {
-		const game = await request.games.findOne({
-				_id: new ObjectId(request.params.id)
-		});
+		const game = await request.games.findOne(
+				{
+						_id: new ObjectId(request.params.id)
+				},
+				{
+						projection: {
+								title: 1,
+								graph: 1
+						}
+				}
+		);
 		return game ? json(game) : error(404, 'Game not found');
 };
 
