@@ -19,11 +19,6 @@ import LightDarkToggle from "../LightDarkToggle/LightDarkToggle";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import PropTypes from "prop-types";
 import NewProjectWizard from "../NewProjectWizard";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
 import {Edge, Node} from 'reactflow';
 import LoadProjectDialog from "../LoadProjectDialog";
 import Backdrop from "@mui/material/Backdrop";
@@ -269,6 +264,7 @@ const Navbar = ({
                                 edges: edges,
                                 nodes: nodes,
                                 idCounter: idCounter,
+                                startNode: '1',
                             },
                             title: projectTitle,
                         },
