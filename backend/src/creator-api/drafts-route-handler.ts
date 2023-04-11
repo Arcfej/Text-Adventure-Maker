@@ -43,7 +43,7 @@ const initialGraph = {
 						type: 'choice',
 						data: {
 								label: 'Start your story here',
-								body: "This is the actual story you'll be writing, and you can add as many paragraphs as you want.\n\nYou can also add choices below that will help you branch your story out.\nI've already added one for you to get started.",
+								body: "This is a scene in the story you'll be writing, and you can add as many paragraphs as you want.\n\nYou can also add a choice below that will direct the player to a new scene, or add multiple ones if you want to branch your story out.\nI've already added one for you to get started.\nOn the canvas, drag your mouse from a choice to add a new scene.",
 								choices: ['First choice'],
 						}
 				},
