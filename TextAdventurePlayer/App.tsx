@@ -1,59 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {Appbar, Divider, Text} from 'react-native-paper';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {
-    FlatList,
-    ListRenderItemInfo,
-    SafeAreaView,
-    useColorScheme,
-    View,
-} from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import GameList from "./screens/GameList";
+import GamePlay from "./screens/GamePlay";
 
-interface GameTitle {
-    _id: string;
-    title: string;
-}
+export type StackParamList = {
+    GameList: undefined;
+    GamePlay: { gameId: string, gameTitle: string };
+};
+
+const Stack = createNativeStackNavigator<StackParamList>();
 
 function App(): JSX.Element {
-    const [gameTitles, setGameTitles] = useState<GameTitle[]>([]);
-    const isDarkMode = useColorScheme() === 'dark';
-
-    const backgroundStyle = {
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
-
-    const fetchGames = async () => {
-        // fetch('http://localhost:8787/games', {
-        return fetch('https://backend.text-adventure-maker.workers.dev/games', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(data => setGameTitles(data.games));
-    };
-
-    useEffect(() => {
-        fetchGames();
-    }, []);
-
     return (
-        <SafeAreaView style={backgroundStyle}>
-            <Appbar.Header>
-                <Appbar.Content title="Games"/>
-            </Appbar.Header>
-            <FlatList
-                data={gameTitles}
-                renderItem={({item}: ListRenderItemInfo<GameTitle>) => (
-                    <View style={{ flexDirection: 'column', alignItems: 'stretch', width: '100%'}}>
-                        <Text variant='titleLarge' style={{padding: 24}}>{item.title}</Text>
-                        <Divider style={{borderColor: 'white', borderWidth: .7}}/>
-                    </View>
-                )}
-                keyExtractor={item => item._id}
-            />
-        </SafeAreaView>
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="GameList">
+                <Stack.Screen name="GameList" component={GameList} options={{title: 'Games'}} />
+                <Stack.Screen name="GamePlay" component={GamePlay} options={({route}) => ({title: route.params.gameTitle})} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
 
