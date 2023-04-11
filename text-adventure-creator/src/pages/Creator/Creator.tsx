@@ -223,7 +223,7 @@ const Creator = (): JSX.Element => {
                 };
                 const source = connectingNodeType.current === 'source' ? connectingNodeId.current : id;
                 const target = connectingNodeType.current === 'source' ? id : connectingNodeId.current;
-                if (connectingNodeType.current === 'target') connectingNodePort.current = '1';
+                if (connectingNodeType.current === 'target') connectingNodePort.current = '0';
                 const newEdge = {
                     id: `${source + (connectingNodePort ? ('.' + connectingNodePort.current) : '')}-${target}`,
                     source: source,
