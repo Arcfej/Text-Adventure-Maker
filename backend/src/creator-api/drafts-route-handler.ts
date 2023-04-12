@@ -159,7 +159,7 @@ const publishDraft = async (request: RequestWithDrafts) => {
 						title: draft.title,
 						graph: {
 								nodes: draft.graph.nodes.map(node => ({id: node.id, data: node.data,})),
-								edges: draft.graph.edges.map(edge => ({id: edge.id, source: edge.source, target: edge.target})),
+								edges: draft.graph.edges.map(edge => ({id: edge.id, source: edge.source, target: edge.target, sourceHandle: edge.sourceHandle})),
 								startNode: draft.graph.startNode,
 						},
 				}},
