@@ -284,12 +284,12 @@ const Creator = (): JSX.Element => {
                 spacing={0}
                 flexGrow={10}
             >
-                <SideToolbar
-                    nodes={nodes}
-                    edges={edges}
-                    setNodes={setNodes}
-                    setEdges={setEdges}
-                />
+                {/*<SideToolbar*/}
+                {/*    nodes={nodes}*/}
+                {/*    edges={edges}*/}
+                {/*    setNodes={setNodes}*/}
+                {/*    setEdges={setEdges}*/}
+                {/*/>*/}
                 <Box
                     ref={reactFlowWrapper}
                     width="100%"
