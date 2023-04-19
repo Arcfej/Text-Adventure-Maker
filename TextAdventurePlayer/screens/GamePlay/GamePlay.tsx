@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {StackParamList} from "../../App";
 import {Text, Button} from "react-native-paper";
-import {ScrollView} from "react-native";
+import {ScrollView, View} from "react-native";
 
 interface Node {
     id: string;
@@ -55,9 +55,10 @@ const GamePlay = ({route}: GamePlayProps) => {
     }, []);
 
     return (
-        <ScrollView>
-            <Text>{currentNode?.data.body}</Text>
-            {currentNode?.data.choices.map((choice: any, index: number) => {
+        <ScrollView contentContainerStyle={{margin: 16, flexGrow: 1, paddingBottom: 32}}>
+            <Text variant="bodyLarge" style={{marginBottom: 8}}>{currentNode?.data.body}</Text>
+            <View style={{flexGrow: 1}}/>
+            {currentNode?.data.choices && currentNode?.data.choices.map((choice: any, index: number) => {
                 return (
                     <Button
                         key={index}
@@ -68,9 +69,9 @@ const GamePlay = ({route}: GamePlayProps) => {
                                 if (edge.source === currentNode?.id) console.log(edge.source, edge.sourceHandle, `${index}`);
                                 return edge.source === currentNode?.id && edge.sourceHandle === `${index}`;
                             })?.target;
-                            console.log(targetId);
                             if (targetId) setCurrentNode(game?.graph.nodes.find((node) => node.id === targetId));
                         }}
+                        style={{margin: 8}}
                     >
                         {choice}
                     </Button>
