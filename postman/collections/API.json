@@ -1,0 +1,670 @@
+{
+	"info": {
+		"_postman_id": "ab002a04-9d32-4e01-bc69-eecd2b738302",
+		"name": "API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "26687185-ab002a04-9d32-4e01-bc69-eecd2b738302"
+	},
+	"item": [
+		{
+			"name": "Setup",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ae8a0fc8-9dd3-42e1-aba2-efd5b5d5929d",
+								"exec": [
+									"let response = JSON.parse(responseBody)\r",
+									"pm.test(\"logged in\", pm.expect(response).to.have.property('idToken'))\r",
+									"postman.setEnvironmentVariable(\"jwtToken\", response.idToken)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4833d5b4-f1e6-4a05-9f61-ac19b1974b3c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"abc@def.com\",\r\n    \"password\": \"asdfgh\",\r\n    \"returnSecureToken\": true\r\n}"
+						},
+						"url": {
+							"raw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{firebaseAPIKey}}",
+							"protocol": "https",
+							"host": [
+								"identitytoolkit",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts:signInWithPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{firebaseAPIKey}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "788cf57c-4cf6-4d48-bfe2-2d799da80ea8"
+		},
+		{
+			"name": "Creator API",
+			"item": [
+				{
+					"name": "Post Draft",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "84886769-9a6f-4fba-aaac-4e709fd4e790",
+								"exec": [
+									"pm.test(\"success\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"    let response = JSON.parse(responseBody)\r",
+									"    pm.expect(response).to.have.property(\"_id\")\r",
+									"    postman.setEnvironmentVariable(\"insertedId\", response._id)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "5bfae232-3856-4bf5-9639-5c0023691501",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer: {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"draft\": {\r\n        \"title\": \"test title\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/creator/drafts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"creator",
+								"drafts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Draft",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2d11a4be-6c95-4458-a23d-5fd07cf4acc9",
+								"exec": [
+									"pm.test(\"success\", () => pm.response.to.have.status(200))\r",
+									"pm.test(\"get list\", () => {\r",
+									"    let response = JSON.parse(responseBody)\r",
+									"    console.log(response)\r",
+									"    pm.expect(response.title).to.equal(\"test title\")\r",
+									"    pm.expect(response.graph.nodes).to.have.length(2)\r",
+									"    pm.expect(response.graph.nodes[0].id).to.equal(\"1\")\r",
+									"    pm.expect(response.graph.nodes[0].position.x).to.equal(0)\r",
+									"    pm.expect(response.graph.nodes[0].position.y).to.equal(0)\r",
+									"        // \"nodes\": [{\r",
+									"        //     \"id\": '1',\r",
+									"        //     \"position\": {\"x\": '1', \"y\": '1'},\r",
+									"        //     \"data\": {}\r",
+									"        // }]\r",
+									"    // })\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "a1753b37-b2f6-469f-917a-add2b8441b17",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer: {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/creator/drafts/{{insertedId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"creator",
+								"drafts",
+								"{{insertedId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Draft Without Title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cb5a6615-0180-4db0-a5a7-8629e2ce4920",
+								"exec": [
+									"pm.test(\"success\", () => {\r",
+									"    pm.response.to.have.status(400)\r",
+									"    let response = JSON.parse(responseBody)\r",
+									"    pm.expect(response).to.have.property(\"error\")\r",
+									"    pm.expect(response.error).to.equal(\"Title is required\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "76539b31-6d12-424c-b2e8-929f73650f89",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer: {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"draft\": {\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/creator/drafts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"creator",
+								"drafts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish Game",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8c524705-d1a3-4fc5-bdb6-b68fe3598fda",
+								"exec": [
+									"pm.test(\"success\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"    let response = JSON.parse(responseBody)\r",
+									"    pm.expect(response).to.equal(\"Game Published\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "212d203e-cf5b-4317-9867-6f34011c0510",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer: {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"draft\": {\r\n        \"title\": \"test title\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/creator/drafts/publish/{{insertedId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"creator",
+								"drafts",
+								"publish",
+								"{{insertedId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Draft",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7c2eea42-8f99-4a74-9faa-d3fe1cbbc6d1",
+								"exec": [
+									"pm.test(\"success\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "114367bf-bb9b-4f80-81ac-57a37cfc83ce",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer: {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"draft\": {\r\n        \"title\": \"modified title\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/creator/drafts/{{insertedId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"creator",
+								"drafts",
+								"{{insertedId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Modified Draft",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cbafc4ce-3fd1-4f78-a8aa-0c8302f4f184",
+								"exec": [
+									"pm.test(\"success\", () => pm.response.to.have.status(200))\r",
+									"pm.test(\"get list\", () => {\r",
+									"    let response = JSON.parse(responseBody)\r",
+									"    console.log(response)\r",
+									"    pm.expect(response.title).to.equal(\"modified title\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "864c23f8-e32d-4fba-8bd8-e66629ce0bea",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer: {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/creator/drafts/{{insertedId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"creator",
+								"drafts",
+								"{{insertedId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Drafts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9275222b-77f8-4ba3-b68d-b6723b5257d5",
+								"exec": [
+									"pm.test(\"success\", () => pm.response.to.have.status(200))\r",
+									"pm.test(\"get list\", () => {\r",
+									"    let response = JSON.parse(responseBody)\r",
+									"    pm.expect(response.drafts).to.have.length(1)\r",
+									"    pm.expect(response.drafts[0].title).to.equal(\"modified title\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "96d04b77-4863-4bf0-9c2d-795c1faaeb7d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer: {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/creator/drafts/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"creator",
+								"drafts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish Game Again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5145d595-c394-48ea-998d-928920990884",
+								"exec": [
+									"pm.test(\"success\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"    let response = JSON.parse(responseBody)\r",
+									"    pm.expect(response).to.equal(\"Published game updated\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "340aa752-eb71-4fa6-8d7f-798423651497",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer: {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"draft\": {\r\n        \"title\": \"test title\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/creator/drafts/publish/{{insertedId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"creator",
+								"drafts",
+								"publish",
+								"{{insertedId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Draft",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c971e4b-f1dd-4a80-b040-fc0e3304cf7b",
+								"exec": [
+									"pm.test(\"success\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "7796c330-1327-4304-bd16-7b9002072e34",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer: {{jwtToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"draft\": {\r\n        \"title\": \"test title\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/creator/drafts/{{insertedId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"creator",
+								"drafts",
+								"{{insertedId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "b2920127-e0ff-4c90-b20c-cab4aec3d29a"
+		},
+		{
+			"name": "Game API",
+			"item": [
+				{
+					"name": "Get Games",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a26cb13c-9da8-4a5a-beec-3de0d37c458e",
+								"exec": [
+									"pm.test(\"success\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"    let response = JSON.parse(responseBody)\r",
+									"    pm.expect(response.games[0]).to.have.property(\"title\")\r",
+									"    pm.expect(response.games[0]).to.not.have.property(\"graph\")\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "6368facb-efa7-4b96-ae27-c5d67923ce61",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/games/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"games",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get One Game",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "33c0d189-f419-46f4-90d9-ff4447017cb1",
+								"exec": [
+									"pm.test(\"success\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"    let response = JSON.parse(responseBody)\r",
+									"    pm.expect(response).to.have.property(\"graph\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "6e9a65e9-2465-41d9-bcb5-fa8a5f73bed9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/games/{{insertedId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"games",
+								"{{insertedId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "154fa2b6-6828-48e4-a0c3-8a7936a86d97"
+		}
+	]
+}
