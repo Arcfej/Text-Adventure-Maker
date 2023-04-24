@@ -2,8 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router";
 import {firebaseAuth} from "../../firebase/firebase-config";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import {Button, FormControl, FormLabel, Input, Link, Sheet, Typography} from "@mui/joy";
 import LightDarkToggle from "../../components/LightDarkToggle/LightDarkToggle";
+import Typography from '@mui/material/Typography';
+import Paper from "@mui/material/Paper";
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Input from '@mui/material/Input';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 
 // @ts-ignore
 const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
@@ -18,6 +24,13 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
         // @ts-ignore
         onAuthStateChanged(firebaseAuth, (currentUser) => {
             if (currentUser) navigate("/");
+            else {
+                try {
+                    localStorage.clear();
+                } catch (e) {
+                    console.log("Problems with local storage", e);
+                }
+            }
         });
     }, [navigate, onAuthStateChanged]);
 
@@ -61,13 +74,13 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
     };
 
     const title: string = register ? "Register a new account" : "Log in to your account";
-    const errorMessage = error && <Typography data-testid="error-message" level="body2" color="danger">{error}</Typography>;
+    const errorMessage = error && <Typography data-testid="error-message" variant="body2" color="danger">{error}</Typography>;
     const submitButtonLabel: string = register ? "Register" : "Log in";
     const toggleLabel: string = register ? "Already have an account? " : "Don't have an account? ";
     const toggleLinkLabel: string = register ? "Log in" : "Register";
 
     return (
-        <Sheet
+        <Paper
             variant="outlined"
             sx={{
                 width: 300,
@@ -83,10 +96,10 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
             }}
         >
             <LightDarkToggle />
-            <Typography level="h3" component="h1">
+            <Typography variant="h3" component="h1">
                 Welcome!
             </Typography>
-            <Typography level="h5">
+            <Typography variant="h5">
                 {title}
             </Typography>
             {errorMessage}
@@ -114,22 +127,23 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
                         data-testid={register ? 'register' : 'login'}
                         type="submit"
                         sx={{mt: 1}}
+                        variant="contained"
                     >
                         {submitButtonLabel}
                     </Button>
                 </FormControl>
             </form>
-            <Typography
-                level="body1"
-                endDecorator={
-                    <Link data-testid="toggle-login" onClick={() => setRegister(!register)}>
-                        {toggleLinkLabel}
-                    </Link>
-                }
-            >
+            <Typography variant="body1">
                 {toggleLabel}
+                <Link
+                    data-testid="toggle-login"
+                    onClick={() => setRegister(!register)}
+                    component='button'
+                >
+                    {toggleLinkLabel}
+                </Link>
             </Typography>
-        </Sheet>
+        </Paper>
     );
 
 };

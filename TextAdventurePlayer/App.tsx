@@ -1,54 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import {Appbar, List} from 'react-native-paper';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {
-  FlatList,
-  ListRenderItemInfo,
-  SafeAreaView,
-  useColorScheme,
-} from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import GameList from "./screens/GameList";
+import GamePlay from "./screens/GamePlay";
 
-interface Game {
-  intro: string;
-  owner: string;
-  _id: string;
-}
+export type StackParamList = {
+    GameList: undefined;
+    GamePlay: { gameId: string, gameTitle: string };
+};
+
+const Stack = createNativeStackNavigator<StackParamList>();
 
 function App(): JSX.Element {
-  const [games, setGames] = useState<Game[]>([]);
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  const fetchGames = async () =>
-    fetch('https://backend.text-adventure-maker.workers.dev/games', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(data => setGames(data));
-
-  useEffect(() => {
-    fetchGames();
-  }, []);
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <Appbar.Header>
-        <Appbar.Content title="Games" />
-      </Appbar.Header>
-      <FlatList
-        data={games}
-        renderItem={({item}: ListRenderItemInfo<Game>) => (
-          <List.Item title={item.intro} />
-        )}
-      />
-    </SafeAreaView>
-  );
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="GameList">
+                <Stack.Screen name="GameList" component={GameList} options={{title: 'Games'}} />
+                <Stack.Screen name="GamePlay" component={GamePlay} options={({route}) => ({title: route.params.gameTitle})} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 export default App;
