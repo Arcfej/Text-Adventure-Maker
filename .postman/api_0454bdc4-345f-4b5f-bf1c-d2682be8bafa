@@ -9,8 +9,7 @@ id = 0454bdc4-345f-4b5f-bf1c-d2682be8bafa
 
 [config.relations.collections]
 rootDirectory = postman/collections
-files[] = {"id":"26687185-753e951f-3da3-4eed-8bca-cc84060d503d","path":"Creator API.json","metaData":{}}
-files[] = {"id":"26687185-a6c1e54a-a437-43d9-a048-cdfe67200f97","path":"Game API.json","metaData":{}}
+files[] = {"id":"26687185-ab002a04-9d32-4e01-bc69-eecd2b738302","path":"API.json","metaData":{}}
 
 [config.relations.collections.metaData]
 
