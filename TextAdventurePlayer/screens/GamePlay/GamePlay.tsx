@@ -65,10 +65,9 @@ const GamePlay = ({route}: GamePlayProps) => {
                         mode="contained"
                         onPress={() => {
                             // TODO calculate targets on backend when publishing the game
-                            const targetId = game?.graph.edges.find((edge) => {
-                                if (edge.source === currentNode?.id) console.log(edge.source, edge.sourceHandle, `${index}`);
-                                return edge.source === currentNode?.id && edge.sourceHandle === `${index}`;
-                            })?.target;
+                            const targetId = game?.graph.edges.find((edge) =>
+                                edge.source === currentNode?.id && edge.sourceHandle === `${index}`
+                            )?.target;
                             if (targetId) setCurrentNode(game?.graph.nodes.find((node) => node.id === targetId));
                         }}
                         style={{margin: 8}}
