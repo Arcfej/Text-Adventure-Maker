@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Divider, Text} from 'react-native-paper';
-import {useColorScheme, FlatList, ListRenderItemInfo, View} from "react-native";
+import {useColorScheme, FlatList, ListRenderItemInfo, View, RefreshControl} from "react-native";
 import {Colors} from "react-native/Libraries/NewAppScreen";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {StackParamList} from "../../App";
@@ -13,6 +13,7 @@ interface GameTitle {
 
 const GameList = ({navigation}: NativeStackScreenProps<StackParamList, "GameList">) => {
     const [gameTitles, setGameTitles] = useState<GameTitle[]>([]);
+    const [refreshing, setRefreshing] = useState(false);
     const isDarkMode = useColorScheme() === 'dark';
 
     const backgroundStyle = {
@@ -20,6 +21,7 @@ const GameList = ({navigation}: NativeStackScreenProps<StackParamList, "GameList
     };
 
     const fetchGames = async () => {
+        setRefreshing(true);
         // fetch('http://localhost:8787/games', {
         return fetch('https://backend.text-adventure-maker.workers.dev/games', {
             method: 'GET',
@@ -28,7 +30,8 @@ const GameList = ({navigation}: NativeStackScreenProps<StackParamList, "GameList
             },
         })
             .then(response => response.json())
-            .then(data => setGameTitles(data.games));
+            .then(data => setGameTitles(data.games))
+            .then(() => setRefreshing(false));
     };
 
     useEffect(() => {
@@ -54,6 +57,9 @@ const GameList = ({navigation}: NativeStackScreenProps<StackParamList, "GameList
                     </View>
                 )}
                 keyExtractor={item => item._id}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={fetchGames} />
+                }
             />
         </SafeAreaView>
     );

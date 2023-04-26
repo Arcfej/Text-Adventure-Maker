@@ -22,7 +22,7 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
 
     useEffect(() => {
         // @ts-ignore
-        onAuthStateChanged(firebaseAuth, (currentUser) => {
+        return onAuthStateChanged(firebaseAuth, (currentUser) => {
             if (currentUser) navigate("/");
             else {
                 try {
