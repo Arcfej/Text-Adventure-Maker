@@ -6,10 +6,10 @@ import LightDarkToggle from "../../components/LightDarkToggle/LightDarkToggle";
 import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 
 // @ts-ignore
 const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
@@ -83,11 +83,11 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
         <Paper
             variant="outlined"
             sx={{
-                width: 300,
+                width: 330,
                 mx: 'auto', // margin left & right
                 my: 4, // margin top & botom
                 py: 3, // padding top & bottom
-                px: 2, // padding left & right
+                px: 3, // padding left & right
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
@@ -104,25 +104,25 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
             </Typography>
             {errorMessage}
             <form onSubmit={handleSubmit} id={register ? 'register' : 'login'}>
-                <FormControl>
-                    <FormLabel>Email</FormLabel>
-                    <Input
-                        name="email"
-                        type="email"
-                        placeholder={'Email'}
-                        value={email}
-                        onChange={e => setEmail(e.currentTarget.value)}
-                    />
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Password</FormLabel>
-                    <Input
-                        name="password"
-                        type="password"
-                        placeholder={'Password'}
-                        value={password}
-                        onChange={e => setPassword(e.currentTarget.value)}
-                    />
+                <Stack direction="column" spacing={2}>
+                    <FormControl>
+                        <TextField
+                            name="email"
+                            type="email"
+                            label="Email"
+                            value={email}
+                            onChange={e => setEmail(e.currentTarget.value)}
+                        />
+                    </FormControl>
+                    <FormControl>
+                        <TextField
+                            name="password"
+                            type="password"
+                            label="Password"
+                            value={password}
+                            onChange={e => setPassword(e.currentTarget.value)}
+                        />
+                    </FormControl>
                     <Button
                         data-testid={register ? 'register' : 'login'}
                         type="submit"
@@ -131,7 +131,7 @@ const RegisterLogin = ({onAuthStateChanged}): JSX.Element => {
                     >
                         {submitButtonLabel}
                     </Button>
-                </FormControl>
+                </Stack>
             </form>
             <Typography variant="body1">
                 {toggleLabel}
