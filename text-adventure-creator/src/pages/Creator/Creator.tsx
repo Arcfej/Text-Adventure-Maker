@@ -80,7 +80,7 @@ const Creator = (): JSX.Element => {
 
     const reactFlowWrapper = useRef<HTMLDivElement>(null);
     const connectingNodeId = useRef<string>('');
-    const connectingNodePort = useRef<string | null>(null);
+    const connectingNodeHandle = useRef<string | null>(null);
     const connectingNodeType = useRef<HandleType>('source');
     const {project: reactFlow} = useReactFlow();
 
@@ -181,6 +181,7 @@ const Creator = (): JSX.Element => {
         (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)),
         [setEdges]
     );
+    // TODO set id of edge similarly as in onConnectEnd
     const onConnect = useCallback(
         (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
         [setEdges]
@@ -196,7 +197,7 @@ const Creator = (): JSX.Element => {
 
     const onConnectStart = useCallback((_: any, {nodeId, handleId, handleType}: OnConnectStartParams) => {
         connectingNodeId.current = nodeId as string;
-        connectingNodePort.current = handleId;
+        connectingNodeHandle.current = handleId;
         connectingNodeType.current = handleType as HandleType;
     }, []);
 
@@ -217,18 +218,20 @@ const Creator = (): JSX.Element => {
                     position: position,
                     data: {
                         label: `Scene ${id}`,
+                        // Add a choice if the edge started from a target handle
                         ...(connectingNodeType.current === 'target' && {choices: ['']}),
                     },
                     type: 'choice'
                 };
                 const source = connectingNodeType.current === 'source' ? connectingNodeId.current : id;
                 const target = connectingNodeType.current === 'source' ? id : connectingNodeId.current;
-                if (connectingNodeType.current === 'target') connectingNodePort.current = '0';
+                // Set connecting node handle to the choice of the new node if the edge started from a target handle
+                if (connectingNodeType.current === 'target') connectingNodeHandle.current = '0';
                 const newEdge = {
-                    id: `${source + (connectingNodePort ? ('.' + connectingNodePort.current) : '')}-${target}`,
+                    id: `${source + (connectingNodeHandle ? ('.' + connectingNodeHandle.current) : '')}-${target}`,
                     source: source,
                     target: target,
-                    ...(connectingNodePort) && {sourceHandle: connectingNodePort.current}
+                    ...(connectingNodeHandle) && {sourceHandle: connectingNodeHandle.current}
                 };
 
                 setNodes((nds) => nds.concat(newNode));
